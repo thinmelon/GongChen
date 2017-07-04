@@ -1,15 +1,13 @@
-/*.index {*/
-/*background: url(../images/bg-img.jpg) no-repeat;*/
-/*background-size: 100%;*/
-/*font-size: 100%;*/
-/*}*/
+
 body {
     position: absolute;
     left: 0;
     top: 0;
     width: 1280px;
     height: 720px;
-    margin: 10px;
+    margin: 0;
+    background: url(../images/bg-img.png) no-repeat;
+    background-size: 100%;
 }
 
 /* ----  标题LOGO  ---- */
@@ -26,7 +24,7 @@ body {
 
 .post-entry {
     float: left;
-    margin: 16px 0 0 20px;
+    margin: 16px 0 0 30px;
 }
 
 .example-post {
@@ -46,14 +44,13 @@ body {
 
 .list-item {
     float: left;
+    width: 388px;
+    height: 285px;
     margin-top: 16px;
 }
 
 .list-item-bar {
-    text-align: center;
-    letter-spacing: 20px;
-    font-size: 29px;
-    color: #FFFFFF;
+
 }
 
 .list-item-content {
@@ -84,7 +81,9 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    /*float: left;*/
+    background: url(../images/weather_forecast.png) left no-repeat;
+    width: 295px;
+    height: 16px;
     margin: 0 0 40px 60px;
     z-index: 9999;
 }
@@ -93,7 +92,9 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
-    /*float: right;*/
+    background: url(../images/intro-btn-usage.png) right no-repeat;
+    width: 558px;
+    height: 42px;
     margin: 0 60px 36px 0;
     z-index: 9999;
 }

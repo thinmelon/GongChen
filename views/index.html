@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../style/common.css">
 </head>
 
-<body style="background: url(../images/bg-img.png) no-repeat; background-size: 100%; ">
+<body>
 
 <div class="title-logo"
      style="background: url('../images/index-logo.png') no-repeat; "></div>
@@ -27,10 +27,9 @@
         </div>
     </div>
 
-    <div class="list-item" style="background: url(../images/bg-list-item.png); width: 388px; height: 282px;">
+    <div class="list-item" style="background: url(../images/bg-list-item.png); background-size: 388px 282px;">
         <div class="list-item-bar"
-             style="background: url(../images/list-item-bar.png) no-repeat; width: 388px; height: 40px">
-            <strong>最新动态</strong></div>
+             style="background: url(../images/list-item-bar.png) no-repeat; width: 388px; height: 40px;"></div>
         <div class="list-item-content">"美丽莆田 社会治理"司法行政创新现场会</div>
         <div class="list-item-content">建设美丽莆田行动纲要</div>
         <div class="list-item-content">美丽港城 冉冉起</div>
@@ -59,10 +58,8 @@
          style="background: url('../images/btn-service.png') no-repeat; width: 141px; height: 142px"></div>
 </div><!--  btn-entry  -->
 
-<div id="weather-forecast"
-     style="background: url(../images/weather_forecast.png) left no-repeat; width: 295px; height: 16px;"></div>
-<div id="intro-btn-usage"
-     style="background: url(../images/intro-btn-usage.png) right no-repeat; width: 558px; height: 42px;"></div>
+<div id="weather-forecast"></div>
+<div id="intro-btn-usage"></div>
 
 <div id="self_ad_focus">
     <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
@@ -131,15 +128,16 @@
 
     var menuObj = {
 
+        focusPos: 0,
         focusItemName: "",                // 记录光标定位的元素名称
         menuPosArray: [
-            {left: 0, top: 0, width: 133, height: 168},
-            {left: 136, top: 10, width: 144, height: 180},
-            {left: 283, top: 20, width: 151, height: 189},
-            {left: 437, top: 30, width: 150, height: 189},
-            {left: 590, top: 20, width: 150, height: 189},
-            {left: 743, top: 10, width: 141, height: 178},
-            {left: 887, top: 0, width: 135, height: 170}
+            {left: 74, top: 462, width: 141, height: 142},
+            {left: 235, top: 462, width: 141, height: 142},
+            {left: 396, top: 462, width: 141, height: 142},
+            {left: 557, top: 462, width: 141, height: 142},
+            {left: 718, top: 462, width: 141, height: 142},
+            {left: 879, top: 462, width: 141, height: 142},
+            {left: 1040, top: 462, width: 141, height: 142}
         ]
         ,
         menuItemArray: null,
@@ -180,11 +178,12 @@
         ,
 
         focusOn: function () {
+            console.info("menuObj ==> focusOn ==> " + this.focusPos);
 
-            $("self_ad_focus").style.left = "570px";
-            $("self_ad_focus").style.top = "420px";
-            $("self_ad_focus").style.width = "124px";
-            $("self_ad_focus").style.height = "159px";
+            document.getElementById("self_ad_focus").style.left = this.menuPosArray[this.focusPos].left + "px";
+            document.getElementById("self_ad_focus").style.top = this.menuPosArray[this.focusPos].top + "px";
+            document.getElementById("self_ad_focus").style.width = this.menuPosArray[this.focusPos].width + "px";
+            document.getElementById("self_ad_focus").style.height = this.menuPosArray[this.focusPos].height + "px";
 
         }
         ,
@@ -197,17 +196,34 @@
 
             console.info("menuObj ==> moveX");
 
-            if (_direction > 0) {
+            this.focusPos += _direction;
 
-                $(this.menuItemArray[0].name).style.visibility = "hidden";
-                spinningToLeft();
+            if (this.focusPos >= 0 && this.focusPos < this.menuPosArray.length) {
+
+            } else if (this.focusPos < 0) {
+
+                this.focusPos = this.menuPosArray.length - 1;
+
 
             } else {
 
-                $(this.menuItemArray[this.menuItemArray.length - 1].name).style.visibility = "hidden";
-                spinningToRight();
+                this.focusPos = 0;
 
             }
+
+            this.focusOn();
+
+//            if (_direction > 0) {
+//
+//                $(this.menuItemArray[0].name).style.visibility = "hidden";
+//                spinningToLeft();
+//
+//            } else {
+//
+//                $(this.menuItemArray[this.menuItemArray.length - 1].name).style.visibility = "hidden";
+//                spinningToRight();
+//
+//            }
 
         }
         ,
@@ -222,80 +238,11 @@
 
         doSelect: function () {
 
-            var _pos = Math.floor(this.menuItemArray.length / 2);
-            ;
-
-            var link = this.menuItemArray[_pos].url;
+            var link = this.menuItemArray[this.focusPos].url;
 
             if ("" != link) {
                 window.location.href = link;
             }
-
-        },
-
-        indexOf: function (_array, _key) {
-
-            for (var i = 0; i < _array.length; i++) {
-                if (_array[i].name == _key) {
-                    return i;
-                }
-            }
-
-            return -1;
-        },
-
-        adjustItemPosition: function () {
-
-            var _mid = Math.floor(this.menuItemArray.length / 2);   // 中间位
-            var _original = this.indexOf(this.menuItemArray, this.focusItemName);    // 元素当前坐标
-
-            console.info("==>    adjustItemPosition  ==> focus item's name: " + this.focusItemName);
-
-            if (_original != -1) {          // 找到该元素
-
-                var _pos = _original;
-
-                while (_pos != _mid) {      // 将元素在menuItemArray数组中的位置调整至中间位
-
-                    if (_pos > _mid) {
-                        this.menuItemArray.push(this.menuItemArray.shift());
-                        _pos--;
-                    }
-
-                    if (_pos < _mid) {
-                        this.menuItemArray.unshift(this.menuItemArray.pop());
-                        _pos++;
-                    }
-                }
-
-                if (this.menuItemArray[_mid].name != this.focusItemName) {      // 验证结果
-
-                    var errorMsg = "Fatal error: adjustItemPosition() failed!";
-                    console.error(errorMsg);
-
-                    throw errorMsg;                     // 抛出异常
-
-                } else {
-
-                    if (_original != _mid) {
-                        // 调整菜单位置
-
-                        for (var i = 0; i < this.menuItemArray.length; i++) {
-                            $(this.menuItemArray[i].name).style.left = this.menuPosArray[i].left + "px";
-                            $(this.menuItemArray[i].name).style.top = this.menuPosArray[i].top + "px";
-                            $(this.menuItemArray[i].name).style.width = this.menuPosArray[i].width + "px";
-                            $(this.menuItemArray[i].name).style.height = this.menuPosArray[i].height + "px";
-
-                        }
-                    }
-                    /* end of if */
-
-                }
-
-            }
-
-
-            // 刷新各菜单位置
 
         }
     };
@@ -315,7 +262,7 @@
             {
                 left: 392,
                 top: 147,
-                width: 449,
+                width: 452,
                 height: 285,
                 url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
             }
@@ -382,7 +329,7 @@
     var listObj = {
 
         focusPos: 0,                        // 记录光标在区域内的位置
-        listItemNum: 5,                     // 列表元素的显示数量
+        listItemNum: 6,                     // 列表元素的显示数量
         listItemArray: [
             {left: 861, top: 200, width: 378, height: 25},
             {left: 861, top: 238, width: 378, height: 25},
@@ -395,11 +342,11 @@
 
         init: function () {
 
-//            var arrayNum = 5;
-//
-//            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
-//                this.addListItem("111", "测试", 1, 111);
-//            }
+            var arrayNum = 5;
+
+            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
+                this.addListItem("111", "测试", 1, 111);
+            }
 //
 //            if (arrayNum > listObj.listItemNum) {
 //                listObj.addListItem(0, ">>更多信息", 0, 0);
@@ -407,7 +354,7 @@
 //
 //            this.setListItemTitle();
 
-//            listObj.addListItem(0, ">>更多信息", 0, 0);
+            listObj.addListItem(0, ">>更多信息", 0, 0);
 //            this.setListItemTitle();
 
         },
@@ -550,8 +497,8 @@
 
         init: function () {
 
-//            menuObj.init();                 // 初始化菜单项
-//            listObj.init();                 // 初始化列表项
+            menuObj.init();                 // 初始化菜单项
+            listObj.init();                 // 初始化列表项
 //            ajaxForQueryTListMenuTitle();   // 异步提取列表内容
 //
 //            var paramObj = getRequest();    // 解析URL链接，得到区域及位置参数
@@ -797,189 +744,6 @@
             post: "",
             timeout: 7000  //请求的超时时间，默认7000ms，也可自行设定[可选]
         });
-    }
-
-    function moveItem(_curItem, _targetItem) {
-
-//        var _curPos = parseInt($(_itemName).style.left);
-
-        var _curPosX = $(_curItem).offsetLeft;              // 源项目X坐标
-        var _curPosY = $(_curItem).offsetTop;               // 源项目Y坐标
-        var _targetPosX = _targetItem.left;        // 目标项X坐标
-        var _targetPosY = _targetItem.top;         // 目标项Y坐标
-
-        var _curWidth = $(_curItem).offsetWidth;            // 源项目长度
-        var _curHeight = $(_curItem).offsetHeight;          // 源项目高度
-        var _targetWidth = _targetItem.width;      // 目标项长度
-        var _targetHeight = _targetItem.height;    // 目标项高度
-
-        console.info("==>moveItem()   ==>Current Position X: " + _curPosX + " Y: " + _curPosY + " Width: " + _curWidth + " Height: " + _curHeight);
-
-        if ((_curPosX == _targetPosX) && (_curPosY == _targetPosY)
-            && (_curWidth == _targetWidth) && (_curHeight == _targetHeight)) {
-
-            return true;
-
-        }
-
-        if (_curPosX > _targetPosX) {       // 向左移动
-
-            if (_curPosX > _targetPosX + 20) {
-                _curPosX -= 20;
-            } else {
-                _curPosX = _targetPosX;
-            }
-
-        } else {                            // 向右移动
-
-            if (_curPosX < _targetPosX - 20) {
-                _curPosX += 20;
-            } else {
-                _curPosX = _targetPosX;
-            }
-        }
-        $(_curItem).style.left = _curPosX + "px";
-
-        if (_curPosY > _targetPosY) {       // 向上移动
-
-            if (_curPosY > _targetPosY + 2) {
-                _curPosY -= 2;
-            } else {
-                _curPosY = _targetPosY;
-            }
-
-        }
-        if (_curPosY < _targetPosY) {       // 向下移动
-
-            if (_curPosY < _targetPosY - 2) {
-                _curPosY += 2;
-            } else {
-                _curPosY = _targetPosY;
-            }
-
-        }
-        $(_curItem).style.top = _curPosY + "px";
-
-        if (_curWidth > _targetWidth) {     // 图片长度缩小
-
-            if (_curWidth > _targetWidth + 5) {
-                _curWidth -= 5;
-            } else {
-                _curWidth = _targetWidth;
-            }
-
-        }
-        if (_curWidth < _targetWidth) {     // 图片长度放大
-
-            if (_curWidth < _targetWidth - 5) {
-                _curWidth += 5;
-            } else {
-                _curWidth = _targetWidth;
-            }
-
-        }
-        $(_curItem).style.width = _curWidth + "px";
-
-        if (_curHeight > _targetHeight) {   // 图片高度缩小
-
-            if (_curHeight > _targetHeight + 5) {
-                _curHeight -= 5;
-            } else {
-                _curHeight = _targetHeight;
-            }
-
-        }
-        if (_curHeight < _targetHeight) {   // 图片高度放大
-
-            if (_curHeight < _targetHeight - 5) {
-                _curHeight += 5;
-            } else {
-                _curHeight = _targetHeight;
-            }
-
-        }
-        $(_curItem).style.height = _curHeight + "px";
-
-        return false;
-
-    }
-
-    function spinningToLeft() {
-
-        console.info("==>    spinningToLeft()");
-
-        var _finished = true;
-        var _len = menuObj.menuPosArray.length - 1;
-
-        for (var _pos = 0; _pos < _len; _pos++) {
-
-            var _result = moveItem(menuObj.menuItemArray[_pos + 1].name, menuObj.menuPosArray[_pos]);
-
-            if (_result == false) {
-                _finished = false;
-            }
-        }
-
-        if (_finished) {
-
-            console.info("==>spinningToLeft()   ==>Stop");
-            $(menuObj.menuItemArray[0].name).style.left = menuObj.menuPosArray[_len].left + "px";
-            $(menuObj.menuItemArray[0].name).style.top = menuObj.menuPosArray[_len].top + "px";
-            $(menuObj.menuItemArray[0].name).style.width = menuObj.menuPosArray[_len].width + "px";
-            $(menuObj.menuItemArray[0].name).style.height = menuObj.menuPosArray[_len].height + "px";
-            $(menuObj.menuItemArray[0].name).style.visibility = "visible";
-
-            menuObj.menuItemArray.push(menuObj.menuItemArray.shift());
-
-            return true;
-
-        } else {
-
-            setTimeout(function () {
-                spinningToLeft();
-            }, 1);
-
-        }
-
-    }
-
-    function spinningToRight() {
-
-        console.info("==>    spinningToRight()");
-
-        var _finished = true;
-        var _len = menuObj.menuPosArray.length - 1;
-
-        for (var _pos = 0; _pos < _len; _pos++) {
-
-            var _result = moveItem(menuObj.menuItemArray[_pos].name, menuObj.menuPosArray[_pos + 1]);
-
-            if (_result == false) {
-                _finished = false;
-            }
-        }
-
-        if (_finished) {
-
-            console.info("==>spinningToRight()   ==>Stop");
-            $(menuObj.menuItemArray[_len].name).style.left = menuObj.menuPosArray[0].left + "px";
-            $(menuObj.menuItemArray[_len].name).style.top = menuObj.menuPosArray[0].top + "px";
-            $(menuObj.menuItemArray[_len].name).style.width = menuObj.menuPosArray[0].width + "px";
-            $(menuObj.menuItemArray[_len].name).style.height = menuObj.menuPosArray[0].height + "px";
-            $(menuObj.menuItemArray[_len].name).style.visibility = "visible";
-
-            menuObj.menuItemArray.unshift(menuObj.menuItemArray.pop());
-
-            return true;
-
-        } else {
-
-            setTimeout(function () {
-                spinningToRight();
-            }, 1);
-
-        }
-
     }
 
     window.onload = controller.init();
