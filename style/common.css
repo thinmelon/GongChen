@@ -1,36 +1,37 @@
-.index {
-    background: url(../images/bg-img.jpg) no-repeat;
-    background-size: 100%;
-    font-size: 100%;
+/*.index {*/
+/*background: url(../images/bg-img.jpg) no-repeat;*/
+/*background-size: 100%;*/
+/*font-size: 100%;*/
+/*}*/
+body {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1280px;
+    height: 720px;
+    margin: 10px;
 }
 
 /* ----  标题LOGO  ---- */
 .title-logo {
-    margin: 59px 0px 0px 50px;
+    margin: 59px 0 0 50px;
     width: 225px;
     height: 72px;
 }
 
-.index .title-logo {
-    background: url("../images/index-logo.png") no-repeat;
-}
-
 /* ----  内容版块  ---- */
 .row {
-    /*border: 1px solid #000000;*/
     margin: 0 auto;
 }
 
 .post-entry {
     float: left;
-    border: 1px solid #000000;
     margin: 16px 0 0 20px;
 }
 
 .example-post {
     float: left;
     margin-right: 10px;
-    border: 1px solid #000000;
 }
 
 #example-post-1 {
@@ -38,50 +39,30 @@
     height: 285px;
 }
 
-#example-post-1 img {
-    margin-left: -10px;
-    margin-top: -10px;
-}
-
 #example-post-2 {
     width: 449px;
     height: 285px;
 }
 
-#example-post-2 img {
-    margin-left: -21px;
-    margin-top: -20px;
-}
-
 .list-item {
     float: left;
     margin-top: 16px;
-    border: 1px solid #000000;
-    background: url(../images/bg-list-item.png);
-    width: 388px;
-    height: 287px;
 }
 
 .list-item-bar {
-    background: url(../images/list-item-bar.png) no-repeat;
-    width: 388px;
-    height: 40px;
     text-align: center;
-    letter-spacing: 15px;
-    font-size: 1.6em;
+    letter-spacing: 20px;
+    font-size: 29px;
     color: #FFFFFF;
 }
 
 .list-item-content {
     margin-top: 13px;
     margin-left: 10px;
-    font-size: 1.2em;
+    font-size: 19px;
 }
 
 .list-item-more {
-    background: url(../images/list-item-more.png) no-repeat;
-    width: 126px;
-    height: 18px;
     float: right;
     margin-right: 40px;
     margin-top: 20px;
@@ -89,10 +70,8 @@
 
 /* ----  功能版块  ---- */
 .btn-entry {
-    width: 100%;
     float: left;
-    margin: 10px auto;
-    border: 1px solid #000000;
+    margin: 10px 64px;
 }
 
 .btn-entry-item {
@@ -101,26 +80,38 @@
 }
 
 /* ----  底部栏  ---- */
-.foot {
+#weather-forecast {
     position: absolute;
-    bottom: 0px;
-    width: 100%;
-    height: 100Px;
-    /*margin: 20px;*/
+    bottom: 0;
+    left: 0;
+    /*float: left;*/
+    margin: 0 0 40px 60px;
+    z-index: 9999;
 }
 
-.foot .weather-forecast {
-    float: left;
-    background: url(../images/weather_forecast.png) left no-repeat;
-    width: 295px;
-    height: 16px;
-    margin: 45px 0px 0px 54px;
+#intro-btn-usage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /*float: right;*/
+    margin: 0 60px 36px 0;
+    z-index: 9999;
 }
 
-.foot .intro-btn-usage {
-    float: right;
-    background: url(../images/intro-btn-usage.png) right no-repeat transparent;
-    width: 558px;
-    height: 42px;
-    margin: 23px 60px 20px 0px;
+/* ----  焦点区  ---- */
+#self_ad_focus {
+    position: absolute;
+    visibility: visible;
+    z-index: 999;
+    opacity: 1;
+}
+
+/* ----  调试区  ---- */
+#message {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    font-size: 20px;
+    z-index: 9999999;
+    /*visibility: hidden;*/
 }
