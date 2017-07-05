@@ -12,10 +12,71 @@
 <div class="title-logo"
      style="background: url('../images/intro-logo.png') no-repeat; "></div>
 
-<div class="row" style="background: url('../images/intro-content.png') no-repeat; width: 1084px; height: 457px; )"></div>
+<div class="row"
+     style="background: url('../images/intro-content.png') no-repeat; width: 1084px; height: 457px; )"></div>
 
 <div id="weather-forecast"></div>
 <div id="intro-btn-usage"></div>
 
 </body>
+
+<script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/keyEvent.js"></script>
+<script type="application/javascript">
+
+    document.onkeydown = grabEvent;
+
+    function grabEvent(_event) {
+
+        var code = Event(_event);
+
+        switch (code) {
+            case "KEY_UP": //
+                return false;
+            case "KEY_DOWN": //
+                return false;
+            case "KEY_LEFT": //
+                return false;
+            case "KEY_RIGHT": //
+                return false;
+            case "KEY_PAGE_UP": //
+//                controller.changePage(-1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+//                controller.changePage(1);
+                return false;
+            case "KEY_SELECT": //
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            default:
+                break;
+        }
+    }
+
+    var controller = {
+
+        init: function () {
+
+            console.info("intro.html ==>    controller ==>    init");
+
+            transferStation.record();
+
+        },
+
+        doBack: function () {
+
+            var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos;
+
+            window.location.href = _url;
+
+        }
+
+
+    };
+
+    window.onload = controller.init();
+</script>
 </html>

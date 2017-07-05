@@ -41,22 +41,28 @@
 
 
 </div><!--  row  -->
-<div class="btn-entry">
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-intro.png') no-repeat; width: 141px; height: 142px"></div>
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-peace.png') no-repeat; width: 141px; height: 142px"></div>
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-affairs.png') no-repeat; width: 141px; height: 142px"></div>
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-building.png') no-repeat; width: 141px; height: 142px"></div>
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-culture.png') no-repeat; width: 141px; height: 142px"></div>
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-public.png') no-repeat; width: 141px; height: 142px"></div>
-    <div class="btn-entry-item"
-         style="background: url('../images/btn-service.png') no-repeat; width: 141px; height: 142px"></div>
-</div><!--  btn-entry  -->
+
+<div id="btn-item-0" class="btn-entry-item" style="left: 74px">
+    <img id="item-img-0" src="../images/btn-intro.png"/>
+</div>
+<div id="btn-item-1" class="btn-entry-item" style="left: 235px">
+    <img id="item-img-1" src="../images/btn-peace.png"/>
+</div>
+<div id="btn-item-2" class="btn-entry-item" style="left: 396px">
+    <img id="item-img-2" src="../images/btn-affairs.png"/>
+</div>
+<div id="btn-item-3" class="btn-entry-item" style="left: 557px">
+    <img id="item-img-3" src="../images/btn-building.png"/>
+</div>
+<div id="btn-item-4" class="btn-entry-item" style="left: 718px">
+    <img id="item-img-4" src="../images/btn-culture.png"/>
+</div>
+<div id="btn-item-5" class="btn-entry-item" style="left: 879px">
+    <img id="item-img-5" src="../images/btn-public.png"/>
+</div>
+<div id="btn-item-6" class="btn-entry-item" style="left: 1040px">
+    <img id="item-img-6" src="../images/btn-service.png"/>
+</div>
 
 <div id="weather-forecast"></div>
 <div id="intro-btn-usage"></div>
@@ -83,9 +89,10 @@
         </tbody>
     </table>
 </div><!-- self_ad_focus -->
-
+<div id="debug-message"></div>
 </body>
 
+<script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
 
@@ -147,23 +154,23 @@
             this.menuItemArray = new Array();
             this.menuItemArray.push({
                 name: "index_intro",
-                url: "intro.html?focusArea=0&focusItemName=index_intro"
+                url: "intro.html?focusArea=0&focusPos=0"
             });
             this.menuItemArray.push({
                 name: "index_building",
-                url: "building.html?focusArea=0&focusItemName=index_building"
+                url: "peace.html?focusArea=0&focusPos=1"
             });
             this.menuItemArray.push({
                 name: "index_affairs",
-                url: "affairs.html?focusArea=0&focusItemName=index_affairs"
+                url: "affairs.html?focusArea=0&focusPos=2"
             });
             this.menuItemArray.push({
                 name: "index_politics",
-                url: "politics.html?focusArea=0&focusItemName=index_politics"
+                url: "politics.html?focusArea=0&focusPos=3"
             });
             this.menuItemArray.push({
                 name: "index_city",
-                url: "city.html?focusArea=0&focusItemName=index_city"
+                url: "city.html?focusArea=0&focusPos=4"
             });
             this.menuItemArray.push({
                 name: "index_public",
@@ -171,7 +178,7 @@
             });
             this.menuItemArray.push({
                 name: "index_service",
-                url: "service.html?focusArea=0&focusItemName=index_service"
+                url: "service.html?focusArea=0&focusPos=6"
             });
 
         }
@@ -180,15 +187,33 @@
         focusOn: function () {
             console.info("menuObj ==> focusOn ==> " + this.focusPos);
 
-            document.getElementById("self_ad_focus").style.left = this.menuPosArray[this.focusPos].left + "px";
-            document.getElementById("self_ad_focus").style.top = this.menuPosArray[this.focusPos].top + "px";
-            document.getElementById("self_ad_focus").style.width = this.menuPosArray[this.focusPos].width + "px";
-            document.getElementById("self_ad_focus").style.height = this.menuPosArray[this.focusPos].height + "px";
+            var _imgNode = document.getElementById("item-img-" + this.focusPos);
+            _imgNode.style.width = 169 + "px";
+            _imgNode.style.height = 169 + "px";
+//            _imgNode.style.marginTop = -5 + "px";
+//            _imgNode.style.marginLeft = -10 + "px";
+
+            var _btnNode = document.getElementById("btn-item-" + this.focusPos);
+            _btnNode.style.marginLeft = 0 + "px";
+//            _btnNode.style.marginRight = 0 + "px";
+//            _btnNode.style.marginTop = -10 + "px";
 
         }
         ,
 
         focusOut: function () {
+            console.info("menuObj ==> focusOut ==> " + this.focusPos);
+
+            var _imgNode = document.getElementById("item-img-" + this.focusPos);
+            _imgNode.style.width = 141 + "px";
+            _imgNode.style.height = 142 + "px";
+//            _imgNode.style.marginTop = 0 + "px";
+//            _imgNode.style.marginLeft = 0 + "px";
+
+            var _btnNode = document.getElementById("btn-item-" + this.focusPos);
+            _btnNode.style.marginLeft = 10 + "px";
+//            _btnNode.style.marginRight = 10 + "px";
+//            _btnNode.style.marginTop = 0 + "px";
         }
         ,
 
@@ -196,39 +221,30 @@
 
             console.info("menuObj ==> moveX");
 
-            this.focusPos += _direction;
+            this.focusOut();
 
-            if (this.focusPos >= 0 && this.focusPos < this.menuPosArray.length) {
+            menuObj.focusPos += _direction;
 
-            } else if (this.focusPos < 0) {
+            if (menuObj.focusPos >= 0 && menuObj.focusPos < menuObj.menuPosArray.length) {
 
-                this.focusPos = this.menuPosArray.length - 1;
+            } else if (menuObj.focusPos < 0) {
+
+                menuObj.focusPos = menuObj.menuPosArray.length - 1;
 
 
             } else {
 
-                this.focusPos = 0;
+                menuObj.focusPos = 0;
 
             }
 
             this.focusOn();
-
-//            if (_direction > 0) {
-//
-//                $(this.menuItemArray[0].name).style.visibility = "hidden";
-//                spinningToLeft();
-//
-//            } else {
-//
-//                $(this.menuItemArray[this.menuItemArray.length - 1].name).style.visibility = "hidden";
-//                spinningToRight();
-//
-//            }
-
         }
         ,
 
         moveY: function (_direction) {
+
+            this.focusOut();
 
             controller.focusArea = 1;     // 光标定位在菜单区域,上下移动光标都到海报区域
             postObj.focusOn();
@@ -252,16 +268,16 @@
         focusPos: 0,                // 记录光标在区域内的位置
         postItemArray: [
             {
-                left: 28,
-                top: 147,
+                left: 38,
+                top: 157,
                 width: 354,
                 height: 285,
                 url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
             },
 
             {
-                left: 392,
-                top: 147,
+                left: 402,
+                top: 157,
                 width: 452,
                 height: 285,
                 url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
@@ -273,18 +289,23 @@
 
         focusOn: function () {
 
-            document.getElementById("self_ad_focus").style.left = this.postItemArray[this.focusPos].left + "px";
-            document.getElementById("self_ad_focus").style.top = this.postItemArray[this.focusPos].top + "px";
-            document.getElementById("self_ad_focus").style.width = this.postItemArray[this.focusPos].width + "px";
-            document.getElementById("self_ad_focus").style.height = this.postItemArray[this.focusPos].height + "px";
+            var _focusNode = document.getElementById("self_ad_focus");
+            _focusNode.style.visibility = "visible";
+            _focusNode.style.left = this.postItemArray[this.focusPos].left + "px";
+            _focusNode.style.top = this.postItemArray[this.focusPos].top + "px";
+            _focusNode.style.width = this.postItemArray[this.focusPos].width + "px";
+            _focusNode.style.height = this.postItemArray[this.focusPos].height + "px";
 
         },
 
         focusOut: function () {
-
+            var _focusNode = document.getElementById("self_ad_focus");
+            _focusNode.style.visibility = "hidden";
         },
 
         moveX: function (_direction) {
+
+            this.focusOut();
 
             this.focusPos += _direction;
 
@@ -311,6 +332,8 @@
 
         moveY: function (_direction) {
 
+            this.focusOut();
+
             controller.focusArea = 0;
             menuObj.focusOn();
 
@@ -331,12 +354,12 @@
         focusPos: 0,                        // 记录光标在区域内的位置
         listItemNum: 6,                     // 列表元素的显示数量
         listItemArray: [
-            {left: 861, top: 200, width: 378, height: 25},
-            {left: 861, top: 238, width: 378, height: 25},
-            {left: 861, top: 276, width: 378, height: 25},
-            {left: 861, top: 314, width: 378, height: 25},
-            {left: 861, top: 352, width: 378, height: 25},
-            {left: 861, top: 390, width: 378, height: 25}
+            {left: 861, top: 198, width: 378, height: 23},
+            {left: 861, top: 235, width: 378, height: 23},
+            {left: 861, top: 266, width: 378, height: 23},
+            {left: 861, top: 306, width: 378, height: 23},
+            {left: 861, top: 345, width: 378, height: 23},
+            {left: 861, top: 380, width: 378, height: 23}
         ],
         listItemTitleArray: new Array(),
 
@@ -396,10 +419,13 @@
 
         focusOn: function () {
 
-            document.getElementById("self_ad_focus").style.left = this.listItemArray[this.focusPos].left + "px";
-            document.getElementById("self_ad_focus").style.top = this.listItemArray[this.focusPos].top + "px";
-            document.getElementById("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
-            document.getElementById("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
+            var _focusNode = document.getElementById("self_ad_focus");
+            _focusNode.style.visibility = "visible";
+
+            _focusNode.style.left = this.listItemArray[this.focusPos].left + "px";
+            _focusNode.style.top = this.listItemArray[this.focusPos].top + "px";
+            _focusNode.style.width = this.listItemArray[this.focusPos].width + "px";
+            _focusNode.style.height = this.listItemArray[this.focusPos].height + "px";
 
 
 //            this.showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, document.getElementById("list_menu_" + this.focusPos).children[0], 20);
@@ -408,6 +434,9 @@
         },
 
         focusOut: function () {
+
+            var _focusNode = document.getElementById("self_ad_focus");
+            _focusNode.style.visibility = "hidden";
 
 //            document.getElementById("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
 //            document.getElementById("list_menu_" + this.focusPos).children[0].style.color = "#000000";
@@ -435,6 +464,8 @@
         },
 
         moveY: function (_direction) {
+
+            this.focusOut();
 
             this.focusPos += _direction;
 
@@ -477,21 +508,11 @@
             }
 
             window.location.href = _link;
-        },
-
-        showTitleForMarquee: function (_title, _obj, _num) {
-            if (_title.length > _num) {
-                _obj.innerHTML = "<marquee>" + _title + "</marquee>";
-            } else {
-                _obj.innerHTML = _title;
-            }
         }
-
-
     };
 
     var controller = {
-        focusArea: 0,                   // 当前光标所在区域
+        focusArea: 1,                   // 当前光标所在区域
         timeoutID: 0,
 
 
@@ -499,48 +520,38 @@
 
             menuObj.init();                 // 初始化菜单项
             listObj.init();                 // 初始化列表项
+
 //            ajaxForQueryTListMenuTitle();   // 异步提取列表内容
 //
-//            var paramObj = getRequest();    // 解析URL链接，得到区域及位置参数
-//
-//            if (paramObj.hasOwnProperty("focusArea")) {
-//
-//                console.info("==>   focusArea = " + paramObj["focusArea"]);
-//                this.focusArea = parseInt(paramObj["focusArea"]);
-//
-//            }
-//
-//            if (paramObj.hasOwnProperty("focusPos")) {
-//
-//                console.info("==>   focusPos = " + paramObj["focusPos"]);
-//                switch (this.focusArea) {
-//                    case 0:
-//
-//                        if (paramObj.hasOwnProperty("focusItemName")) {
-//                            menuObj.focusItemName = paramObj["focusItemName"];
-//
-//                            menuObj.adjustItemPosition();   // 调整菜单项位置
-//                        }
-//
-//                        break;
-//                    case 1:
-//
-//                        postObj.focusPos = parseInt(paramObj["focusPos"]);
-//
-//                        break;
-//                    case 2:
-//
-//                        listObj.focusPos = parseInt(paramObj["focusPos"]);
-//
-//                        break;
-//                    default:
-//                        break;
-//                }
-//
-//            }
+            var paramObj = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
 
-            this.focusArea = 1;
+            if (paramObj.hasOwnProperty("focusArea")) {
+
+                console.info("==>   focusArea = " + paramObj["focusArea"]);
+                this.focusArea = parseInt(paramObj["focusArea"]);
+
+            }
+
+            if (paramObj.hasOwnProperty("focusPos")) {
+
+                console.info("==>   focusPos = " + paramObj["focusPos"]);
+                switch (this.focusArea) {
+                    case 0:
+                        menuObj.focusPos = parseInt(paramObj["focusPos"]);
+                        break;
+                    case 1:
+                        postObj.focusPos = parseInt(paramObj["focusPos"]);
+                        break;
+                    case 2:
+                        listObj.focusPos = parseInt(paramObj["focusPos"]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             this.focusOn();                 // 光标定位至目标位置
+//            document.getElementById("debug-message").innerHTML = "----- 调试区 -----";
 
         },
 

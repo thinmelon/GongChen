@@ -66,14 +66,19 @@ body {
 }
 
 /* ----  功能版块  ---- */
-.btn-entry {
-    float: left;
-    margin: 10px 64px;
-}
+/*.btn-entry {*/
+    /*float: left;*/
+    /*margin: 10px 64px;*/
+    /*!*margin: 10px 0;*!*/
+/*}*/
 
 .btn-entry-item {
-    float: left;
-    margin: 20px 10px;
+    position: absolute;
+    /*float: left;*/
+    top: 462px;
+    width: 141px;
+    height: 142px;
+    margin: 1px 10px 20px 10px;
 }
 
 /* ----  底部栏  ---- */
@@ -102,17 +107,18 @@ body {
 /* ----  焦点区  ---- */
 #self_ad_focus {
     position: absolute;
-    visibility: visible;
     z-index: 999;
     opacity: 1;
+    visibility: hidden;
 }
 
 /* ----  调试区  ---- */
-#message {
+#debug-message {
     position: absolute;
-    top: 10px;
-    left: 30px;
+    top: 20px;
+    right: 30px;
     font-size: 20px;
     z-index: 9999999;
-    /*visibility: hidden;*/
+    background-color: azure;
+    visibility: hidden;
 }
