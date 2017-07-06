@@ -1,0 +1,78 @@
+/* 服务大厅 */
+
+#service_content {
+    position: relative;
+    top: 170px;
+    left: 93px;
+    width: 1094px;
+    height: 100%;
+    /*margin: 0 auto;*/
+}
+
+#service_left_panel {
+    float: left;
+    width: 768px;
+    text-align: center;
+}
+
+#service_entry {
+    float: left;
+    width: 316px;
+    text-align: center;
+}
+
+#service_ad_0 {
+    position: absolute;
+    left: 319px;
+    top: 3px;
+    margin: 3px 3px;
+    width: 446px;
+    text-align: center;
+}
+
+#service_ad_1 {
+    position: absolute;
+    left: 3px;
+    top: 233px;
+    width: 316px;
+    height: 232px;
+    text-align: center;
+    margin: 3px 0;
+}
+
+#service_notices_board {
+    position: absolute;
+    left: 767px;
+    top: 0px;
+    width: 320px;
+    height: 467px;
+    text-align: center;
+    background: url(../images/notice.png) no-repeat;
+    margin: 3px 3px;
+
+}
+
+.service_list_item {
+    position: absolute;
+    left: 10px;
+    width: 300px;
+    height: 30px;
+    background-color: azure;
+}
+
+.service_list_item_text {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    width: 280px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+}
+
+.service_entry_item {
+    float: left;
+    width: 152px;
+    height: 111px;
+    margin: 3px 3px;
+}

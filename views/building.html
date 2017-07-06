@@ -6,8 +6,487 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>智慧党建</title>
     <link rel="stylesheet" href="../style/common.css">
+    <link rel="stylesheet" href="../style/building.css">
 </head>
-<body>
+<body id="building-bg">
+<div id="building-logo" style="background: url('../images/building/building_logo.png') no-repeat; "></div>
+<div id="building_menu_bar">
+    <div class="building_menu_item" style="left: 15px">
+        <div id="building_menu_item_text_0" class="building_menu_item_text">党的声音</div>
+    </div>
+    <div class="building_menu_item" style="left: 180px">
+        <div id="building_menu_item_text_1" class="building_menu_item_text">党建常识</div>
+    </div>
+    <div class="building_menu_item" style="left: 335px">
+        <div id="building_menu_item_text_2" class="building_menu_item_text">党的历程</div>
+    </div>
+    <div class="building_menu_item" style="left: 490px">
+        <div id="building_menu_item_text_3" class="building_menu_item_text">党风廉政</div>
+    </div>
+    <div class="building_menu_item" style="left: 645px">
+        <div id="building_menu_item_text_4" class="building_menu_item_text">拱辰先锋</div>
+    </div>
+    <div class="building_menu_item" style="left: 800px">
+        <div id="building_menu_item_text_5" class="building_menu_item_text">两学一做</div>
+    </div>
+</div>
+
+<div id="building_content">
+    <div id="building_ad">
+        <img alt="ad_preview" src="../images/building/building_ad.png"/>
+    </div>
+
+    <div id="building_entry">
+        <div class="building_entry_item" style="background: url(../images/building/building_nation.png) no-repeat; "></div>
+        <div class="building_entry_item" style="background: url(../images/building/building_local.png) no-repeat;"></div>
+        <div class="building_entry_item" style="background: url(../images/building/building_learn.png) no-repeat;"></div>
+        <div class="building_entry_item" style="background: url(../images/building/building_notice.png) no-repeat;"></div>
+    </div>
+</div>
+
+<!--底部-->
+<div id="weather-forecast"></div>
+<div id="intro-btn-usage"></div>
+
+<div id="self_ad_focus">
+    <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="10" height="10"
+                style="background:url(../images/focus_lt.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_t.png) repeat-x;"></td>
+            <td width="10" style="background:url(../images/focus_rt.png) no-repeat;"></td>
+        </tr>
+        <tr>
+            <td style="background:url(../images/focus_l.png) repeat-y;"></td>
+            <td>&nbsp;</td>
+            <td style="background:url(../images/focus_r.png) repeat-y;"></td>
+        </tr>
+        <tr>
+            <td width="10" height="10" style="background:url(../images/focus_lb.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_b.png) repeat-x;"></td>
+            <td style="background:url(../images/focus_rb.png) no-repeat;"></td>
+        </tr>
+        </tbody>
+    </table>
+</div><!-- self_ad_focus -->
+<div id="debug-message"></div>
 
 </body>
+
+<script type="text/javascript" src="../script/utility.js"></script>
+<script type="text/javascript" src="../script/keyEvent.js"></script>
+
+<script type="text/javascript">
+
+    document.onkeydown = grabEvent;
+
+    function grabEvent(_event) {
+
+        var code = Event(_event);
+
+        switch (code) {
+            case "KEY_UP": //
+                controller.moveY(-1);
+                return false;
+            case "KEY_DOWN": //
+                controller.moveY(1);
+                return false;
+            case "KEY_LEFT": //
+                controller.moveX(-1);
+                return false;
+            case "KEY_RIGHT": //
+                controller.moveX(1);
+                return false;
+            case "KEY_PAGE_UP": //
+                controller.changePage(-1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+                controller.changePage(1);
+                return false;
+            case "KEY_SELECT": //
+                controller.doSelect();
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            default:
+                break;
+        }
+    }
+
+    var menuObj = {
+
+        focusPos: 0,
+        menuPosArray: [
+            {url: ""},
+            {url: ""},
+            {url: ""},
+            {url: ""},
+            {url: ""},
+            {url: ""}
+        ]
+        ,
+
+        init: function () {
+
+        }
+        ,
+
+        focusOn: function () {
+
+            $("building_menu_item_text_" + this.focusPos).style.background =
+                "url(../images/building/building_highlight.png) center no-repeat";
+            $("building_menu_item_text_" + this.focusPos).style.color = "#FFF";
+
+        }
+        ,
+
+        focusOut: function () {
+
+            $("building_menu_item_text_" + this.focusPos).style.background = "";
+            $("building_menu_item_text_" + this.focusPos).style.color = "#000";
+        }
+        ,
+
+        moveX: function (_direction) {
+
+            this.focusOut();
+
+            this.focusPos += _direction;
+
+            if (this.focusPos >= 0 && this.focusPos < this.menuPosArray.length) {
+
+
+            } else if (this.focusPos < 0) {
+
+                this.focusPos = this.menuPosArray.length - 1;
+
+            } else {
+
+                this.focusPos = 0;
+
+            }
+
+            this.focusOn();
+        }
+        ,
+
+        moveY: function (_direction) {
+
+            this.focusOut();
+
+            controller.focusArea = 1;   //  光标移到海报区
+            controller.focusOn();
+
+        }
+        ,
+
+        doSelect: function () {
+
+            var link = this.menuPosArray[this.focusPos].url;
+
+            if ("" != link) {
+                window.location.href = link;
+            }
+
+        }
+
+    }
+
+    var postObj = {
+
+        focusPos: 0,                // 记录光标在区域内的位置
+        postItemArray: [
+            {
+                left: 107,
+                top: 268,
+                width: 505,
+                height: 370,
+                url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
+            }
+        ],
+
+        init: function () {
+        },
+
+        focusOn: function () {
+
+            $("self_ad_focus").style.visibility = "visible";
+
+            $("self_ad_focus").style.left = this.postItemArray[this.focusPos].left + "px";
+            $("self_ad_focus").style.top = this.postItemArray[this.focusPos].top + "px";
+            $("self_ad_focus").style.width = this.postItemArray[this.focusPos].width + "px";
+            $("self_ad_focus").style.height = this.postItemArray[this.focusPos].height + "px";
+
+        },
+
+        focusOut: function () {
+
+            $("self_ad_focus").style.visibility = "hidden";
+
+        },
+
+        moveX: function (_direction) {
+
+            this.focusOut();
+
+            controller.focusArea = 2;
+
+            if (_direction < 0) {
+
+                entryObj.focusPosX = entryObj.itemsPerLine[0] - 1;
+                entryObj.focusPosY = 0;
+
+            } else {
+
+                entryObj.focusPosX = 0;
+                entryObj.focusPosY = 0;
+
+            }
+
+            controller.focusOn();
+
+        },
+
+        moveY: function (_direction) {
+
+            this.focusOut();
+
+            controller.focusArea = 0;
+            controller.focusOn();
+
+        },
+
+        doSelect: function () {
+
+            var link = this.postItemArray[this.focusPos].url;
+
+            if ("" != link) {
+                window.location.href = link;
+            }
+
+        }
+    }
+
+    var entryObj = {
+
+        focusPosX: 0,                   // 记录光标在区域内的位置
+        focusPosY: 0,                   // 记录光标在区域内的所在行
+        itemsPerLine: [2, 2],           // 每行所包含的元素数量
+        entryItemArray: [
+            {left: 635, top: 265, width: 248, height: 189, url: ""},
+            {left: 893, top: 265, width: 248, height: 189, url: ""},
+            {left: 635, top: 453, width: 248, height: 189, url: ""},
+            {left: 893, top: 453, width: 248, height: 189, url: ""}
+        ]
+        ,
+
+        init: function () {
+            $("self_ad_focus").style.visibility = "visible";
+        },
+
+        focusOn: function () {
+
+            $("self_ad_focus").style.visibility = "visible";
+
+            var _num = 0;
+
+            for (var i = 0; i < this.focusPosY; i++) {
+                _num += this.itemsPerLine[i];
+            }
+
+            _num += this.focusPosX;
+
+            $("self_ad_focus").style.left = this.entryItemArray[_num].left + "px";
+            $("self_ad_focus").style.top = this.entryItemArray[_num].top + "px";
+            $("self_ad_focus").style.width = this.entryItemArray[_num].width + "px";
+            $("self_ad_focus").style.height = this.entryItemArray[_num].height + "px";
+
+        },
+
+        focusOut: function () {
+
+            $("self_ad_focus").style.visibility = "hidden";
+
+        },
+
+        moveX: function (_direction) {
+
+            this.focusOut();
+            this.focusPosX += _direction;
+
+            if (this.focusPosX >= 0 && this.focusPosX < this.itemsPerLine[this.focusPosY]) {
+
+                if (this.focusPosX >= this.itemsPerLine[this.focusPosY]) {
+                    this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+                }
+
+                this.focusOn();
+
+            } else if (this.focusPosX < 0) {            // 移到海报区域
+
+                this.focusPosX = 0;
+
+                controller.focusArea = 1;
+                controller.focusOn();
+
+            } else {
+
+                this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+
+                controller.focusArea = 1;
+                controller.focusOn();
+
+            }
+
+        },
+
+        moveY: function (_direction) {
+
+            this.focusOut();
+            this.focusPosY += _direction;
+
+            if (this.focusPosY >= 0 && this.focusPosY < this.itemsPerLine.length) {
+
+                this.focusOn();
+
+            } else if (this.focusPosY < 0) {            // 移到菜单区域
+
+                this.focusPosY = 0;
+
+                controller.focusArea = 0;
+                controller.focusOn();
+
+            } else {                                    // 移到菜单区域
+
+                this.focusPosY = this.itemsPerLine.length - 1;
+
+                controller.focusArea = 0;
+                controller.focusOn();
+
+            }
+
+        },
+
+        doSelect: function () {
+
+        }
+
+    }
+
+    var controller = {
+
+        focusArea: 0,
+
+        init: function () {
+
+            console.info("building.html ==>    controller ==>    init");
+
+            // 记住返回参数
+            transferStation.record();
+
+            this.focusOn();
+
+        },
+
+        focusOn: function () {
+
+            switch (this.focusArea) {
+                case 0:             // 菜单
+
+                    menuObj.focusOn();
+
+                    break;
+                case 1:             // 海报
+
+                    postObj.focusOn();
+
+                    break;
+                case 2:             // 链接
+
+                    entryObj.focusOn();
+
+                    break;
+                default:
+                    break;
+            }
+
+        },
+
+        focusOut: function () {
+
+        },
+
+        moveX: function (_direction) {
+
+            switch (this.focusArea) {
+                case 0:             // 菜单
+
+                    menuObj.moveX(_direction);
+
+                    break;
+                case 1:             // 海报
+
+
+                    postObj.moveX(_direction);
+
+                    break;
+                case 2:             // 文字列表
+
+                    entryObj.moveX(_direction);
+
+                    break;
+                default:
+                    break;
+            }
+
+        },
+
+        moveY: function (_direction) {
+
+            switch (this.focusArea) {
+                case 0:             // 菜单
+
+                    menuObj.moveY(_direction);
+
+                    break;
+                case 1:             // 海报
+
+                    postObj.moveY(_direction);
+
+                    break;
+                case 2:             // 文字列表
+
+                    entryObj.moveY(_direction);
+
+                    break;
+                default:
+                    break;
+            }
+
+        },
+
+        changePage: function (_direction) {
+
+        },
+
+        doSelect: function () {
+
+        },
+
+        doBack: function () {
+
+            var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+
+            window.location.href = _url;
+
+        }
+
+    }
+
+    window.onload = controller.init();
+
+</script>
 </html>

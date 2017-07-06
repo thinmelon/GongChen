@@ -1,0 +1,55 @@
+
+.post-entry {
+    float: left;
+    margin: 16px 0 0 30px;
+}
+
+.example-post {
+    float: left;
+    margin-right: 10px;
+}
+
+#example-post-1 {
+    width: 354px;
+    height: 285px;
+}
+
+#example-post-2 {
+    width: 449px;
+    height: 285px;
+}
+
+.list-item {
+    float: left;
+    width: 388px;
+    height: 285px;
+    margin-top: 16px;
+}
+
+.list-item-content {
+    margin-top: 13px;
+    margin-left: 10px;
+    font-size: 19px;
+}
+
+.list-item-more {
+    float: right;
+    margin-right: 40px;
+    margin-top: 20px;
+}
+
+/* ----  功能版块  ---- */
+/*.btn-entry {*/
+/*float: left;*/
+/*margin: 10px 64px;*/
+/*!*margin: 10px 0;*!*/
+/*}*/
+
+.btn-entry-item {
+    position: absolute;
+    /*float: left;*/
+    top: 462px;
+    width: 141px;
+    height: 142px;
+    margin: 1px 10px 20px 10px;
+}
