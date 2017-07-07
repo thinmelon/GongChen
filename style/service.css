@@ -1,9 +1,15 @@
 /* 服务大厅 */
 
+#service-title-logo{
+    margin: 69px 0 0 150px;
+    width: 225px;
+    height: 72px;
+}
+
 #service_content {
     position: relative;
-    top: 170px;
-    left: 93px;
+    top: 10px;
+    left: 53px;
     width: 1094px;
     height: 100%;
     /*margin: 0 auto;*/
@@ -23,8 +29,8 @@
 
 #service_ad_0 {
     position: absolute;
-    left: 319px;
-    top: 3px;
+    left: 316px;
+    top: 1px;
     margin: 3px 3px;
     width: 446px;
     text-align: center;
@@ -32,9 +38,9 @@
 
 #service_ad_1 {
     position: absolute;
-    left: 3px;
+    left: 1px;
     top: 233px;
-    width: 316px;
+    width: 312px;
     height: 232px;
     text-align: center;
     margin: 3px 0;
@@ -44,10 +50,9 @@
     position: absolute;
     left: 767px;
     top: 0px;
-    width: 320px;
+    width: 370px;
     height: 467px;
-    text-align: center;
-    background: url(../images/notice.png) no-repeat;
+    background: url(../images/notice-background.png) ;
     margin: 3px 3px;
 
 }
@@ -57,7 +62,6 @@
     left: 10px;
     width: 300px;
     height: 30px;
-    background-color: azure;
 }
 
 .service_list_item_text {
@@ -67,6 +71,7 @@
     width: 280px;
     height: 30px;
     line-height: 30px;
+    font: 25px "Microsoft YaHei";
     overflow: hidden;
 }
 
@@ -75,4 +80,10 @@
     width: 152px;
     height: 111px;
     margin: 3px 3px;
+}
+
+#services-notice-board-more{
+    position: absolute;
+    right: 35px;
+    bottom: 20px;
 }

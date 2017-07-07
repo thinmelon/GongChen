@@ -1,15 +1,12 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <!--<meta charset="UTF-8">-->
-    <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">-->
     <meta name="page-view-size" content="1280*720">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>首页</title>
     <link rel="stylesheet" href="../style/common.css">
+    <link rel="stylesheet" href="../style/index.css">
 </head>
 
 <body>
@@ -27,15 +24,25 @@
         </div>
     </div>
 
-    <div class="list-item" style="background: url(../images/bg-list-item.png); background-size: 388px 282px;">
-        <div class="list-item-bar"
+    <div id="index_notices_board">
+        <div class="politics_notices_board_bar"
              style="background: url(../images/list-item-bar.png) no-repeat; width: 388px; height: 40px;"></div>
-        <div class="list-item-content">"美丽莆田 社会治理"司法行政创新现场会</div>
-        <div class="list-item-content">建设美丽莆田行动纲要</div>
-        <div class="list-item-content">美丽港城 冉冉起</div>
-        <div class="list-item-content">拱辰街道依法拆除违章建筑</div>
-        <div class="list-item-content">开启“智慧物流” 助力物畅其流</div>
-        <div class="list-item-more"
+        <div id="list_menu_0" class="index_list_item" style="top: 50px;">
+            <div class="index_list_item_text">"美丽莆田 社会治理"司法行政创新现场会</div>
+        </div>
+        <div id="list_menu_1" class="index_list_item" style="top: 86px;">
+            <div class="index_list_item_text">建设美丽莆田行动纲要</div>
+        </div>
+        <div id="list_menu_2" class="index_list_item" style="top: 122px;">
+            <div class="index_list_item_text">美丽港城 冉冉起</div>
+        </div>
+        <div id="list_menu_3" class="index_list_item" style="top: 158px;">
+            <div class="index_list_item_text">拱辰街道依法拆除违章建筑</div>
+        </div>
+        <div id="list_menu_4" class="index_list_item" style="top: 194px;">
+            <div class="index_list_item_text">开启“智慧物流” 助力物畅其流</div>
+        </div>
+        <div id="index_list-item-more"
              style="background: url(../images/list-item-more.png) no-repeat; width: 126px; height: 18px;"></div>
     </div>
 
@@ -355,12 +362,12 @@
         focusPos: 0,                        // 记录光标在区域内的位置
         listItemNum: 6,                     // 列表元素的显示数量
         listItemArray: [
-            {left: 861, top: 198, width: 378, height: 23},
-            {left: 861, top: 238, width: 378, height: 23},
-            {left: 861, top: 278, width: 378, height: 23},
-            {left: 861, top: 318, width: 378, height: 23},
-            {left: 861, top: 358, width: 378, height: 23},
-            {left: 1061, top: 398, width: 158, height: 23}
+            {left: 861, top: 200, width: 378, height: 23},
+            {left: 861, top: 235, width: 378, height: 23},
+            {left: 861, top: 270, width: 378, height: 23},
+            {left: 861, top: 315, width: 378, height: 23},
+            {left: 861, top: 350, width: 378, height: 23},
+            {left: 1061, top: 385, width: 158, height: 23}
         ],
         listItemTitleArray: new Array(),
 
@@ -371,12 +378,6 @@
             for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
                 this.addListItem("111", "测试", 1, 111);
             }
-//
-//            if (arrayNum > listObj.listItemNum) {
-//                listObj.addListItem(0, ">>更多信息", 0, 0);
-//            }
-//
-//            this.setListItemTitle();
 
             listObj.addListItem(0, ">>更多信息", 0, 0);
 //            this.setListItemTitle();

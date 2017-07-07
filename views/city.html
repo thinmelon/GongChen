@@ -16,48 +16,46 @@
         <div id="city_entry">
             <div id="city_building" class="city_entry_item"
                  style="background: url(../images/city/city_building.png) no-repeat; "></div>
-            <div id="city_spotlight" class="city_entry_item"
-                 style="background: url(../images/city/city_spotlight.png) no-repeat; "></div>
+            <div id="city_country" class="city_entry_item"
+                 style="background: url(../images/city/city_country.png) no-repeat; "></div>
             <div id="city_culture" class="city_entry_item"
                  style="background: url(../images/city/city_culture.png) no-repeat; "></div>
             <div id="city_service" class="city_entry_item"
                  style="background: url(../images/city/city_service.png) no-repeat; "></div>
+            <div id="city_manager" class="city_entry_item"
+                 style="background: url(../images/city/city_manage.png) no-repeat; "></div>
             <div id="city_activity" class="city_entry_item"
                  style="background: url(../images/city/city_activity.png) no-repeat; "></div>
+            <div id="city_volunteer" class="city_entry_long_item"
+                 style="background: url(../images/city/city_volunteer.png) no-repeat; "></div>
         </div>
         <div id="city_ad_0">
-            <img alt="ad_preview" src="../images/city/city_mid_ad.png" width="448"/>
+            <img alt="ad_preview" src="../images/city/city_mid_ad.png" width="446"/>
         </div>
         <div id="city_ad_1">
-            <img alt="ad_preview" src="../images/city/city_ad_1.png"/>
+            <img alt="ad_preview" src="../images/city/city_ad_1.png" width="446" height="111"/>
         </div>
     </div>
     <div id="city_notices_board">
-        <div id="affairs_notices_board_bar" style="background: url('../images/city/city_list_bar.png'); width: 370px; height: 39px "></div>
+        <div id="affairs_notices_board_bar"
+             style="background: url('../images/city/city_list_bar.png'); width: 370px; height: 39px "></div>
         <div id="list_menu_0" class="city_list_item" style="top: 50px;">
-            <div class="city_list_item_text"> 粮食局开展“世界粮食日”活动     </div>
+            <div class="city_list_item_text"> 粮食局开展“世界粮食日”活动</div>
         </div>
-        <div id="list_menu_1" class="city_list_item" style="top: 86px;">
+        <div id="list_menu_1" class="city_list_item" style="top: 90px;">
             <div class="city_list_item_text">持续实施“强村行动计划”促城乡均衡发展</div>
         </div>
-        <div id="list_menu_2" class="city_list_item" style="top: 122px;">
+        <div id="list_menu_2" class="city_list_item" style="top: 130px;">
             <div class="city_list_item_text">实施创新驱动发展九大产业</div>
         </div>
-        <div id="list_menu_3" class="city_list_item" style="top: 158px;">
+        <div id="list_menu_3" class="city_list_item" style="top: 170px;">
             <div class="city_list_item_text">深山发展万吨农产品加工</div>
         </div>
-        <div id="list_menu_4" class="city_list_item" style="top: 194px;">
-            <div class="city_list_item_text"></div>
+        <div id="list_menu_4" class="city_list_item" style="top: 210px;">
+            <div class="city_list_item_text">农业部门微信扫描验农贸 源头鉴别打击造假</div>
         </div>
-        <div id="list_menu_5" class="city_list_item" style="top: 230px;">
-            <div class="city_list_item_text"></div>
-        </div>
-        <div id="list_menu_6" class="city_list_item" style="top: 266px;">
-            <div class="city_list_item_text"></div>
-        </div>
-        <div id="list_menu_7" class="city_list_item" style="top: 302px;">
-            <div class="city_list_item_text"></div>
-        </div>
+        <div id="city-notice-board-more"
+             style="background: url(../images/list-item-more.png) no-repeat; width: 126px; height: 18px;"></div>
     </div>
 </div>
 
@@ -135,15 +133,17 @@
 
     var menuObj = {
 
-        focusPosX: 0,                   // 记录光标在区域内的位置
-        focusPosY: 0,                   // 记录光标在区域内的所在行
-        itemsPerLine: [2, 2, 1],           // 每行所包含的元素数量
+        focusPosX: 0,                           // 记录光标在区域内的位置
+        focusPosY: 0,                           // 记录光标在区域内的所在行
+        itemsPerLine: [2, 2, 2, 1],             // 每行所包含的元素数量
         menuPosArray: [
-            {left: 99, top: 176, width: 157, height: 116, url: ""},
-            {left: 257, top: 176, width: 157, height: 116, url: ""},
-            {left: 99, top: 293, width: 157, height: 116, url: ""},
-            {left: 257, top: 293, width: 157, height: 116, url: ""},
-            {left: 99, top: 410, width: 157, height: 116, url: ""}
+            {left: 79, top: 152, width: 157, height: 116, url: ""},
+            {left: 240, top: 152, width: 157, height: 116, url: ""},
+            {left: 79, top: 270, width: 157, height: 116, url: ""},
+            {left: 240, top: 270, width: 157, height: 116, url: ""},
+            {left: 79, top: 388, width: 157, height: 116, url: ""},
+            {left: 240, top: 388, width: 157, height: 116, url: ""},
+            {left: 79, top: 505, width: 320, height: 116, url: ""}
         ]
         ,
 
@@ -203,6 +203,8 @@
                 postObj.focusOn();
 
             }
+
+            console.info("X => " + this.focusPosX + " Y => " + this.focusPosY);
         }
         ,
 
@@ -212,25 +214,25 @@
 
             if (this.focusPosY >= 0 && this.focusPosY < this.itemsPerLine.length) {
 
-                this.focusOn();
+                if (this.focusPosX >= this.itemsPerLine[this.focusPosY]) {
+                    this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+                }
 
             } else if (this.focusPosY < 0) {
 
-                this.focusPosY = 0;
-
-                controller.focusArea = 1;
-                postObj.focusPos = 1;
-                postObj.focusOn();
+                this.focusPosY = this.itemsPerLine.length - 1;
+                this.focusPosX = 0;
 
             } else {
 
-                this.focusPosY = this.itemsPerLine.length - 1;
-
-                controller.focusArea = 1;
-                postObj.focusPos = 1;
-                postObj.focusOn();
+                this.focusPosY = 0;
+                this.focusPosX = 0;
 
             }
+
+            this.focusOn();
+
+            console.info("X => " + this.focusPosX + " Y => " + this.focusPosY);
 
         }
         ,
@@ -260,17 +262,17 @@
         focusPos: 0,                // 记录光标在区域内的位置
         postItemArray: [
             {
-                left: 412,
-                top: 176,
+                left: 392,
+                top: 152,
                 width: 451,
                 height: 348,
                 url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
             },
 
             {
-                left: 99,
-                top: 527,
-                width: 767,
+                left: 392,
+                top: 504,
+                width: 451,
                 height: 116,
 //                url: _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId
                 url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
@@ -306,8 +308,10 @@
 
                 } else {
 
-                    controller.focusArea = 2;       // 移到文字列表区域
-                    listObj.focusOn();
+                    controller.focusArea = 0;       //  移到菜单区域
+                    menuObj.focusPosY = menuObj.itemsPerLine.length - 1;          //  光标定位至末行
+                    menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
+                    menuObj.focusOn();
 
                 }
 
@@ -355,32 +359,32 @@
     var listObj = {
 
         focusPos: 0,                        // 记录光标在区域内的位置
-        listItemNum: 8,                     // 列表元素的显示数量
+        listItemNum: 6,                     // 列表元素的显示数量
         listItemArray: [
-            {left: 879, top: 230, width: 303, height: 30},
-            {left: 879, top: 266, width: 303, height: 30},
-            {left: 879, top: 302, width: 303, height: 30},
-            {left: 879, top: 338, width: 303, height: 30},
-            {left: 879, top: 374, width: 303, height: 30},
-            {left: 879, top: 410, width: 303, height: 30},
-            {left: 879, top: 446, width: 303, height: 30},
-            {left: 879, top: 482, width: 303, height: 30}
+            {left: 859, top: 210, width: 360, height: 30},
+            {left: 859, top: 250, width: 360, height: 30},
+            {left: 859, top: 290, width: 360, height: 30},
+            {left: 859, top: 330, width: 360, height: 30},
+            {left: 859, top: 370, width: 360, height: 30},
+            {left: 1059, top: 570, width: 133, height: 30}
         ],
         listItemTitleArray: new Array(),
 
         init: function () {
 
-            var arrayNum = 9;
+            var arrayNum = 5;
 
             for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
                 this.addListItem("111", "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试", 1, 111);
             }
 
-            if (arrayNum > listObj.listItemNum) {
-                listObj.addListItem(0, ">>更多信息", 0, 0);
-            }
+            listObj.addListItem(0, ">>更多信息", 0, 0);
 
-            this.setListItemTitle();
+//            if (arrayNum > listObj.listItemNum) {
+//                listObj.addListItem(0, ">>更多信息", 0, 0);
+//            }
+
+//            this.setListItemTitle();
 
 //            listObj.addListItem(0, ">>更多信息", 0, 0);
 //            this.setListItemTitle();
@@ -428,15 +432,15 @@
             $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
 
 
-            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
-            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
+//            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
+//            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
 
         },
 
         focusOut: function () {
 
-            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
-            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
+//            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+//            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
 
         },
 

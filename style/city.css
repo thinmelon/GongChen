@@ -10,8 +10,8 @@
 #city_content {
     position: relative;
     top: 20px;
-    left: 53px;
-    width: 1094px;
+    left: 70px;
+    width: 1178px;
     height: 100%;
     /*margin: 0 auto;*/
 }
@@ -29,23 +29,33 @@
 }
 
 #city_ad_0 {
-    float: left;
-    margin: 3px 0;
+    position: absolute;
+    left: 316px;
+    top: 0;
+    margin: 3px;
     width: 446px;
-    text-align: center;
+    height: 334px;
 }
 
 #city_ad_1 {
-    float: left;
-    width: 768px;
-    height: 232px;
-    text-align: center;
-    margin: 3px 0;
+    position: absolute;
+    left: 316px;
+    top: 350px;
+    width: 446px;
+    height: 111px;
+    margin: 3px;
 }
 
 .city_entry_item {
     float: left;
     width: 152px;
+    height: 111px;
+    margin: 3px 3px;
+}
+
+.city_entry_long_item{
+    float: left;
+    width: 310px;
     height: 111px;
     margin: 3px 3px;
 }
@@ -56,7 +66,7 @@
     top: 0;
     background: url(../images/notice-background.png);
     width: 370px;
-    height: 450px;
+    height: 465px;
     margin: 3px 3px;
 
 }
@@ -64,17 +74,23 @@
 .city_list_item {
     position: absolute;
     left: 10px;
-    width: 300px;
+    width: 355px;
     height: 30px;
-    background-color: azure;
 }
 
 .city_list_item_text {
     position: absolute;
     left: 10px;
     top: 0px;
-    width: 280px;
+    width: 340px;
     height: 30px;
     line-height: 30px;
+    font: 25px "Microsoft YaHei";
     overflow: hidden;
+}
+
+#city-notice-board-more{
+    position: absolute;
+    right: 35px;
+    bottom: 20px;
 }
