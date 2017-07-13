@@ -372,13 +372,13 @@
 
         init: function () {
 
-            var arrayNum = 5;
+            this.addListItem("111", '粮食局开展“世界粮食日”活动', 1, 111);
+            this.addListItem("111", '持续实施“强村行动计划”促城乡均衡发展', 1, 111);
+            this.addListItem("111", '实施创新驱动发展九大产业', 1, 111);
+            this.addListItem("111", '深山发展万吨农产品加工', 1, 111);
+            this.addListItem("111", '农业部门微信扫描验农贸 源头鉴别打击造假', 1, 111);
 
-            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
-                this.addListItem("111", "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试", 1, 111);
-            }
-
-            listObj.addListItem(0, ">>更多信息", 0, 0);
+            this.addListItem(0, ">>更多信息", 0, 0);
 
 //            if (arrayNum > listObj.listItemNum) {
 //                listObj.addListItem(0, ">>更多信息", 0, 0);
@@ -431,7 +431,10 @@
             $("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
             $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
 
-
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 12);
+            }
 //            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
 
@@ -439,6 +442,10 @@
 
         focusOut: function () {
 
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+            }
 //            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
 

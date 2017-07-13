@@ -21,6 +21,7 @@
         </div>
         <div id="example-post-2" class="example-post">
             <img src="../images/example-post-4.png" width="449px" height="282px">
+            <img id="icon_video_play" src="../images/video_play.PNG" width="73" height="71">
         </div>
     </div>
 
@@ -177,11 +178,12 @@
             });
             this.menuItemArray.push({
                 name: "index_city",
+//                url: " http://10.184.255.11/portal2/ggsy.html"
                 url: "city.html?focusArea=0&focusPos=4"
             });
             this.menuItemArray.push({
                 name: "index_public",
-                url: ""
+                url: "http://10.184.255.4:8080/portal2/ggsy.html"
 //                url: "video.html?assetId=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
             });
             this.menuItemArray.push({
@@ -276,16 +278,16 @@
         focusPos: 0,                // 记录光标在区域内的位置
         postItemArray: [
             {
-                left: 38,
-                top: 157,
+                left: 28,
+                top: 152,
                 width: 354,
                 height: 285,
                 url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
             },
 
             {
-                left: 402,
-                top: 157,
+                left: 392,
+                top: 152,
                 width: 452,
                 height: 285,
                 url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
@@ -373,11 +375,17 @@
 
         init: function () {
 
-            var arrayNum = 5;
+//            var arrayNum = 5;
 
-            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
-                this.addListItem("111", "测试", 1, 111);
-            }
+//            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
+//                this.addListItem("111", "测试", 1, 111);
+//            }
+            this.addListItem("111", '"美丽莆田 社会治理"司法行政创新现场会', 1, 111);
+            this.addListItem("111", '建设美丽莆田行动纲要', 1, 111);
+            this.addListItem("111", '美丽港城 冉冉起', 1, 111);
+            this.addListItem("111", '拱辰街道依法拆除违章建筑', 1, 111);
+            this.addListItem("111", '开启“智慧物流” 助力物畅其流', 1, 111);
+
 
             listObj.addListItem(0, ">>更多信息", 0, 0);
 //            this.setListItemTitle();
@@ -429,8 +437,10 @@
             _focusNode.style.width = this.listItemArray[this.focusPos].width + "px";
             _focusNode.style.height = this.listItemArray[this.focusPos].height + "px";
 
-
-//            this.showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, document.getElementById("list_menu_" + this.focusPos).children[0], 20);
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 13);
+            }
 //            document.getElementById("list_menu_" + this.focusPos).children[0].style.color = "#0000FF";
 
         },
@@ -440,7 +450,10 @@
             var _focusNode = document.getElementById("self_ad_focus");
             _focusNode.style.visibility = "hidden";
 
-//            document.getElementById("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+            }
 //            document.getElementById("list_menu_" + this.focusPos).children[0].style.color = "#000000";
 
         },

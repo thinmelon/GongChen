@@ -365,13 +365,13 @@
 
         init: function () {
 
-            var arrayNum = 5;
+            this.addListItem("111", '"美丽莆田 社会治理"司法行政创新现场会', 1, 111);
+            this.addListItem("111", '建设美丽莆田行动纲要', 1, 111);
+            this.addListItem("111", '美丽港城 冉冉起', 1, 111);
+            this.addListItem("111", '拱辰街道依法拆除违章建筑', 1, 111);
+            this.addListItem("111", '开启“智慧物流” 助力物畅其流', 1, 111);
 
-            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
-                this.addListItem("111", "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试", 1, 111);
-            }
-
-            listObj.addListItem(0, ">>更多信息", 0, 0);
+            this.addListItem(0, ">>更多信息", 0, 0);
 
 //            this.setListItemTitle();
 
@@ -420,7 +420,10 @@
             $("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
             $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
 
-
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 12);
+            }
 //            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
 
@@ -428,6 +431,10 @@
 
         focusOut: function () {
 
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+            }
 //            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
 

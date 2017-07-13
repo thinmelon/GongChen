@@ -20,11 +20,17 @@
     height: 285px;
 }
 
+#icon_video_play {
+    position: absolute;
+    left: 540px;
+    top: 107px;
+}
+
 #index_notices_board {
     position: absolute;
     left: 852px;
     top: 150px;
-    background: url(../images/bg-list-item.png) ;
+    background: url(../images/bg-list-item.png);
     width: 386px;
     height: 282px;
     margin: 3px 3px;
@@ -37,7 +43,7 @@
     height: 30px;
 }
 
-.index_list_item_text{
+.index_list_item_text {
     position: absolute;
     left: 10px;
     top: 0;

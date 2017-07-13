@@ -93,6 +93,12 @@ function parseRequestUrl() {
 
 }
 
+/**
+ * 标题文字长度超过_num，滚动显示
+ * @param _title
+ * @param _obj
+ * @param _num
+ */
 function showTitleForMarquee(_title, _obj, _num) {
     if (_title.length > _num) {
         _obj.innerHTML = "<marquee>" + _title + "</marquee>";

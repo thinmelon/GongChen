@@ -130,9 +130,9 @@
         focusPosY: 0,                   // 记录光标在区域内的所在行
         itemsPerLine: [2, 1],           // 每行所包含的元素数量
         menuPosArray: [
-            {left: 54, top: 150, width: 157, height: 116, url: ""},
-            {left: 210, top: 150, width: 157, height: 116, url: ""},
-            {left: 54, top: 268, width: 316, height: 116, url: ""}
+            {left: 64, top: 160, width: 157, height: 116, url: ""},
+            {left: 220, top: 160, width: 157, height: 116, url: ""},
+            {left: 64, top: 278, width: 316, height: 116, url: ""}
         ]
         ,
 
@@ -248,16 +248,16 @@
         focusPos: 0,                // 记录光标在区域内的位置
         postItemArray: [
             {
-                left: 370,
-                top: 150,
+                left: 380,
+                top: 160,
                 width: 446,
                 height: 465,
                 url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
             },
 
             {
-                left: 54,
-                top: 385,
+                left: 64,
+                top: 395,
                 width: 315,
                 height: 234,
 //                url: _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId
@@ -358,24 +358,24 @@
         focusPos: 0,                        // 记录光标在区域内的位置
         listItemNum: 6,                     // 列表元素的显示数量
         listItemArray: [
-            {left: 835, top: 205, width: 350, height: 30},
-            {left: 835, top: 240, width: 350, height: 30},
-            {left: 835, top: 275, width: 350, height: 30},
-            {left: 835, top: 310, width: 350, height: 30},
-            {left: 835, top: 345, width: 350, height: 30},
-            {left: 1025, top: 580, width: 150, height: 30}
+            {left: 845, top: 215, width: 350, height: 30},
+            {left: 845, top: 250, width: 350, height: 30},
+            {left: 845, top: 285, width: 350, height: 30},
+            {left: 845, top: 320, width: 350, height: 30},
+            {left: 845, top: 355, width: 350, height: 30},
+            {left: 1035, top: 590, width: 150, height: 30}
         ],
         listItemTitleArray: new Array(),
 
         init: function () {
 
-            var arrayNum = 5;
+            this.addListItem("111", '"美丽莆田 社会治理"司法行政创新现场会', 1, 111);
+            this.addListItem("111", '建设美丽莆田行动纲要', 1, 111);
+            this.addListItem("111", '美丽港城 冉冉起', 1, 111);
+            this.addListItem("111", '拱辰街道依法拆除违章建筑', 1, 111);
+            this.addListItem("111", '开启“智慧物流” 助力物畅其流', 1, 111);
 
-            for (var t = 0; t < arrayNum && t < this.listItemNum; t++) {
-                this.addListItem("111", "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试", 1, 111);
-            }
-
-            listObj.addListItem(0, ">>更多信息", 0, 0);
+            this.addListItem(0, ">>更多信息", 0, 0);
 
 //            this.setListItemTitle();
 
@@ -424,7 +424,10 @@
             $("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
             $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
 
-
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 10);
+            }
 //            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
 
@@ -432,6 +435,10 @@
 
         focusOut: function () {
 
+            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+            if (null != _focusListItem) {
+                _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+            }
 //            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
 
