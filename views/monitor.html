@@ -97,12 +97,12 @@
                 ("message").innerHTML += "<br />" + "alistObj ==> focusMove";
 
                 var num = _num || 0;
-                if (num > 0 && ((this.len - 1) === (this.pos_py + this.pos))) {
+                if (num > 0 && this.len - 1 == this.pos_py + this.pos) {
                     this.pos = 0;
                     this.pos_py = 0;
                     this.show();
                     $("list_focus").style.top = 15 + 76 * this.pos + "px";
-                } else if ((num > 0 && this.cur_size - 1 === this.pos) || (num < 0 && 0 === this.pos)) {
+                } else if ((num > 0 && this.cur_size - 1 == this.pos) || (num < 0 && 0 == this.pos)) {
                     var pos_py = this.pos_py + num;
                     if (pos_py >= 0 && pos_py <= this.size_py) {
                         this.pos_py = pos_py;
@@ -156,26 +156,22 @@
 
             },
 
-            exit: function () {
-                media.AV.stop();
-                media.AV.close();
-                VOD.changeServer("cisco_dmx", "dvb");   //退出监控视频播放时，一定要修改vod模式
-            },
-
             getParameter: function () {
 
-                var rtsp = Q.getDecoded("rtsp");
-                if (null !== rtsp && "null" !== rtsp) {
-                    this.rtsp = rtsp;
+                var params;
+
+                params = parseRequestUrl();
+
+                if (params.hasOwnProperty("rtsp")) {
+                    this.rtsp = params["rtsp"];
                 }
 
-                var backUrl = Q.getDecoded("backUrl");
-                if (null !== backUrl && "null" !== backUrl) {
-                    this.backUrl = backUrl;
+                if (params.hasOwnProperty("backUrl")) {
+                    this.backUrl = params["backUrl"];
                 }
 
-                console.info("controller ==> getParameter 参数 rtsp = " + rtsp + ", backUrl = " + backUrl);
-                $("message").innerHTML += "<br />" + "controller ==> getParameter 参数 rtsp = " + rtsp + ", backUrl = " + backUrl;
+                console.info("controller ==> getParameter 参数 rtsp = " + this.rtsp + ", backUrl = " + this.backUrl);
+                $("message").innerHTML += "<br />" + "controller ==> getParameter 参数 rtsp = " + this.rtsp + ", backUrl = " + this.backUrl;
 
             },
 
@@ -208,19 +204,30 @@
             },
 
             moveX: function (_num) {
+                switch (this.area) {
+                    case 0 :
+
+                        break;
+                    case 1 :
+
+                        break;
+                    case 10 :
+
+                        break;
+                }
             },
 
             moveY: function (_num) {
                 switch (this.area) {
                     case 0 :
-                        if (_num > 0 && 1 === this.list_flag) {
+                        if (_num > 0 && 1 == this.list_flag) {
                             this.focusOut();
                             this.area = 1;
                             this.focusOn();
                         }
                         break;
                     case 1 :
-                        if (_num < 0 && 0 === listObj.pos && 0 === listObj.pos_py) {
+                        if (_num < 0 && 0 == listObj.pos && 0 == listObj.pos_py) {
                             this.focusOut();
                             this.area = 0;
                             this.focusOn();
@@ -253,9 +260,10 @@
             doSelect: function () {
                 switch (this.area) {
                     case 0 :
-                        if (0 === this.list_flag) {
+                        if (0 == this.list_flag) {
                             this.list_flag = 1;
                             $("list").style.display = "block";
+
                             this.hiddenForTimeout();                // 自动消失
                         } else {
                             this.list_flag = 0;
@@ -273,7 +281,7 @@
 
             doBack: function () {
 
-                if ("" === this.backUrl || null === this.backUrl) {
+                if ("" == this.backUrl || null == this.backUrl) {
                     history.back();
                 } else {
                     location.href = this.backUrl;
@@ -291,7 +299,7 @@
         var _url = paramObj.serverUrl +
             "queryTitleListMobile.shtml?resourceId=" +
             paramObj.zzwgResourceIdArray[0].resourceId +
-            "&num=7&cur_page=1";                //  请求的URL,可传参数
+            "&num=5&cur_page=1";                //  请求的URL,可传参数
 
         $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile   ==> call ajax   ==> URL = " + _url;
 
@@ -346,8 +354,16 @@
         });
     }
 
+    function exit() {
+
+        media.AV.stop();
+        media.AV.close();
+        VOD.changeServer("cisco_dmx", "dvb");   //退出监控视频播放时，一定要修改vod模式
+
+    }
+
     function grabEvent(_event) {
-        if (1 === controller.list_flag) {
+        if (1 == controller.list_flag) {
 
             clearTimeout(controller.list_time_out);
             controller.hiddenForTimeout();
@@ -392,14 +408,13 @@
                 break;
         }
     }
-
     document.onkeydown = grabEvent;
     document.onkeypress = grabEvent;
     document.onirkeypress = grabEvent;
     document.onsystemevent = grabEvent;
 
     window.onload = controller.init();
-    window.onunload = controller.exit();
+    window.onunload = exit;
 
 </script>
 </body>

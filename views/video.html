@@ -141,28 +141,31 @@
             },
 
             onSuccess: function (_response) {
+                var _key = "ItemData",
+                    _data,
+                    _json,
+                    _message = "",
+                    _errorCode;
+
                 console.info("controller    ==>     onSuccess() with response " + _response);
                 $("message").innerHTML += "<br/>" + "controller    ==>     onSuccess()";
 
-                var _data = parseDom(_response);
-                var _json = parseJson(_data.toJson());
+                _data = parseDom(_response);
+                _json = eval('(' + _data.toJson() + ')');
 
                 if (typeof (_json) === "object" && _json !== null) {
-
-                    var _key = "ItemData";
 
                     if (_key in _json) {
 
                         controller.videoParam = _json.ItemData[0].SelectableItem[0];
-
                         controller.toPlayVideo(controller.videoParam);     //
 
                     } else {
 
                         // 错误处理
                         if ("NavServerResponse" in _json) {
-                            var _message = _json.NavServerResponse[0].message;
-                            var _errorCode = _json.NavServerResponse[0].code;
+                            _message = _json.NavServerResponse[0].message;
+                            _errorCode = _json.NavServerResponse[0].code;
 
                             $("message").innerHTML += "<br/>" + "Error - " + _errorCode + ", message:" + _message;
                         }
@@ -180,23 +183,16 @@
                 console.info("controller    ==>     onFailed() with response " + _response);
                 $("message").innerHTML += "<br/>" + "controller    ==>     onFailed()";
 
-//            controller.toPlayVideo(controller.videoParam);
-
             },
 
             exit: function () {
-
                 console.info("controller    ==>     exit()");
-
                 manager.abortRequest();
-
             }
             ,
 
             doBack: function () {
-
                 window.location.href = controller.backUrl;
-
             },
 
             toPlayVideo: function (_video) {

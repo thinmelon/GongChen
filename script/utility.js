@@ -1,79 +1,25 @@
-/***
- * Record URL params
- * @type {{idxFocusArea: number, idxFocusPos: number, idxFocusName: string, resourceId: number, type: number, assetId: string, backUrl: string, record: transferStation.record}}
- */
-var transferStation = {
-
-    idxFocusArea: 0,
-    idxFocusPos: 0,
-    idxFocusName: "",
-
-    resourceId: 0,
-    type: 0,
-
-    assetId: "",            //  视频ID
-    backUrl: "",            //  返回路径
-
-    record: function () {
-
-        var paramObj = parseRequestUrl();
-
-        if (paramObj.hasOwnProperty("focusArea")) {
-
-            console.info("==>   focusArea = " + paramObj["focusArea"]);
-            transferStation.idxFocusArea = parseInt(paramObj["focusArea"]);
-
-        }
-
-        if (paramObj.hasOwnProperty("focusPos")) {
-
-            console.info("==>   focusPos = " + paramObj["focusPos"]);
-            transferStation.idxFocusPos = parseInt(paramObj["focusPos"]);
-
-        }
-
-        if (paramObj.hasOwnProperty("focusItemName")) {
-
-            console.info("==>   focusItemName = " + paramObj["focusItemName"]);
-            transferStation.idxFocusName = paramObj["focusItemName"];
-
-        }
-
-        if (paramObj.hasOwnProperty("resourceId")) {
-
-            console.info("==>   resourceId = " + paramObj["resourceId"]);
-            transferStation.resourceId = parseInt(paramObj["resourceId"]);
-
-        }
-
-        if (paramObj.hasOwnProperty("type")) {
-
-            console.info("==>   type = " + paramObj["type"]);
-            transferStation.type = parseInt(paramObj["type"]);
-
-        }
-
-        if (paramObj.hasOwnProperty("assetId")) {
-
-            console.info("==>   assetId = " + paramObj["assetId"]);
-            transferStation.assetId = paramObj["assetId"];
-
-        }
-
-        if (paramObj.hasOwnProperty("backUrl")) {
-
-            console.info("==>   backUrl = " + paramObj["backUrl"]);
-            transferStation.backUrl = paramObj["backUrl"];
-
-        }
-    }
-
-};
-
 function $(_id) {
     return document.getElementById(_id);
 }
 
+/**
+ * 标题文字长度超过_num，滚动显示
+ * @param _title
+ * @param _obj
+ * @param _num
+ */
+function showTitleForMarquee(_title, _obj, _num) {
+    if (_title.length > _num) {
+        _obj.innerHTML = "<marquee>" + _title + "</marquee>";
+    } else {
+        _obj.innerHTML = _title;
+    }
+}
+
+/***
+ * 解析URL
+ * @returns {{}}
+ */
 function parseRequestUrl() {
 
     var _url = window.location.search;
@@ -94,28 +40,13 @@ function parseRequestUrl() {
 }
 
 /**
- * 标题文字长度超过_num，滚动显示
- * @param _title
- * @param _obj
- * @param _num
- */
-function showTitleForMarquee(_title, _obj, _num) {
-    if (_title.length > _num) {
-        _obj.innerHTML = "<marquee>" + _title + "</marquee>";
-    } else {
-        _obj.innerHTML = _title;
-    }
-}
-
-
-/**
  * 适用xml文件和dom文档
  * @param frag:dom对象, xml文件数据
  * @returns 返回一个可直接被引用的数据对象
  */
 function parseDom(frag) {
 
-    $("message").innerHTML += "<br/>" + "function.js     ==>     parseDom";
+    $("message").innerHTML += "<br/>" + "utility.js     ==>     parseDom";
 
     var obj = new Object;
     var childs = getChilds(frag);
@@ -243,9 +174,13 @@ function parseJson(str) {
 
 }
 
+/**
+ *
+ * @returns {string}
+ */
 Array.prototype.toJson = function () {
 
-    $("message").innerHTML += "<br/>" + "function.js    ==>   Array.prototype.toJson";
+    $("message").innerHTML += "<br/>" + "utility.js    ==>   Array.prototype.toJson";
 
     var arr = new Array;
     for (var i = 0; i < this.length; i++) {
@@ -267,9 +202,13 @@ Array.prototype.toJson = function () {
     return '[' + arr.join(', ') + ']';
 };
 
+/**
+ *
+ * @returns {*}
+ */
 Object.prototype.toJson = function () {
 
-    $("message").innerHTML += "<br/>" + "function.js    ==>   Object.prototype.toJson";
+    $("message").innerHTML += "<br/>" + "utility.js    ==>   Object.prototype.toJson";
 
     if (typeof this == 'object') {
         if (this instanceof Array) {
@@ -298,6 +237,78 @@ Object.prototype.toJson = function () {
             return '{' + arr.join(', ') + '}';
         }
     } else return 'not object';
+};
+
+/***
+ * Record URL params
+ * @type {{idxFocusArea: number, idxFocusPos: number, idxFocusName: string, resourceId: number, type: number, assetId: string, backUrl: string, record: transferStation.record}}
+ */
+var transferStation = {
+
+    idxFocusArea: 0,
+    idxFocusPos: 0,
+    idxFocusName: "",
+
+    resourceId: 0,
+    type: 0,
+
+    assetId: "",            //  视频ID
+    backUrl: "",            //  返回路径
+
+    record: function () {
+
+        var params = parseRequestUrl();
+
+        if (params.hasOwnProperty("focusArea")) {
+
+            console.info("==>   focusArea = " + params["focusArea"]);
+            transferStation.idxFocusArea = parseInt(params["focusArea"]);
+
+        }
+
+        if (params.hasOwnProperty("focusPos")) {
+
+            console.info("==>   focusPos = " + params["focusPos"]);
+            transferStation.idxFocusPos = parseInt(params["focusPos"]);
+
+        }
+
+        if (params.hasOwnProperty("focusItemName")) {
+
+            console.info("==>   focusItemName = " + params["focusItemName"]);
+            transferStation.idxFocusName = params["focusItemName"];
+
+        }
+
+        if (params.hasOwnProperty("resourceId")) {
+
+            console.info("==>   resourceId = " + params["resourceId"]);
+            transferStation.resourceId = parseInt(params["resourceId"]);
+
+        }
+
+        if (params.hasOwnProperty("type")) {
+
+            console.info("==>   type = " + params["type"]);
+            transferStation.type = parseInt(params["type"]);
+
+        }
+
+        if (params.hasOwnProperty("assetId")) {
+
+            console.info("==>   assetId = " + params["assetId"]);
+            transferStation.assetId = params["assetId"];
+
+        }
+
+        if (params.hasOwnProperty("backUrl")) {
+
+            console.info("==>   backUrl = " + params["backUrl"]);
+            transferStation.backUrl = params["backUrl"];
+
+        }
+    }
+
 };
 
 var paramObj = {
@@ -335,110 +346,3 @@ var paramObj = {
         {title: "首页左侧海报", resourceId: "503"}
     ]
 };
-
-function getIndexBackUrl() {
-
-    if ("undefined" != typeof(GlobalVarManager)) {
-
-        paramObj.index_back_url = GlobalVarManager.getItemStr("tvPortalUrl");
-
-    }
-}
-
-getIndexBackUrl();
-
-var Q = Query = {
-    getFromURL: function (url, parameter) {
-        var index = url.indexOf("?");
-        if (index != -1) {
-            var parameterString = url.substr(index + 1);
-            var reg = new RegExp("(^|&)" + parameter + "=([^&]*)(&|$)", "i");
-            var r = parameterString.match(reg);
-            if (r != null) {
-                return r[2];
-            }
-        }
-        return null;
-    },
-
-    get: function (parameter) {
-
-        console.info("param.js ==> Q ==> get");
-
-        if (typeof (parameter) == "undefined" || parameter == "") {
-            return null;
-        }
-
-        var url = window.location.href;
-        var index = url.indexOf("?");
-
-        console.info("param.js ==> Q ==> get ==> URL = " + url);
-        console.info("param.js ==> Q ==> get ==> index = " + index);
-        if (index != -1) {
-            var parameterString = url.substr(index + 1);
-            var reg = new RegExp("(^|&)" + parameter + "=([^&]*)(&|$)", "i");
-            var r = parameterString.match(reg);
-            if (r != null) {
-                console.info("param.js ==> Q ==> get ==> return " + r[2]);
-                return r[2];
-            }
-        }
-        return null;
-    },
-
-    getInt: function (parameter, defaultValue) {
-        var value = parseInt(this.get(parameter));
-        return isNaN(value) ? (typeof(defaultValue) == "undefined" ? 0 : defaultValue) : value;
-    },
-
-    getDecoded: function (parameter) {
-
-        console.info("param.js ==> Q ==> getDecoded");
-
-        return this.decode(this.get(parameter));
-
-    },
-
-    decode: function (srcStr) {
-
-        console.info("param.js ==> Q ==> decode");
-
-        if (typeof(srcStr) == "undefined") {
-            return null;
-        }
-
-        return decodeURIComponent(srcStr);
-
-    },
-
-    encode: function (srcStr) {
-
-        console.info("param.js ==> Q ==> encode");
-
-        if (typeof(srcStr) == "undefined") {
-            return null;
-        }
-        return encodeURIComponent(srcStr);
-    },
-
-    getSymbol: function (url) {
-
-        console.info("param.js ==> Q ==> getSymbol");
-
-        return url.indexOf("?") == -1 ? "?" : "&";
-    },
-
-    joinURL: function (url, queryString) {
-        return url + this.getSymbol(url) + queryString;
-    },
-
-    createQueryString: function (obj) {
-        var a = [];
-        for (var p in obj) {
-            if (typeof(obj[p]) == "function" || obj[p] == null || typeof(obj[p]) == "undefined") continue;
-            a.push(p + "=" + obj[p]);
-        }
-        return a.join("&");
-    }
-};
-
