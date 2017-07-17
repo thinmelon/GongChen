@@ -95,43 +95,6 @@
 <script type="text/javascript" src="../script/keyEvent.js"></script>
 <script type="text/javascript">
 
-    document.onkeydown = grabEvent;
-
-    function grabEvent(_event) {
-
-        var code = Event(_event);
-
-        switch (code) {
-            case "KEY_UP": //
-                controller.moveY(-1);
-                return false;
-            case "KEY_DOWN": //
-                controller.moveY(1);
-                return false;
-            case "KEY_LEFT": //
-                controller.moveX(-1);
-                return false;
-            case "KEY_RIGHT": //
-                controller.moveX(1);
-                return false;
-            case "KEY_PAGE_UP": //
-                controller.changePage(-1);
-                return false;
-            case "KEY_PAGE_DOWN": //
-                controller.changePage(1);
-                return false;
-            case "KEY_SELECT": //
-                controller.doSelect();
-                return false;
-            case "KEY_EXIT":
-            case "KEY_BACK":
-                controller.doBack();
-                return false;
-            default:
-                break;
-        }
-    }
-
     var menuObj = {
 
         focusPosX: 0,                   // 记录光标在区域内的位置
@@ -251,9 +214,8 @@
 
         }
 
-    }
-
-    var postObj = {
+    },
+        postObj = {
 
         focusPos: 0,                // 记录光标在区域内的位置
         postItemArray: [
@@ -348,9 +310,8 @@
             }
 
         }
-    }
-
-    var listObj = {
+    },
+        listObj = {
 
         focusPos: 0,                        // 记录光标在区域内的位置
         listItemNum: 9,                     // 列表元素的显示数量
@@ -365,7 +326,7 @@
             {left: 709, top: 505, width: 480, height: 30},
             {left: 1030, top: 585, width: 150, height: 30}
         ],
-        listItemTitleArray: new Array(),
+        listItemTitleArray: [],
 
         init: function () {
 
@@ -514,9 +475,8 @@
             }
         }
 
-    }
-
-    var controller = {
+    },
+        controller = {
 
         focusArea: 0,
 
@@ -629,7 +589,43 @@
         }
 
 
+    };
+
+    function grabEvent(_event) {
+
+        var code = Event(_event);
+
+        switch (code) {
+            case "KEY_UP": //
+                controller.moveY(-1);
+                return false;
+            case "KEY_DOWN": //
+                controller.moveY(1);
+                return false;
+            case "KEY_LEFT": //
+                controller.moveX(-1);
+                return false;
+            case "KEY_RIGHT": //
+                controller.moveX(1);
+                return false;
+            case "KEY_PAGE_UP": //
+                controller.changePage(-1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+                controller.changePage(1);
+                return false;
+            case "KEY_SELECT": //
+                controller.doSelect();
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            default:
+                break;
+        }
     }
+    document.onkeydown = grabEvent;
 
     window.onload = controller.init();
 

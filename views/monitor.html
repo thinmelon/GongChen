@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../style/monitor.css"/>
+    <title>视频监控</title>
+</head>
+<body>
+
+<div id="list_control">其他路口</div>
+
+<div id="list">
+    <div id="list0"></div>
+    <div id="list1"></div>
+    <div id="list2"></div>
+    <div id="list3"></div>
+    <div id="list4"></div>
+    <div id="list5"></div>
+    <div id="list6"></div>
+
+    <div id="list_focus"></div>
+
+    <div id="list_up"></div>
+    <div id="list_down"></div>
+</div>
+
+<div id="message"></div>
+
+<script type="text/javascript" src="../script/utility.js"></script>
+<script type="text/javascript" src="../script/ajax.js"></script>
+<script type="text/javascript" src="../script/keyEvent.js"></script>
+<script type="text/javascript">
+
+    var
+
+        listObj = {
+            pos_bs: 0,    //栏目标示，表示当前在第几个栏目下
+            pos: 0,
+            pos_py: 0,    //焦点偏移值
+            size: 7,
+            cur_size: 0,
+            len: 0,
+            size_py: 0,   //最大偏移值
+            array: [],
+
+            init: function () {
+
+                console.info("listObj ==> init函数");
+
+                $("message").innerHTML += "<br />" + "alistObj ==> init";
+
+                this.len = this.array.length;
+                this.size_py = this.len - this.size > 0 ? this.len - this.size : 0;
+                this.cur_size = this.size > this.len ? this.len : this.size;
+
+                if (this.pos_bs > this.size - 1) {
+                    this.pos_py = this.pos_bs - this.size + 1;
+                    this.pos = this.size - 1;
+                } else {
+                    this.pos = this.pos_bs;
+                }
+
+                this.show();
+                this.focusMove();
+            },
+
+            show: function () {
+
+                $("message").innerHTML += "<br />" + "alistObj ==> show";
+
+                for (var i = 0; i < this.size; i++) {
+                    if (i < this.cur_size) {
+                        $("message").innerHTML += "<br />" + "alistObj ==> show函数 ==> 设置标题" + this.array[i + this.pos_py].title;
+                        $("list" + i).innerHTML = this.array[i + this.pos_py].title;
+                    } else {
+                        $("list" + i).innerHTML = "";
+                    }
+                }
+            },
+
+            focusOn: function (_flag) {
+                if (!_flag) {
+                    $("list_focus").style.visibility = "visible";
+                }
+            },
+
+            focusOut: function (_flag) {
+                if (!_flag) {
+                    $("list_focus").style.visibility = "hidden";
+                }
+            },
+
+            focusMove: function (_num) {
+
+                ("message").innerHTML += "<br />" + "alistObj ==> focusMove";
+
+                var num = _num || 0;
+                if (num > 0 && ((this.len - 1) === (this.pos_py + this.pos))) {
+                    this.pos = 0;
+                    this.pos_py = 0;
+                    this.show();
+                    $("list_focus").style.top = 15 + 76 * this.pos + "px";
+                } else if ((num > 0 && this.cur_size - 1 === this.pos) || (num < 0 && 0 === this.pos)) {
+                    var pos_py = this.pos_py + num;
+                    if (pos_py >= 0 && pos_py <= this.size_py) {
+                        this.pos_py = pos_py;
+                        this.show();
+                    }
+                } else {
+                    this.pos = this.pos + num;
+                    $("list_focus").style.top = 15 + 76 * this.pos + "px";
+                }
+
+                $("list_focus").innerHTML = this.array[this.pos + this.pos_py].title;
+            },
+
+            doSelect: function () {
+                var pos_bs = this.pos + this.pos_py;
+
+                controller.rtsp = this.array[pos_bs].assetid;
+
+                $("message").innerHTML += "<br />" + "视频地址" + controller.rtsp;
+                media.AV.open(controller.rtsp, "VOD");
+            }
+        },
+
+        controller = {
+            area: 0,
+            list_flag: 0,
+            list_time_out: 0,
+            rtsp: "",
+            backUrl: "",
+
+            init: function () {
+
+                this.getParameter();
+
+                ajaxForQueryTitleListMobile();
+
+                VOD.changeServer('isma_v2', 'ip_ts');
+                //media.video.setPosition(x,y,width,height);
+                media.video.fullScreen();
+                /*
+                 x：整型，表示视频左上角的横坐标，即离屏幕左上角x方向的距离；
+                 y：整型，表示视频左上角的纵坐标，即离屏幕左上角y方向的距离；
+                 width：整型，表示视频的宽度；
+                 height：整型，表示视频的高度。
+                 */
+                $("message").innerHTML += "<br />" + "视频地址" + this.rtsp;
+                console.info("视频地址" + this.rtsp);
+                $("message").innerHTML += "<br />" + "controller    ==>     init    ==>media.AV.open";
+                console.info("controller    ==>     init    ==>media.AV.open");
+                media.AV.open(this.rtsp, "VOD");        //rtsp组播视频
+
+            },
+
+            exit: function () {
+                media.AV.stop();
+                media.AV.close();
+                VOD.changeServer("cisco_dmx", "dvb");   //退出监控视频播放时，一定要修改vod模式
+            },
+
+            getParameter: function () {
+
+                var rtsp = Q.getDecoded("rtsp");
+                if (null !== rtsp && "null" !== rtsp) {
+                    this.rtsp = rtsp;
+                }
+
+                var backUrl = Q.getDecoded("backUrl");
+                if (null !== backUrl && "null" !== backUrl) {
+                    this.backUrl = backUrl;
+                }
+
+                console.info("controller ==> getParameter 参数 rtsp = " + rtsp + ", backUrl = " + backUrl);
+                $("message").innerHTML += "<br />" + "controller ==> getParameter 参数 rtsp = " + rtsp + ", backUrl = " + backUrl;
+
+            },
+
+            focusOn: function () {
+                switch (this.area) {
+                    case 0 :
+                        $("list_control").style.backgroundColor = "#F63";
+                        break;
+                    case 1 :
+                        listObj.focusOn();
+                        break;
+                    case 10 :
+
+                        break;
+                }
+            },
+
+            focusOut: function () {
+                switch (this.area) {
+                    case 0 :
+                        $("list_control").style.backgroundColor = "#00F";
+                        break;
+                    case 1 :
+                        listObj.focusOut();
+                        break;
+                    case 10 :
+
+                        break;
+                }
+            },
+
+            moveX: function (_num) {
+            },
+
+            moveY: function (_num) {
+                switch (this.area) {
+                    case 0 :
+                        if (_num > 0 && 1 === this.list_flag) {
+                            this.focusOut();
+                            this.area = 1;
+                            this.focusOn();
+                        }
+                        break;
+                    case 1 :
+                        if (_num < 0 && 0 === listObj.pos && 0 === listObj.pos_py) {
+                            this.focusOut();
+                            this.area = 0;
+                            this.focusOn();
+                        } else {
+                            listObj.focusMove(_num);
+                        }
+                        break;
+                    case 10 :
+
+                        break;
+                }
+            },
+
+            changePage: function (_num) {
+
+            },
+
+            hiddenForTimeout: function () {
+                var that = this;
+                this.list_time_out = setTimeout(
+                    function () {
+                        that.list_flag = 0;
+                        that.focusOut();
+                        that.area = 0;
+                        that.focusOn();
+                        $("list").style.display = "none";
+                    }, 10000);                                  // 显示10秒
+            },
+
+            doSelect: function () {
+                switch (this.area) {
+                    case 0 :
+                        if (0 === this.list_flag) {
+                            this.list_flag = 1;
+                            $("list").style.display = "block";
+                            this.hiddenForTimeout();                // 自动消失
+                        } else {
+                            this.list_flag = 0;
+                            $("list").style.display = "none";
+                        }
+                        break;
+                    case 1 :
+                        listObj.doSelect();
+                        break;
+                    default :
+
+                        break;
+                }
+            },
+
+            doBack: function () {
+
+                if ("" === this.backUrl || null === this.backUrl) {
+                    history.back();
+                } else {
+                    location.href = this.backUrl;
+                }
+
+            }
+        };
+
+    function ajaxForQueryTitleListMobile() {
+
+        console.info("monitor.html  ==>     ajaxForQueryTitleListMobile");
+
+        $("message").innerHTML += "<br />" + "monitor.html ==> ajaxForQueryTitleListMobile";
+
+        var _url = paramObj.serverUrl +
+            "queryTitleListMobile.shtml?resourceId=" +
+            paramObj.zzwgResourceIdArray[0].resourceId +
+            "&num=7&cur_page=1";                //  请求的URL,可传参数
+
+        $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile   ==> call ajax   ==> URL = " + _url;
+
+//        var caNum = getCAcardNum();
+
+        ajax({
+            url: _url,
+            type: "GET",                            //  HTTP 请求类型,GET或POST
+            dataType: "html",                       //  请求的文件类型html/xml
+
+            onSuccess: function (html) {            //  请求成功后执行[可选]
+
+                console.info("ajaxForQueryTitleListMobile ==> SUCCEED");
+
+                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> SUCCEED";
+
+                var json = eval('(' + html + ')');
+                if ("1" == json.code || 1 == json.code) {
+                    listObj.array = json.dataArray;     //请求到的数据中的dataArray赋值给listObj里面的dataArray这个数组的第一个
+
+                    $("message").innerHTML += "<br />" + "遍历对象数组";
+
+                    for (var index = 0; index < listObj.array.length; index++) {
+                        $("message").innerHTML += "<br />" + " 标题: " + listObj.array[index].title + " ID: " + listObj.array[index].assetid;
+                    }
+
+                    listObj.init();
+
+                } else {
+
+                }
+
+            },
+
+            onError: function () {          //请求失败后执行[可选]
+
+                console.info("ajaxForQueryTitleListMobile ==> FAILED");
+
+                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> FAILED";
+
+            },
+
+            onComplete: function () {       // 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
+
+                console.info("ajaxForQueryTitleListMobile ==> COMPLETE");
+
+                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> COMPLETE";
+            },
+
+            post: "",
+            timeout: 7000   //请求的超时时间，默认7000ms，也可自行设定[可选]
+        });
+    }
+
+    function grabEvent(_event) {
+        if (1 === controller.list_flag) {
+
+            clearTimeout(controller.list_time_out);
+            controller.hiddenForTimeout();
+
+        }
+
+        var code = Event(_event);
+        switch (code) {
+            case "KEY_UP": //
+                controller.moveY(-1);
+                return false;
+            case "KEY_DOWN": //
+                controller.moveY(1);
+                return false;
+            case "KEY_LEFT": //
+                controller.moveX(-1);
+                return false;
+            case "KEY_RIGHT": //
+                controller.moveX(1);
+                return false;
+            case "KEY_PAGE_UP": //
+                controller.changePage(-1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+                controller.changePage(1);
+                return false;
+            case "KEY_SELECT": //
+                controller.doSelect();
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            case 5202:                  //  准备播放媒体成功
+                media.AV.play();
+                return false;
+            case 5210:                  //  播放结束
+                media.AV.stop();
+                media.AV.close();
+                return false;
+            default:
+                break;
+        }
+    }
+
+    document.onkeydown = grabEvent;
+    document.onkeypress = grabEvent;
+    document.onirkeypress = grabEvent;
+    document.onsystemevent = grabEvent;
+
+    window.onload = controller.init();
+    window.onunload = controller.exit();
+
+</script>
+</body>
+</html>
+

@@ -79,43 +79,6 @@
 
 <script type="text/javascript">
 
-    document.onkeydown = grabEvent;
-
-    function grabEvent(_event) {
-
-        var code = Event(_event);
-
-        switch (code) {
-            case "KEY_UP": //
-                controller.moveY(-1);
-                return false;
-            case "KEY_DOWN": //
-                controller.moveY(1);
-                return false;
-            case "KEY_LEFT": //
-                controller.moveX(-1);
-                return false;
-            case "KEY_RIGHT": //
-                controller.moveX(1);
-                return false;
-            case "KEY_PAGE_UP": //
-                controller.changePage(-1);
-                return false;
-            case "KEY_PAGE_DOWN": //
-                controller.changePage(1);
-                return false;
-            case "KEY_SELECT": //
-                controller.doSelect();
-                return false;
-            case "KEY_EXIT":
-            case "KEY_BACK":
-                controller.doBack();
-                return false;
-            default:
-                break;
-        }
-    }
-
     var menuObj = {
 
         focusPos: 0,
@@ -193,9 +156,8 @@
 
         }
 
-    }
-
-    var postObj = {
+    },
+        postObj = {
 
         focusPos: 0,                // 记录光标在区域内的位置
         postItemArray: [
@@ -268,9 +230,8 @@
             }
 
         }
-    }
-
-    var entryObj = {
+    },
+        entryObj = {
 
         focusPosX: 0,                   // 记录光标在区域内的位置
         focusPosY: 0,                   // 记录光标在区域内的所在行
@@ -374,9 +335,8 @@
 
         }
 
-    }
-
-    var controller = {
+    },
+        controller = {
 
         focusArea: 0,
 
@@ -484,8 +444,43 @@
 
         }
 
-    }
+    };
 
+    function grabEvent(_event) {
+
+        var code = Event(_event);
+
+        switch (code) {
+            case "KEY_UP": //
+                controller.moveY(-1);
+                return false;
+            case "KEY_DOWN": //
+                controller.moveY(1);
+                return false;
+            case "KEY_LEFT": //
+                controller.moveX(-1);
+                return false;
+            case "KEY_RIGHT": //
+                controller.moveX(1);
+                return false;
+            case "KEY_PAGE_UP": //
+                controller.changePage(-1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+                controller.changePage(1);
+                return false;
+            case "KEY_SELECT": //
+                controller.doSelect();
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            default:
+                break;
+        }
+    }
+    document.onkeydown = grabEvent;
     window.onload = controller.init();
 
 </script>

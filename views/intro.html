@@ -24,7 +24,26 @@
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
 
-    document.onkeydown = grabEvent;
+    var controller = {
+
+        init: function () {
+
+            console.info("intro.html ==>    controller ==>    init");
+
+            transferStation.record();
+
+        },
+
+        doBack: function () {
+
+            var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos;
+
+            window.location.href = _url;
+
+        }
+
+
+    };
 
     function grabEvent(_event) {
 
@@ -55,28 +74,7 @@
                 break;
         }
     }
-
-    var controller = {
-
-        init: function () {
-
-            console.info("intro.html ==>    controller ==>    init");
-
-            transferStation.record();
-
-        },
-
-        doBack: function () {
-
-            var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos;
-
-            window.location.href = _url;
-
-        }
-
-
-    };
-
+    document.onkeydown = grabEvent;
     window.onload = controller.init();
 </script>
 </html>
