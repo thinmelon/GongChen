@@ -156,6 +156,13 @@
 
             },
 
+            exit: function () {
+                console.info("controller ==> exit");
+                media.AV.stop();
+                media.AV.close();
+                VOD.changeServer("cisco_dmx", "dvb");   //退出监控视频播放时，一定要修改vod模式
+            },
+
             getParameter: function () {
 
                 var params;
@@ -354,14 +361,6 @@
         });
     }
 
-    function exit() {
-
-        media.AV.stop();
-        media.AV.close();
-        VOD.changeServer("cisco_dmx", "dvb");   //退出监控视频播放时，一定要修改vod模式
-
-    }
-
     function grabEvent(_event) {
         if (1 == controller.list_flag) {
 
@@ -414,7 +413,7 @@
     document.onsystemevent = grabEvent;
 
     window.onload = controller.init();
-    window.onunload = exit;
+    window.onunload = controller.exit;
 
 </script>
 </body>
