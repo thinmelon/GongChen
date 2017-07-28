@@ -51,25 +51,25 @@
 </div><!--  row  -->
 
 <div id="btn-item-0" class="btn-entry-item" style="left: 74px">
-    <img id="item-img-0" src="../images/btn-intro.png"/>
+    <img id="item-img-0" alt="btn-intro" src="../images/btn-intro-disable.png"/>
 </div>
 <div id="btn-item-1" class="btn-entry-item" style="left: 235px">
-    <img id="item-img-1" src="../images/btn-peace.png"/>
+    <img id="item-img-1" alt="btn-peace" src="../images/btn-peace-disable.png"/>
 </div>
 <div id="btn-item-2" class="btn-entry-item" style="left: 396px">
-    <img id="item-img-2" src="../images/btn-affairs.png"/>
+    <img id="item-img-2" alt="btn-affairs" src="../images/btn-affairs-disable.png"/>
 </div>
 <div id="btn-item-3" class="btn-entry-item" style="left: 557px">
-    <img id="item-img-3" src="../images/btn-building.png"/>
+    <img id="item-img-3" alt="btn-building" src="../images/btn-building-disable.png"/>
 </div>
 <div id="btn-item-4" class="btn-entry-item" style="left: 718px">
-    <img id="item-img-4" src="../images/btn-culture.png"/>
+    <img id="item-img-4" alt="btn-culture" src="../images/btn-culture-disable.png"/>
 </div>
 <div id="btn-item-5" class="btn-entry-item" style="left: 879px">
-    <img id="item-img-5" src="../images/btn-public.png"/>
+    <img id="item-img-5" alt="btn-public" src="../images/btn-public-disable.png"/>
 </div>
 <div id="btn-item-6" class="btn-entry-item" style="left: 1040px">
-    <img id="item-img-6" src="../images/btn-service.png"/>
+    <img id="item-img-6" alt="btn-service" src="../images/btn-service-disable.png"/>
 </div>
 
 <div id="weather-forecast"></div>
@@ -100,7 +100,9 @@
 <div id="debug-message"></div>
 </body>
 
+<!--<script type="application/javascript" src="../script/ajax.js"></script>-->
 <script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/async.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
 
@@ -122,7 +124,7 @@
 
             init: function () {
 
-                this.menuItemArray = new Array();
+                this.menuItemArray = [];
                 this.menuItemArray.push({
                     name: "index_intro",
                     url: "intro.html?focusArea=0&focusPos=0"
@@ -157,16 +159,20 @@
             ,
 
             focusOn: function () {
+                var _imgNode,
+                    _imgSrc;
                 console.info("menuObj ==> focusOn ==> " + this.focusPos);
 
-                var _imgNode = document.getElementById("item-img-" + this.focusPos);
-                _imgNode.style.width = 169 + "px";
-                _imgNode.style.height = 169 + "px";
+                _imgNode = document.getElementById("item-img-" + this.focusPos);
+                _imgSrc = "../images/" + _imgNode.alt + ".png";
+                _imgNode.src = _imgSrc;
+//                _imgNode.style.width = 169 + "px";
+//                _imgNode.style.height = 169 + "px";
 //            _imgNode.style.marginTop = -5 + "px";
 //            _imgNode.style.marginLeft = -10 + "px";
 
-                var _btnNode = document.getElementById("btn-item-" + this.focusPos);
-                _btnNode.style.marginLeft = 0 + "px";
+//                var _btnNode = document.getElementById("btn-item-" + this.focusPos);
+//                _btnNode.style.marginLeft = 0 + "px";
 //            _btnNode.style.marginRight = 0 + "px";
 //            _btnNode.style.marginTop = -10 + "px";
 
@@ -174,16 +180,21 @@
             ,
 
             focusOut: function () {
+                var _imgNode,
+                    _imgSrc;
                 console.info("menuObj ==> focusOut ==> " + this.focusPos);
 
-                var _imgNode = document.getElementById("item-img-" + this.focusPos);
-                _imgNode.style.width = 141 + "px";
-                _imgNode.style.height = 142 + "px";
+                _imgNode = document.getElementById("item-img-" + this.focusPos);
+                _imgSrc = "../images/" + _imgNode.alt + "-disable.png";
+                _imgNode.src = _imgSrc;
+
+//                _imgNode.style.width = 141 + "px";
+//                _imgNode.style.height = 142 + "px";
 //            _imgNode.style.marginTop = 0 + "px";
 //            _imgNode.style.marginLeft = 0 + "px";
 
-                var _btnNode = document.getElementById("btn-item-" + this.focusPos);
-                _btnNode.style.marginLeft = 10 + "px";
+//                var _btnNode = document.getElementById("btn-item-" + this.focusPos);
+//                _btnNode.style.marginLeft = 10 + "px";
 //            _btnNode.style.marginRight = 10 + "px";
 //            _btnNode.style.marginTop = 0 + "px";
             }
@@ -487,14 +498,11 @@
         controller = {
             focusArea: 1,                   // 当前光标所在区域
             timeoutID: 0,
-
-
             init: function () {
-
                 menuObj.init();                 // 初始化菜单项
                 listObj.init();                 // 初始化列表项
 
-//            ajaxForQueryTListMenuTitle();   // 异步提取列表内容
+//            ajaxForQueryTListMenuTitle();     // 异步提取列表内容
 //
                 var paramObj = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
 
@@ -525,7 +533,7 @@
 
                 this.focusOn();                 // 光标定位至目标位置
 //            document.getElementById("debug-message").innerHTML = "----- 调试区 -----";
-
+                ajaxForWeather();                // 获取天气信息
             },
 
 
@@ -669,9 +677,6 @@
             "&num=" + (listObj.listItemNum + 1) +
             "&cur_page=1";
 
-        $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ";
-        $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> URL: " + _url;
-
         ajax({
             url: _url,
             type: "GET",                    //  HTTP 请求类型,GET或POST
@@ -679,21 +684,13 @@
 
             onSuccess: function (html) {    //请求成功后执行[可选]
 
-                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onSuccess";
-                $("message").innerHTML += "<br/>" + "===>  Response = " + html;
-
                 var json = eval('(' + html + ')');
-                if ("1" == json.code || 1 == json.code) {
+                if ("1" === json.code || 1 === json.code) {
 
                     listObj.removeAllListItem();
 
                     for (var j = 0; j < json.dataArray.length && j < listObj.listItemNum; j++) {
                         if (json.dataArray[j].flag == "1") {
-
-                            $("message").innerHTML += "<br/>" + "===>  AssetID in json = " + json.dataArray[j].assetid;
-                            $("message").innerHTML += "<br/>" + "===>  Title in json = " + json.dataArray[j].title;
-                            $("message").innerHTML += "<br/>" + "===>  ID in json = " + json.dataArray[j].id;
-
                             listObj.addListItem(json.dataArray[j].assetid, json.dataArray[j].title, json.dataArray[j].flag, json.dataArray[j].id);
                         }
                     }
@@ -715,13 +712,9 @@
 
             onError: function () { //请求失败后执行[可选]
 
-                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onError";
-
             },
 
             onComplete: function () {// 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
-
-                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onComplete";
 
             },
 

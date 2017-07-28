@@ -312,11 +312,12 @@ var transferStation = {
 };
 
 var paramObj = {
+    operator: "",
     //serverUrl : "http://localhost:8080/manage/web/",
     //imgUrl : "http://localhost:8080/manage/",
-    //serverUrl : "http://192.168.55.10:8080/manage/web/",		//给电脑用的
+    //serverUrl : "http://192.168.55.10:8080/manage/web/",		//  给电脑用的
     //imgUrl : "http://192.168.55.10:8080/manage/",
-    serverUrl: "http://10.184.255.10:8080/manage/web/",		//给机顶盒用的
+    serverUrl: "http://10.184.255.10:8080/manage/web/",		    //  给机顶盒用的
     imgUrl: "http://10.184.255.10:8080/manage/",
 
 
@@ -346,3 +347,330 @@ var paramObj = {
         {title: "首页左侧海报", resourceId: "503"}
     ]
 };
+
+/*获取operator区域*/
+function getOperator() {
+    var operator,
+        data,
+        sysTable = DataAccess.getSystemPropertyTable();
+
+    $("debug-message").innerHTML += "<br/>" + "getOperator() ==> " + sysTable;
+    if (sysTable > 0) {
+        data = DataAccess.getProperty(sysTable, "operator");
+        Utility.println("portal getOperator data=" + data);
+        if (data !== null) {
+            eval('var tmp=' + data);
+            operatorKey = tmp.key;
+            Utility.println("portal getOperator operatorKey=" + operatorKey);
+            switch (operatorKey) {
+                case 0:
+                case "0":
+                    operator = "";
+                    break;
+                case 1:
+                case "1":
+                    operator = "FUZHOU";
+                    break;
+                case 2:
+                case "2":
+                    operator = "NANPING";
+                    break;
+                case 3:
+                case "3":
+                    operator = "NINGDE";
+                    break;
+                case 4:
+                case "4":
+                    operator = "PUTIAN";
+                    break;
+                case 5:
+                case "5":
+                    operator = "SANMING";
+                    break;
+                case 6:
+                case "6":
+                    operator = "ZHANGZHOU";
+                    break;
+                case 7:
+                case "7":
+                    operator = "LONGYAN";
+                    break;
+                case 8:
+                case "8":
+                    operator = "QUANZHOU";
+                    break;
+                case 9:
+                case "9":
+                    operator = "XIAMEN";
+                    break;
+                case 10:
+                case "10":
+                    operator = "FUZHOU";
+                    break;
+                case 20:
+                case "20":
+                    operator = "FUZHOU";
+                    break;
+            }
+        }
+        paramObj.operator = operator;
+        $("debug-message").innerHTML += "<br/>" + paramObj.operator;
+    }
+}
+
+function getWeatherInfoSuccess(response) {
+    var weather,
+        temperature,
+        windScale;
+    // $("debug-message").innerHTML += "<br/>" + "getWeatherInfoSuccess ==> " + response;
+
+    eval(response);
+    weather = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].weather, "UTF8");
+    temperature = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].temperature, "UTF8");
+    windScale = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].wind, "UTF8");
+
+    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther ==> weather" + weather;
+    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther ==> temperature" + temperature;
+    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther ==> windScale" + windScale;
+
+    if (typeof temperature !== "undefined" && temperature !== "undefined" && temperature !== "") {
+        $("weather-forecast").innerHTML += "<br/>" + "通知：&nbsp;&nbsp;&nbsp;今日天气&nbsp;&nbsp;&nbsp;" + weather + "&nbsp;&nbsp;&nbsp;" + temperature + "&nbsp;&nbsp;&nbsp;" + windScale;
+    }
+}
+
+function getWeatherInfoFail(response) {
+    // $("debug-message").innerHTML += "<br/>" + "getWeatherInfoFail ==> " + response;
+    $("weather-forecast").innerHTML += "<br/>" + "暂无天气信息";
+}
+
+function ajaxForWeather() {
+    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther()";
+    // getOperator();
+    postman.createXmlHttpRequest(getWeatherInfoSuccess, getWeatherInfoFail);
+    postman.sendRequest(
+        "GET",
+        "http://10.215.0.36/weather/sy/PUTIAN.js",
+        ""
+    );
+}
+
+/*-----------------------------------------AJAX---------------------------------*/
+// function createXHR() {
+//     if (typeof XMLHttpRequest != "undefined") {
+//         createXHR = function () {
+//             return new XMLHttpRequest();
+//         };
+//     } else if (typeof ActiveXObject != "undefined") {
+//         createXHR = function () {
+//             if (typeof arguments.callee.activeXString != "string") {
+//                 var versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"];
+//                 for (var i = 0, len = versions.length; i < len; i++) {
+//                     try {
+//                         var xhr = new ActiveXObject(versions[i]);
+//                         arguments.callee.activeXString = versions[i];
+//                         return xhr;
+//                     } catch (ex) {
+//                         //跳过
+//                         if (len - 1 == i) {
+//                             throw new Error("there is no xmlhttprequest object available");
+//                         }
+//                     }
+//                 }
+//             } else {
+//                 return new ActiveXObject(arguments.callee.activeXString);
+//             }
+//         };
+//     } else {
+//         createXHR = function () {
+//             throw new Error("there is no xmlhttprequest object available");
+//         };
+//     }
+//     return createXHR();
+// }
+
+// function ajax(_optionsObj, _cfFlag, _time_out) {
+//     var time_out = _time_out || new Date().getTime();
+//     var optionsObj = {
+//         // HTTP 请求类型
+//         type: _optionsObj.type || "GET",
+//         // 请求的文件类型
+//         dataType: _optionsObj.dataType,
+//         // 请求的URL
+//         url: _optionsObj.url || "",
+//         //请求方式，true异步请求，false同步请求
+//         requestType: _optionsObj.requestType === false ? false : true,
+//         // 请求的超时时间
+//         time_out: _optionsObj.time_out || 10000,
+//         // 请求成功.失败或完成(无论成功失败都会调用)时执行的函数
+//         onComplete: _optionsObj.onComplete || function () {
+//         },
+//         onError: _optionsObj.onError || function () {
+//         },
+//         onSuccess: _optionsObj.onSuccess || function () {
+//         },
+//         // 服务器端默认返回的数据类型
+//         data: _optionsObj.data || "",
+//         post: _optionsObj.post || ""
+//     };
+//     var cfFlag = _cfFlag || true;
+//
+//     var ajaxZXFlag = true;
+//     // 强制关闭函数
+//     var timeOutRD = setTimeout(function () {
+//         clearTimeout(timeOutRD);
+//         ajaxZXFlag = false;
+//         if (!cfFlag) {
+//             ajax(optionsObj, true, time_out);
+//         } else {
+//             optionsObj.onError();
+//
+//             //var time_in = new Date().getTime();
+//             //var time_c = time_in - time_out;
+//             //$("msgvalue").innerHTML = "time : " + time_c + " timeOutRD readyState : " + xml.readyState + " and xml.status : " + xml.status;
+//         }
+//     }, optionsObj.time_out);
+//
+//     var xml = createXHR();
+//     xml.onreadystatechange = function () {
+//         if (xml.readyState === 4 && ajaxZXFlag) {
+//             $("debug-message").innerHTML += "<br/>" + "onreadystatechange  ==> ajaxZXFlag" + ajaxZXFlag;
+//             // 检查是否请求成功
+//             clearTimeout(timeOutRD);
+//             if (httpSuccess(xml) && ajaxZXFlag) {
+//                 // 以服务器返回的数据作为参数执行成功回调函数
+//                 optionsObj.onSuccess(httpData(xml, optionsObj.dataType));
+//             } else {
+//                 optionsObj.onError();
+//                 //var time_in = new Date().getTime();
+//                 //var time_c = time_in - time_out;
+//                 //$("msgvalue").innerHTML = "time : " + time_c + " timeOutRD readyState : " + xml.readyState + " and xml.status : " + xml.status;
+//             }
+//
+//             // 调用完成后的回调函数
+//             optionsObj.onComplete(xml);
+//             // 避免内存泄露,清理文档
+//             xml = null;
+//         }
+//     };
+//     var url;
+//     if (optionsObj.url.indexOf("?") > -1) {
+//         url = optionsObj.url + "&timestamp=" + new Date().getTime();
+//     } else {
+//         url = optionsObj.url + "?timestamp=" + new Date().getTime();
+//     }
+//     xml.open(optionsObj.type, url, optionsObj.requestType);
+//     if ("GET" == optionsObj.type) {
+//         xml.send(null);
+//     } else {
+//         xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//         xml.send(optionsObj.post);
+//     }
+// }
+//
+// // 判断HTTP响应是否成功
+// function httpSuccess(r) {
+//     var flag = false;
+//     try {
+//         if ((r.status >= 200 && r.status <= 300) || r.status == 304) {
+//             // 如果得不到服务器状态,且我们正在请求本地文件,则认为成功
+//             flag = true;
+//         } else if (!r.status && location.protocol == "file:") {
+//             // 所有200-300之间的状态码 表示成功
+//             flag = true;
+//         } else if (navigator.userAgent.indexOf('Safari') >= 0 && typeof r.status == "undefined") {
+//             // Safari在文档未修改的时候返回空状态
+//             flag = true;
+//         } else {
+//             flag = false;
+//         }
+//     } catch (e) {
+//         flag = false;
+//     } finally {
+//         return flag;
+//     }
+//
+//     // 若检查状态失败,则假定请求是失败的
+// }
+//
+// // 从HTTP响应中解析正确数据
+// function httpData(r, type) {
+//
+//     // 获取content-type的头部
+//     var ct = r.getResponseHeader("content-type");
+//     // 如果没有提供默认类型, 判断服务器返回的是否是XML形式
+//     var data = !type && ct && ct.indexOf('xml') >= 0;
+//
+//     // 如果是XML则获得XML对象 否则返回文本内容
+//     data = type == "xml" || data ? r.responseXML : r.responseText;
+//
+//     $("debug-message").innerHTML += "<br/>" + "httpData ==> " + data;
+//
+//     // 如果指定类型是script,则以javascript形式执行返回文本
+//     if (type == "script") {
+//         eval.call(window, data);
+//     }
+//
+//     // 返回响应数据
+//     return data;
+// }
+//
+//
+// // 数据串行化 支持两种不同的对象
+// // - 表单输入元素的数组
+// // - 键/ 值 对应的散列表
+// // - 返回串行化后的字符串 形式: name=john& password=test
+// function serialize(a) {
+//     // 串行化结果存放
+//     var s = [];
+//     // 如果是数组形式 [{name: XX, value: XX}, {name: XX, value: XX}]
+//     if (a.constructor == Array) {
+//         // 串行化表单元素
+//         for (var i = 0; i < a.length; i++) {
+//             s.push(a[i].name + "=" + encodeURIComponent(a[i].value));
+//         }
+//         // 假定是键/值对象
+//     } else {
+//         for (var j in a) {
+//             s.push(j + "=" + encodeURIComponent(a[j]));
+//         }
+//     }
+//     // 返回串行化结果
+//     return s.join("&");
+// }
+
+/*-----------------------------------------读写盒子全局变量代码---------------------------------*/
+function getGlobalVar(_key) {
+    if ("undefined" != typeof(iPanel)) {
+        return iPanel.getGlobalVar(_key) || "";
+    } else {
+        return getCookie(_key);
+    }
+}
+
+function setGlobalVar(_key, _value) {
+    if ("undefined" != typeof(iPanel)) {
+        iPanel.setGlobalVar(_key, _value + "");
+    } else {
+        setCookie(_key, _value + "");
+    }
+}
+
+//写cookies
+function setCookie(name, value) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() + 24 * 60 * 60 * 1000);
+    document.cookie = name + "=" + escape(value) + ";path=/;expires=" + exp.toGMTString();
+}
+//读取cookies
+function getCookie(name) {
+    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg)) return unescape(arr[2]);
+    else return null;
+}
+//删除cookies
+function delCookie(name) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getCookie(name);
+    if (cval != null) document.cookie = name + "=" + cval + ";path=/;expires=" + exp.toGMTString();
+}

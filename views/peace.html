@@ -87,6 +87,7 @@
 </body>
 
 <script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/async.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="text/javascript">
 
@@ -476,15 +477,11 @@
         init: function () {
 
             console.info("controller ==> init");
-
             transferStation.record();
-
             listObj.init();
-
             $("self_ad_focus").style.visibility = "visible";
-
             this.focusOn();
-
+            ajaxForWeather();                // 获取天气信息
         },
 
         focusOn: function () {
