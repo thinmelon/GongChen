@@ -7,13 +7,14 @@
 }
 
 #service_content {
-    position: relative;
-    top: 10px;
+    position: absolute;
+    top: 152px;
     left: 53px;
     width: 1094px;
     height: 100%;
-    /*margin: 0 auto;*/
 }
+
+/** -----  功能入口  -----  **/
 
 #service_left_panel {
     float: left;
@@ -27,13 +28,15 @@
     text-align: center;
 }
 
+/** -----  海报  -----  **/
+
 #service_ad_0 {
     position: absolute;
     left: 316px;
     top: 1px;
-    margin: 3px 3px;
     width: 446px;
     text-align: center;
+    margin: 3px 3px;
 }
 
 #service_ad_1 {
@@ -45,6 +48,8 @@
     text-align: center;
     margin: 3px 0;
 }
+
+/** -----  列表  -----  **/
 
 #service_notices_board {
     position: absolute;

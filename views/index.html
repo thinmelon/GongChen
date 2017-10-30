@@ -101,8 +101,8 @@
 </body>
 
 <!--<script type="application/javascript" src="../script/ajax.js"></script>-->
-<script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/async.js"></script>
+<script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
 
@@ -504,27 +504,27 @@
 
 //            ajaxForQueryTListMenuTitle();     // 异步提取列表内容
 //
-                var paramObj = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
+                var params = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
 
-                if (paramObj.hasOwnProperty("focusArea")) {
+                if (params.hasOwnProperty("focusArea")) {
 
-                    console.info("==>   focusArea = " + paramObj["focusArea"]);
-                    this.focusArea = parseInt(paramObj["focusArea"]);
+                    console.info("==>   focusArea = " + params["focusArea"]);
+                    this.focusArea = parseInt(params["focusArea"]);
 
                 }
 
-                if (paramObj.hasOwnProperty("focusPos")) {
+                if (params.hasOwnProperty("focusPos")) {
 
-                    console.info("==>   focusPos = " + paramObj["focusPos"]);
+                    console.info("==>   focusPos = " + params["focusPos"]);
                     switch (this.focusArea) {
                         case 0:
-                            menuObj.focusPos = parseInt(paramObj["focusPos"]);
+                            menuObj.focusPos = parseInt(params["focusPos"]);
                             break;
                         case 1:
-                            postObj.focusPos = parseInt(paramObj["focusPos"]);
+                            postObj.focusPos = parseInt(params["focusPos"]);
                             break;
                         case 2:
-                            listObj.focusPos = parseInt(paramObj["focusPos"]);
+                            listObj.focusPos = parseInt(params["focusPos"]);
                             break;
                         default:
                             break;
@@ -532,8 +532,9 @@
                 }
 
                 this.focusOn();                 // 光标定位至目标位置
-//            document.getElementById("debug-message").innerHTML = "----- 调试区 -----";
-                ajaxForWeather();                // 获取天气信息
+//                document.getElementById("debug-message").innerHTML = "----- 调试区 -----" + "<br />";
+//                document.getElementById("debug-message").innerHTML = "回退地址：" + paramObj.backUrl;
+
             },
 
 
@@ -617,50 +618,28 @@
 
             doSelect: function () {
 
-//            $("message").innerHTML += "<br/>" + "controller ==> doSelect";
-
-//            if (window.sessionStorage) {
-//                window.sessionStorage.setItem("focusArea", this.focusArea);
-//            }
-
                 switch (this.focusArea) {
                     case 0:             // 菜单
-
-//                    if (window.sessionStorage) {
-//                        window.sessionStorage.setItem("focusPos", menuObj.focusPos);
-//                    }
-
                         menuObj.doSelect();
-
                         break;
                     case 1:             // 海报
-
-//                    if (window.sessionStorage) {
-//                        window.sessionStorage.setItem("focusPos", postObj.focusPos);
-//                    }
-
                         postObj.doSelect();
-
                         break;
                     case 2:             // 文字列表
-
-//                    if (window.sessionStorage) {
-//                        window.sessionStorage.setItem("focusPos", listObj.focusPos);
-//                    }
-
                         listObj.doSelect();
-
                         break;
                     default:
                         break;
                 }
-
             },
 
             doBack: function () {
-
-                window.location.href = "http://10.184.255.11:80/ptmlxc/index.htm";  // 美丽乡村列表页
-
+                if("undefined" !== typeof(GlobalVarManager)) {
+                    window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
+                }
+//                window.history.back();
+//                window.location.href = "http://10.184.255.11:80/ptmlxc/index.htm";  // 美丽乡村列表页
+//                window.location.href = paramObj.backUrl;
             }
         };
 
@@ -673,7 +652,7 @@
 
         var _url = paramObj.serverUrl +
             "queryTitleListMobile.shtml?resourceId=" +
-            paramObj.djjyResourceIdArray[0].resourceId +
+            paramObj.zzwgResourceIdArray[0].resourceId +
             "&num=" + (listObj.listItemNum + 1) +
             "&cur_page=1";
 

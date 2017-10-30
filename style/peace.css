@@ -1,11 +1,11 @@
 
 #politics_content {
-    position: relative;
-    top: 20px;
+    /*position: relative;*/
+    position: absolute;
+    top: 152px;
     left: 57px;
     width: 1094px;
     height: 100%;
-    /*margin: 0 auto;*/
 }
 
 #politics_left_panel {
@@ -19,6 +19,8 @@
     width: 316px;
     text-align: center;
 }
+
+/** -----  海报  -----  **/
 
 #politics_ad_0 {
     position: absolute;
@@ -38,6 +40,8 @@
     margin: 5px 3px 3px 3px;
 }
 
+/** -----  列表  -----  **/
+
 #politics_notices_board {
     position: absolute;
     left: 772px;
@@ -46,7 +50,6 @@
     height: 467px;
     background: url(../images/notice-background.png) ;
     margin: 3px 3px;
-
 }
 
 .politics_entry_item {

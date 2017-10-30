@@ -27,9 +27,10 @@
 </div>
 
 <div id="message"></div>
-<script type="text/javascript" src="../script/utility.js"></script>
-<script type="text/javascript" src="../script/keyEvent.js"></script>
-<script type="text/javascript" src="../script/ajax.js"></script>
+<script type="application/javascript" src="../script/async.js"></script>
+<script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/keyEvent.js"></script>
+<!--<script type="text/javascript" src="../script/ajax.js"></script>-->
 <script type="text/javascript">
 
     var
@@ -226,14 +227,14 @@
             moveY: function (_num) {
                 switch (this.area) {
                     case 0 :
-                        if (_num > 0 && 1 == this.list_flag) {
+                        if (_num > 0 && 1 === this.list_flag) {
                             this.focusOut();
                             this.area = 1;
                             this.focusOn();
                         }
                         break;
                     case 1 :
-                        if (_num < 0 && 0 == listObj.pos && 0 == listObj.pos_py) {
+                        if (_num < 0 && 0 === listObj.pos && 0 === listObj.pos_py) {
                             this.focusOut();
                             this.area = 0;
                             this.focusOn();
@@ -287,7 +288,7 @@
 
             doBack: function () {
 
-                if ("" == this.backUrl || null == this.backUrl) {
+                if ("" === this.backUrl || null === this.backUrl) {
                     history.back();
                 } else {
                     location.href = this.backUrl;
@@ -299,7 +300,6 @@
     function ajaxForQueryTitleListMobile() {
 
         console.info("monitor.html  ==>     ajaxForQueryTitleListMobile");
-
         $("message").innerHTML += "<br />" + "monitor.html ==> ajaxForQueryTitleListMobile";
 
         var _url = paramObj.serverUrl +
@@ -309,55 +309,90 @@
 
         $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile   ==> call ajax   ==> URL = " + _url;
 
+        // 获取视频相关参数
+        postman.createXmlHttpRequest(onFetchListSuccess, onFetchListFail);
+        postman.sendRequest(
+            "POST",
+            "http://10.215.0.12:8080/GetItemData",
+            "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><GetItemData titleAssetId='" + controller.assetId +
+            "' portalId='1' client='8350310530884545' account='8350310530884545' languageCode='Zh-CN' profile='1'/>");
+
 //        var caNum = getCAcardNum();
 
-        ajax({
-            url: _url,
-            type: "GET",                            //  HTTP 请求类型,GET或POST
-            dataType: "html",                       //  请求的文件类型html/xml
+//        ajax({
+//            url: _url,
+//            type: "GET",                            //  HTTP 请求类型,GET或POST
+//            dataType: "html",                       //  请求的文件类型html/xml
+//
+//            onSuccess: function (html) {            //  请求成功后执行[可选]
+//
+//                console.info("ajaxForQueryTitleListMobile ==> SUCCEED");
+//
+//                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> SUCCEED";
+//
+//                var json = eval('(' + html + ')');
+//                if ("1" === json.code || 1 === json.code) {
+//                    listObj.array = json.dataArray;     //请求到的数据中的dataArray赋值给listObj里面的dataArray这个数组的第一个
+//
+//                    $("message").innerHTML += "<br />" + "遍历对象数组";
+//
+//                    for (var index = 0; index < listObj.array.length; index++) {
+//                        $("message").innerHTML += "<br />" + " 标题: " + listObj.array[index].title + " ID: " + listObj.array[index].assetid;
+//                    }
+//
+//                    listObj.init();
+//
+//                } else {
+//
+//                }
+//
+//            },
+//
+//            onError: function () {          //请求失败后执行[可选]
+//
+//                console.info("ajaxForQueryTitleListMobile ==> FAILED");
+//
+//                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> FAILED";
+//
+//            },
+//
+//            onComplete: function () {       // 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
+//
+//                console.info("ajaxForQueryTitleListMobile ==> COMPLETE");
+//
+//                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> COMPLETE";
+//            },
+//
+//            post: "",
+//            timeout: 7000   //请求的超时时间，默认7000ms，也可自行设定[可选]
+//        });
+    }
 
-            onSuccess: function (html) {            //  请求成功后执行[可选]
+    function onFetchListSuccess(html) {
+        var index,
+            length,
+            json = eval('(' + html + ')');
 
-                console.info("ajaxForQueryTitleListMobile ==> SUCCEED");
+        console.info("ajaxForQueryTitleListMobile ==> SUCCEED");
+        $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> SUCCEED";
 
-                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> SUCCEED";
 
-                var json = eval('(' + html + ')');
-                if ("1" == json.code || 1 == json.code) {
-                    listObj.array = json.dataArray;     //请求到的数据中的dataArray赋值给listObj里面的dataArray这个数组的第一个
+        if ("1" === json.code || 1 === json.code) {
+            listObj.array = json.dataArray;     //请求到的数据中的dataArray赋值给listObj里面的dataArray这个数组的第一个
 
-                    $("message").innerHTML += "<br />" + "遍历对象数组";
+            $("message").innerHTML += "<br />" + "遍历对象数组";
 
-                    for (var index = 0; index < listObj.array.length; index++) {
-                        $("message").innerHTML += "<br />" + " 标题: " + listObj.array[index].title + " ID: " + listObj.array[index].assetid;
-                    }
+            for (index = 0, length = listObj.array.length; index < length; index++) {
+                $("message").innerHTML += "<br />" + " 标题: " + listObj.array[index].title + " ID: " + listObj.array[index].assetid;
+            }
 
-                    listObj.init();
+            listObj.init();
+        }
+    }
 
-                } else {
-
-                }
-
-            },
-
-            onError: function () {          //请求失败后执行[可选]
-
-                console.info("ajaxForQueryTitleListMobile ==> FAILED");
-
-                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> FAILED";
-
-            },
-
-            onComplete: function () {       // 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
-
-                console.info("ajaxForQueryTitleListMobile ==> COMPLETE");
-
-                $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> COMPLETE";
-            },
-
-            post: "",
-            timeout: 7000   //请求的超时时间，默认7000ms，也可自行设定[可选]
-        });
+    function onFetchListFail() {
+        console.info("ajaxForQueryTitleListMobile ==> FAILED");
+        $("message").innerHTML += "<br />" + "ajaxForQueryTitleListMobile ==> FAILED";
     }
 
     function grabEvent(_event) {

@@ -46,47 +46,38 @@ function parseRequestUrl() {
  */
 function parseDom(frag) {
 
-    $("message").innerHTML += "<br/>" + "utility.js     ==>     parseDom";
+    var i,
+        j,
+        tags = [],
+        nodes,
+        obj = {},
+        childs = getChilds(frag),
+        len = childs.length,
+        attrs = frag.attributes;
 
-    var obj = new Object;
-    var childs = getChilds(frag);
-    var len = childs.length;
-    var attrs = frag.attributes;
-
-    $("message").innerHTML += "<br/>" + "parseDom   ==>   children's length: " + len + " attribute's length:" + attrs.length;
-    if (attrs != null) {
-        for (var i = 0; i < attrs.length; i++) {
-            $("message").innerHTML += "<br/>" + "nodeName=" + attrs[i].nodeName + ", nodeValue=" + attrs[i].nodeValue;
+    if (attrs !== null) {
+        for (i = 0; i < attrs.length; i++) {
             obj[attrs[i].nodeName] = attrs[i].nodeValue;
         }
     }
-    if (len == 0) {
+    if (len === 0) {
         return obj;
     }
     else {
-        var tags = new Array();
-        for (var i = 0; i < len; i++) {
+        for (i = 0; i < len; i++) {
             if (!inArray(childs[i].nodeName, tags)) {
-
-                $("message").innerHTML += "<br/>" + "parseDom   ==>     add " + childs[i].nodeName + " into tags array.";
                 tags.push(childs[i].nodeName);
-
             }
         }
 
-        for (var i = 0; i < tags.length; i++) {
-            var nodes = getChildByTag(tags[i]);
-            obj[tags[i]] = new Array;
-            for (var j = 0; j < nodes.length; j++) {
-
-                $("message").innerHTML += "<br/>" + "parseDom   ==>     attrName = " + tags[i];
+        for (i = 0; i < tags.length; i++) {
+            nodes = getChildByTag(tags[i]);
+            obj[tags[i]] = [];
+            for (j = 0; j < nodes.length; j++) {
                 obj[tags[i]].push(getValue(nodes[j]));
-
             }
         }
     }
-
-    // $("message").innerHTML += "<br/>" + "common.js     ==>     parseDom    ==>     Return obj";
 
     return obj;
 
@@ -98,7 +89,8 @@ function parseDom(frag) {
      */
     function inArray(a, arr) {
         for (var i = 0; i < arr.length; i++) {
-            if (arr[i] == a) return true;
+            if (arr[i] == a)
+                return true;
         }
         return false;
     }
@@ -111,10 +103,11 @@ function parseDom(frag) {
      */
     function getChilds(node) {
         var c = node.childNodes;
-        var a = new Array;
-        if (c != null) {
+        var a = [];
+        if (c !== null) {
             for (var i = 0; i < c.length; i++) {
-                if (c[i].nodeType != 3) a.push(c[i]);
+                if (c[i].nodeType !== 3)
+                    a.push(c[i]);
             }
         }
         return a;
@@ -126,9 +119,11 @@ function parseDom(frag) {
      * @returns {Array}
      */
     function getChildByTag(tag) {
-        var a = new Array;
-        for (var i = 0; i < len; i++) {
-            if (childs[i].nodeName == tag) a.push(childs[i]);
+        var i,
+            a = [];
+        for (i = 0; i < len; i++) {
+            if (childs[i].nodeName == tag)
+                a.push(childs[i]);
         }
         return a;
     }
@@ -139,23 +134,24 @@ function parseDom(frag) {
      * @returns {*}
      */
     function getValue(node) {
-        var c = getChilds(node);
-        var obj_arr = new Object;
-        if (c.length == 0) {
+        var i,
+            c = getChilds(node),
+            obj_arr = {};
+
+        if (c.length === 0) {
             if (node.firstChild) {
-                $("message").innerHTML += "<br/>" + "getValue ==> firstChild: " + node.firstChild.nodeValue;
                 obj_arr.value = node.firstChild.nodeValue;
             }
             var attrs = node.attributes;
-            if (attrs != null) {
-                for (var i = 0; i < attrs.length; i++) {
-                    $("message").innerHTML += "<br/>" + "getValue ==> attribute name: " + attrs[i].nodeName + ", value: " + attrs[i].nodeValue;
+            if (attrs !== null) {
+                for (i = 0; i < attrs.length; i++) {
                     obj_arr[attrs[i].nodeName] = attrs[i].nodeValue;
                 }
             }
             return obj_arr;
+        } else {
+            return parseDom(node);
         }
-        else return parseDom(node);
     }
 }
 
@@ -165,9 +161,6 @@ function parseDom(frag) {
  * @returns {*}
  */
 function parseJson(str) {
-
-    $("message").innerHTML += "<br/>" + "==>    parseJson   ==>" + str;
-    $("message").innerHTML += "<br/><br/><br/>";
 
     eval('var val = ' + str + ';');
     return val;
@@ -179,11 +172,9 @@ function parseJson(str) {
  * @returns {string}
  */
 Array.prototype.toJson = function () {
-
-    $("message").innerHTML += "<br/>" + "utility.js    ==>   Array.prototype.toJson";
-
-    var arr = new Array;
-    for (var i = 0; i < this.length; i++) {
+    var i,
+        arr = [];
+    for (i = 0; i < this.length; i++) {
         switch (typeof this[i]) {
             case 'number':
                 arr[i] = this[i];
@@ -207,16 +198,15 @@ Array.prototype.toJson = function () {
  * @returns {*}
  */
 Object.prototype.toJson = function () {
-
-    $("message").innerHTML += "<br/>" + "utility.js    ==>   Object.prototype.toJson";
+    var p,
+        arr = [],
+        str = '';
 
     if (typeof this == 'object') {
         if (this instanceof Array) {
             return this.toJson();
         } else {
-            var arr = new Array;
-            var str = '';
-            for (var p in this) {
+            for (p in this) {
                 if (typeof this[p] == 'function') break;
                 switch (typeof this[p]) {
                     case 'number':
@@ -319,12 +309,11 @@ var paramObj = {
     //imgUrl : "http://192.168.55.10:8080/manage/",
     serverUrl: "http://10.184.255.10:8080/manage/web/",		    //  给机顶盒用的
     imgUrl: "http://10.184.255.10:8080/manage/",
-
+    backUrl: "",
 
     isPc: 1, //显示审核预览：1；显示正式发布：0
     areaId: "21",//主栏目ID
     index_back_url: "",
-    //index_back_url : "http://10.215.0.8:80/tv_portal/index.htm?opk=4",
     index_url: "index.htm",
 
     mlylResourceIdArray: [
@@ -345,16 +334,22 @@ var paramObj = {
     ],
     indexResourceIdArray: [
         {title: "首页左侧海报", resourceId: "503"}
-    ]
+    ],
+
+    weather: "",
+    temperature: "",
+    windScale: ""
 };
 
-/*获取operator区域*/
+/*
+ * 获取operator区域
+ * */
 function getOperator() {
     var operator,
+        operatorKey,
         data,
         sysTable = DataAccess.getSystemPropertyTable();
 
-    $("debug-message").innerHTML += "<br/>" + "getOperator() ==> " + sysTable;
     if (sysTable > 0) {
         data = DataAccess.getProperty(sysTable, "operator");
         Utility.println("portal getOperator data=" + data);
@@ -414,33 +409,30 @@ function getOperator() {
             }
         }
         paramObj.operator = operator;
-        $("debug-message").innerHTML += "<br/>" + paramObj.operator;
     }
 }
 
 function getWeatherInfoSuccess(response) {
-    var weather,
-        temperature,
-        windScale;
     // $("debug-message").innerHTML += "<br/>" + "getWeatherInfoSuccess ==> " + response;
-
     eval(response);
-    weather = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].weather, "UTF8");
-    temperature = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].temperature, "UTF8");
-    windScale = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].wind, "UTF8");
+    paramObj.weather = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].weather, "UTF8");
+    paramObj.temperature = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].temperature, "UTF8");
+    paramObj.windScale = iPanel.misc.getUserCharsetStr(mainArray[0].t0[0].wind, "UTF8");
 
-    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther ==> weather" + weather;
-    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther ==> temperature" + temperature;
-    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther ==> windScale" + windScale;
-
-    if (typeof temperature !== "undefined" && temperature !== "undefined" && temperature !== "") {
-        $("weather-forecast").innerHTML += "<br/>" + "通知：&nbsp;&nbsp;&nbsp;今日天气&nbsp;&nbsp;&nbsp;" + weather + "&nbsp;&nbsp;&nbsp;" + temperature + "&nbsp;&nbsp;&nbsp;" + windScale;
+    if (typeof paramObj.temperature !== "undefined" && paramObj.temperature !== "undefined" && paramObj.temperature !== "") {
+        document.getElementById("weather-forecast").innerHTML += "<br/>" +
+            "今日天气：&nbsp;&nbsp;&nbsp;" + paramObj.weather +
+            "&nbsp;&nbsp;&nbsp;" + paramObj.temperature +
+            "&nbsp;&nbsp;&nbsp;" + paramObj.windScale;
+        // setGlobalVar(__WEATHER__, paramObj.weather);
+        // setGlobalVar(__TEMPERATURE__, paramObj.temperature);
+        // setGlobalVar(__WINDSCALE__, paramObj.windScale);
     }
 }
 
 function getWeatherInfoFail(response) {
     // $("debug-message").innerHTML += "<br/>" + "getWeatherInfoFail ==> " + response;
-    $("weather-forecast").innerHTML += "<br/>" + "暂无天气信息";
+    document.getElementById("weather-forecast").innerHTML += "<br/>" + "暂无天气信息";
 }
 
 function ajaxForWeather() {
@@ -449,198 +441,46 @@ function ajaxForWeather() {
     postman.createXmlHttpRequest(getWeatherInfoSuccess, getWeatherInfoFail);
     postman.sendRequest(
         "GET",
+        // "http://10.215.0.36/weather/sy/" + paramObj.operator + ".js",
         "http://10.215.0.36/weather/sy/PUTIAN.js",
         ""
     );
 }
 
-/*-----------------------------------------AJAX---------------------------------*/
-// function createXHR() {
-//     if (typeof XMLHttpRequest != "undefined") {
-//         createXHR = function () {
-//             return new XMLHttpRequest();
-//         };
-//     } else if (typeof ActiveXObject != "undefined") {
-//         createXHR = function () {
-//             if (typeof arguments.callee.activeXString != "string") {
-//                 var versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"];
-//                 for (var i = 0, len = versions.length; i < len; i++) {
-//                     try {
-//                         var xhr = new ActiveXObject(versions[i]);
-//                         arguments.callee.activeXString = versions[i];
-//                         return xhr;
-//                     } catch (ex) {
-//                         //跳过
-//                         if (len - 1 == i) {
-//                             throw new Error("there is no xmlhttprequest object available");
-//                         }
-//                     }
-//                 }
-//             } else {
-//                 return new ActiveXObject(arguments.callee.activeXString);
-//             }
-//         };
-//     } else {
-//         createXHR = function () {
-//             throw new Error("there is no xmlhttprequest object available");
-//         };
-//     }
-//     return createXHR();
-// }
+(function () {
+    // var weather,
+    //     temperature,
+    //     windScale;
+    console.info("====== Load utility.js ======");
 
-// function ajax(_optionsObj, _cfFlag, _time_out) {
-//     var time_out = _time_out || new Date().getTime();
-//     var optionsObj = {
-//         // HTTP 请求类型
-//         type: _optionsObj.type || "GET",
-//         // 请求的文件类型
-//         dataType: _optionsObj.dataType,
-//         // 请求的URL
-//         url: _optionsObj.url || "",
-//         //请求方式，true异步请求，false同步请求
-//         requestType: _optionsObj.requestType === false ? false : true,
-//         // 请求的超时时间
-//         time_out: _optionsObj.time_out || 10000,
-//         // 请求成功.失败或完成(无论成功失败都会调用)时执行的函数
-//         onComplete: _optionsObj.onComplete || function () {
-//         },
-//         onError: _optionsObj.onError || function () {
-//         },
-//         onSuccess: _optionsObj.onSuccess || function () {
-//         },
-//         // 服务器端默认返回的数据类型
-//         data: _optionsObj.data || "",
-//         post: _optionsObj.post || ""
-//     };
-//     var cfFlag = _cfFlag || true;
-//
-//     var ajaxZXFlag = true;
-//     // 强制关闭函数
-//     var timeOutRD = setTimeout(function () {
-//         clearTimeout(timeOutRD);
-//         ajaxZXFlag = false;
-//         if (!cfFlag) {
-//             ajax(optionsObj, true, time_out);
-//         } else {
-//             optionsObj.onError();
-//
-//             //var time_in = new Date().getTime();
-//             //var time_c = time_in - time_out;
-//             //$("msgvalue").innerHTML = "time : " + time_c + " timeOutRD readyState : " + xml.readyState + " and xml.status : " + xml.status;
-//         }
-//     }, optionsObj.time_out);
-//
-//     var xml = createXHR();
-//     xml.onreadystatechange = function () {
-//         if (xml.readyState === 4 && ajaxZXFlag) {
-//             $("debug-message").innerHTML += "<br/>" + "onreadystatechange  ==> ajaxZXFlag" + ajaxZXFlag;
-//             // 检查是否请求成功
-//             clearTimeout(timeOutRD);
-//             if (httpSuccess(xml) && ajaxZXFlag) {
-//                 // 以服务器返回的数据作为参数执行成功回调函数
-//                 optionsObj.onSuccess(httpData(xml, optionsObj.dataType));
-//             } else {
-//                 optionsObj.onError();
-//                 //var time_in = new Date().getTime();
-//                 //var time_c = time_in - time_out;
-//                 //$("msgvalue").innerHTML = "time : " + time_c + " timeOutRD readyState : " + xml.readyState + " and xml.status : " + xml.status;
-//             }
-//
-//             // 调用完成后的回调函数
-//             optionsObj.onComplete(xml);
-//             // 避免内存泄露,清理文档
-//             xml = null;
-//         }
-//     };
-//     var url;
-//     if (optionsObj.url.indexOf("?") > -1) {
-//         url = optionsObj.url + "&timestamp=" + new Date().getTime();
-//     } else {
-//         url = optionsObj.url + "?timestamp=" + new Date().getTime();
-//     }
-//     xml.open(optionsObj.type, url, optionsObj.requestType);
-//     if ("GET" == optionsObj.type) {
-//         xml.send(null);
-//     } else {
-//         xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-//         xml.send(optionsObj.post);
-//     }
-// }
-//
-// // 判断HTTP响应是否成功
-// function httpSuccess(r) {
-//     var flag = false;
-//     try {
-//         if ((r.status >= 200 && r.status <= 300) || r.status == 304) {
-//             // 如果得不到服务器状态,且我们正在请求本地文件,则认为成功
-//             flag = true;
-//         } else if (!r.status && location.protocol == "file:") {
-//             // 所有200-300之间的状态码 表示成功
-//             flag = true;
-//         } else if (navigator.userAgent.indexOf('Safari') >= 0 && typeof r.status == "undefined") {
-//             // Safari在文档未修改的时候返回空状态
-//             flag = true;
-//         } else {
-//             flag = false;
-//         }
-//     } catch (e) {
-//         flag = false;
-//     } finally {
-//         return flag;
-//     }
-//
-//     // 若检查状态失败,则假定请求是失败的
-// }
-//
-// // 从HTTP响应中解析正确数据
-// function httpData(r, type) {
-//
-//     // 获取content-type的头部
-//     var ct = r.getResponseHeader("content-type");
-//     // 如果没有提供默认类型, 判断服务器返回的是否是XML形式
-//     var data = !type && ct && ct.indexOf('xml') >= 0;
-//
-//     // 如果是XML则获得XML对象 否则返回文本内容
-//     data = type == "xml" || data ? r.responseXML : r.responseText;
-//
-//     $("debug-message").innerHTML += "<br/>" + "httpData ==> " + data;
-//
-//     // 如果指定类型是script,则以javascript形式执行返回文本
-//     if (type == "script") {
-//         eval.call(window, data);
-//     }
-//
-//     // 返回响应数据
-//     return data;
-// }
-//
-//
-// // 数据串行化 支持两种不同的对象
-// // - 表单输入元素的数组
-// // - 键/ 值 对应的散列表
-// // - 返回串行化后的字符串 形式: name=john& password=test
-// function serialize(a) {
-//     // 串行化结果存放
-//     var s = [];
-//     // 如果是数组形式 [{name: XX, value: XX}, {name: XX, value: XX}]
-//     if (a.constructor == Array) {
-//         // 串行化表单元素
-//         for (var i = 0; i < a.length; i++) {
-//             s.push(a[i].name + "=" + encodeURIComponent(a[i].value));
-//         }
-//         // 假定是键/值对象
-//     } else {
-//         for (var j in a) {
-//             s.push(j + "=" + encodeURIComponent(a[j]));
-//         }
-//     }
-//     // 返回串行化结果
-//     return s.join("&");
-// }
+    if (document.getElementById("weather-forecast")) {
+        if (paramObj.temperature.length === 0) {
+            console.info("===>  ajaxForWeather");
+            ajaxForWeather();
+        } else {
+            document.getElementById("weather-forecast").innerHTML += "<br/>" +
+                "今日天气：&nbsp;&nbsp;&nbsp;" + paramObj.weather +
+                "&nbsp;&nbsp;&nbsp;" + paramObj.temperature +
+                "&nbsp;&nbsp;&nbsp;" + paramObj.windScale;
+        }
+        // weather = getGlobalVar("__WEATHER__");
+        // temperature = getGlobalVar("__TEMPERATURE__");
+        // windScale = getGlobalVar("__WINDSCALE__");
+        // if (null !== weather && "" !== weather) {
+        //     document.getElementById("weather-forecast").innerHTML += "<br/>" +
+        //         "今日天气：&nbsp;&nbsp;&nbsp;" + weather +
+        //         "&nbsp;&nbsp;&nbsp;" + temperature +
+        //         "&nbsp;&nbsp;&nbsp;" + windScale;
+        // } else {
+        //     console.info("===>  ajaxForWeather");
+        //     ajaxForWeather();
+        // }
+    }
+})();
 
 /*-----------------------------------------读写盒子全局变量代码---------------------------------*/
 function getGlobalVar(_key) {
-    if ("undefined" != typeof(iPanel)) {
+    if ("undefined" !== typeof(iPanel)) {
         return iPanel.getGlobalVar(_key) || "";
     } else {
         return getCookie(_key);
@@ -648,7 +488,7 @@ function getGlobalVar(_key) {
 }
 
 function setGlobalVar(_key, _value) {
-    if ("undefined" != typeof(iPanel)) {
+    if ("undefined" !== typeof(iPanel)) {
         iPanel.setGlobalVar(_key, _value + "");
     } else {
         setCookie(_key, _value + "");
@@ -664,13 +504,23 @@ function setCookie(name, value) {
 //读取cookies
 function getCookie(name) {
     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-    if (arr = document.cookie.match(reg)) return unescape(arr[2]);
-    else return null;
+    if (arr = document.cookie.match(reg)) {
+        return unescape(arr[2]);
+    }
+    else {
+        return null;
+    }
 }
 //删除cookies
 function delCookie(name) {
-    var exp = new Date();
+    var cval,
+        exp = new Date();
+
     exp.setTime(exp.getTime() - 1);
-    var cval = getCookie(name);
-    if (cval != null) document.cookie = name + "=" + cval + ";path=/;expires=" + exp.toGMTString();
+    cval = getCookie(name);
+    if (cval !== null) {
+        document.cookie = name + "=" + cval + ";path=/;expires=" + exp.toGMTString();
+    }
 }
+
+

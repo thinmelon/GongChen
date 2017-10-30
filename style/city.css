@@ -8,12 +8,11 @@
 }
 
 #city_content {
-    position: relative;
-    top: 20px;
+    position: absolute;
+    top: 142px;
     left: 70px;
     width: 1178px;
     height: 100%;
-    /*margin: 0 auto;*/
 }
 
 #city_left_panel {
@@ -26,24 +25,6 @@
     float: left;
     width: 316px;
     text-align: center;
-}
-
-#city_ad_0 {
-    position: absolute;
-    left: 316px;
-    top: 0;
-    margin: 3px;
-    width: 446px;
-    height: 334px;
-}
-
-#city_ad_1 {
-    position: absolute;
-    left: 316px;
-    top: 350px;
-    width: 446px;
-    height: 111px;
-    margin: 3px;
 }
 
 .city_entry_item {
@@ -59,6 +40,28 @@
     height: 111px;
     margin: 3px 3px;
 }
+
+/** -----  海报  -----  **/
+
+#city_ad_0 {
+    position: absolute;
+    left: 316px;
+    top: 0;
+    width: 446px;
+    height: 334px;
+    margin: 3px;
+}
+
+#city_ad_1 {
+    position: absolute;
+    left: 316px;
+    top: 350px;
+    width: 446px;
+    height: 111px;
+    margin: 3px;
+}
+
+/** -----  列表  -----  **/
 
 #city_notices_board {
     position: absolute;

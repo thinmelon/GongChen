@@ -8,7 +8,6 @@ var postman = {
 
     createXmlHttpRequest: function (_successCallback, _failedCallback) {
         // $("debug-message").innerHTML += "<br/>" + "postman    ==>    createXmlHttpRequest";
-
         if (postman.xhr !== null) {
             postman.abortRequest();
         } else {

@@ -82,512 +82,509 @@
 
 </body>
 
-<script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/async.js"></script>
+<script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
 
     var menuObj = {
 
-        focusPosX: 0,                   // 记录光标在区域内的位置
-        focusPosY: 0,                   // 记录光标在区域内的所在行
-        itemsPerLine: [2, 1],           // 每行所包含的元素数量
-        menuPosArray: [
-            {left: 64, top: 160, width: 157, height: 116, url: ""},
-            {left: 220, top: 160, width: 157, height: 116, url: ""},
-            {left: 64, top: 278, width: 316, height: 116, url: ""}
-        ]
-        ,
+            focusPosX: 0,                   // 记录光标在区域内的位置
+            focusPosY: 0,                   // 记录光标在区域内的所在行
+            itemsPerLine: [2, 1],           // 每行所包含的元素数量
+            menuPosArray: [
+                {left: 54, top: 152, width: 157, height: 116, url: ""},
+                {left: 210, top: 152, width: 157, height: 116, url: ""},
+                {left: 54, top: 268, width: 316, height: 116, url: ""}
+            ]
+            ,
 
 
-        init: function () {
-
-        }
-        ,
-
-        focusOn: function () {
-
-            var _num = 0;
-
-            for (var i = 0; i < this.focusPosY; i++) {
-                _num += this.itemsPerLine[i];
-            }
-
-            _num += this.focusPosX;
-
-            $("self_ad_focus").style.left = this.menuPosArray[_num].left + "px";
-            $("self_ad_focus").style.top = this.menuPosArray[_num].top + "px";
-            $("self_ad_focus").style.width = this.menuPosArray[_num].width + "px";
-            $("self_ad_focus").style.height = this.menuPosArray[_num].height + "px";
-
-        }
-        ,
-
-        focusOut: function () {
-        }
-        ,
-
-        moveX: function (_direction) {
-
-            this.focusPosX += _direction;
-
-            if (this.focusPosX >= 0 && this.focusPosX < this.itemsPerLine[this.focusPosY]) {
-
-                this.focusOn();
-
-            } else if (this.focusPosX < 0) {
-
-                this.focusPosX = 0;
-
-                controller.focusArea = 2;
-                controller.focusOn();
-
-            } else {                        // 进入海报区
-
-                this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
-
-                controller.focusArea = 1;
-                postObj.focusPos = 0;
-                postObj.focusOn();
+            init: function () {
 
             }
-        }
-        ,
+            ,
 
-        moveY: function (_direction) {
+            focusOn: function () {
 
-            this.focusPosY += _direction;
+                var _num = 0;
 
-            if (this.focusPosY >= 0 && this.focusPosY < this.itemsPerLine.length) {
-
-                if (this.focusPosX >= this.itemsPerLine[this.focusPosY]) {
-                    this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+                for (var i = 0; i < this.focusPosY; i++) {
+                    _num += this.itemsPerLine[i];
                 }
 
-                this.focusOn();
+                _num += this.focusPosX;
 
-            } else if (this.focusPosY < 0) {        // 进入海报区
-
-                this.focusPosY = 0;
-
-                controller.focusArea = 1;
-                postObj.focusPos = 1;
-                postObj.focusOn();
-
-            } else {                                // 进入海报区
-
-                this.focusPosY = this.itemsPerLine.length - 1;
-
-                controller.focusArea = 1;
-                postObj.focusPos = 1;
-                postObj.focusOn();
+                $("self_ad_focus").style.left = this.menuPosArray[_num].left + "px";
+                $("self_ad_focus").style.top = this.menuPosArray[_num].top + "px";
+                $("self_ad_focus").style.width = this.menuPosArray[_num].width + "px";
+                $("self_ad_focus").style.height = this.menuPosArray[_num].height + "px";
 
             }
+            ,
 
-        }
-        ,
-
-        doSelect: function () {
-            var _num = 0;
-
-            for (var i = 0; i < this.focusPosY; i++) {
-                _num += this.itemsPerLine[i];
+            focusOut: function () {
             }
+            ,
 
-            _num += this.focusPosX;
+            moveX: function (_direction) {
 
-            var link = this.menuPosArray[_num].url;
+                this.focusPosX += _direction;
 
-            if ("" != link) {
-                window.location.href = link;
-            }
+                if (this.focusPosX >= 0 && this.focusPosX < this.itemsPerLine[this.focusPosY]) {
 
-        }
-
-    },
-        postObj = {
-
-        focusPos: 0,                // 记录光标在区域内的位置
-        postItemArray: [
-            {
-                left: 380,
-                top: 160,
-                width: 446,
-                height: 465,
-                url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
-            },
-
-            {
-                left: 64,
-                top: 395,
-                width: 315,
-                height: 234,
-//                url: _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId
-                url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
-            }
-        ],
-
-        init: function () {
-        },
-
-        focusOn: function () {
-
-            $("self_ad_focus").style.left = this.postItemArray[this.focusPos].left + "px";
-            $("self_ad_focus").style.top = this.postItemArray[this.focusPos].top + "px";
-            $("self_ad_focus").style.width = this.postItemArray[this.focusPos].width + "px";
-            $("self_ad_focus").style.height = this.postItemArray[this.focusPos].height + "px";
-
-        },
-
-        focusOut: function () {
-
-        },
-
-        moveX: function (_direction) {
-
-            if (_direction < 0) {
-
-                if (this.focusPos == 0) {
-
-                    controller.focusArea = 0;       //  移到菜单区域
-                    menuObj.focusPosY = 0;          //  光标定位至首行
-                    menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
-                    menuObj.focusOn();
-
-                } else {
-
-                    controller.focusArea = 2;       // 移到文字列表区域
-                    listObj.focusOn();
-
-                }
-
-            } else {
-
-                if (this.focusPos == 0) {
-
-                    controller.focusArea = 2;           // 移到文字列表区域
-                    listObj.focusOn();
-
-                } else {
-
-                    this.focusPos = 0;
                     this.focusOn();
 
+                } else if (this.focusPosX < 0) {
+
+                    this.focusPosX = 0;
+
+                    controller.focusArea = 2;
+                    controller.focusOn();
+
+                } else {                        // 进入海报区
+
+                    this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+
+                    controller.focusArea = 1;
+                    postObj.focusPos = 0;
+                    postObj.focusOn();
+
+                }
+            }
+            ,
+
+            moveY: function (_direction) {
+
+                this.focusPosY += _direction;
+
+                if (this.focusPosY >= 0 && this.focusPosY < this.itemsPerLine.length) {
+
+                    if (this.focusPosX >= this.itemsPerLine[this.focusPosY]) {
+                        this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+                    }
+
+                    this.focusOn();
+
+                } else if (this.focusPosY < 0) {        // 进入海报区
+
+                    this.focusPosY = 0;
+
+                    controller.focusArea = 1;
+                    postObj.focusPos = 1;
+                    postObj.focusOn();
+
+                } else {                                // 进入海报区
+
+                    this.focusPosY = this.itemsPerLine.length - 1;
+
+                    controller.focusArea = 1;
+                    postObj.focusPos = 1;
+                    postObj.focusOn();
+
+                }
+
+            }
+            ,
+
+            doSelect: function () {
+                var _num = 0;
+
+                for (var i = 0; i < this.focusPosY; i++) {
+                    _num += this.itemsPerLine[i];
+                }
+
+                _num += this.focusPosX;
+
+                var link = this.menuPosArray[_num].url;
+
+                if ("" != link) {
+                    window.location.href = link;
                 }
 
             }
 
-
         },
+        postObj = {
 
-        moveY: function (_direction) {
+            focusPos: 0,                // 记录光标在区域内的位置
+            postItemArray: [
+                {
+                    left: 370,
+                    top: 152,
+                    width: 446,
+                    height: 465,
+                    url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
+                },
 
-            if (this.focusPos == 1) {
+                {
+                    left: 54,
+                    top: 385,
+                    width: 315,
+                    height: 234,
+//                url: _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId
+                    url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
+                }
+            ],
 
-                controller.focusArea = 0;          // 移到菜单区
+            init: function () {
+            },
+
+            focusOn: function () {
+
+                $("self_ad_focus").style.left = this.postItemArray[this.focusPos].left + "px";
+                $("self_ad_focus").style.top = this.postItemArray[this.focusPos].top + "px";
+                $("self_ad_focus").style.width = this.postItemArray[this.focusPos].width + "px";
+                $("self_ad_focus").style.height = this.postItemArray[this.focusPos].height + "px";
+
+            },
+
+            focusOut: function () {
+
+            },
+
+            moveX: function (_direction) {
 
                 if (_direction < 0) {
 
-                    menuObj.focusPosX = 0;
-                    menuObj.focusPosY = 1;
+                    if (this.focusPos == 0) {
+
+                        controller.focusArea = 0;       //  移到菜单区域
+                        menuObj.focusPosY = 0;          //  光标定位至首行
+                        menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
+                        menuObj.focusOn();
+
+                    } else {
+
+                        controller.focusArea = 2;       // 移到文字列表区域
+                        listObj.focusOn();
+
+                    }
 
                 } else {
 
-                    menuObj.focusPosX = 0;
-                    menuObj.focusPosY = 0;
+                    if (this.focusPos == 0) {
+
+                        controller.focusArea = 2;           // 移到文字列表区域
+                        listObj.focusOn();
+
+                    } else {
+
+                        this.focusPos = 0;
+                        this.focusOn();
+
+                    }
 
                 }
 
-                menuObj.focusOn();
+
+            },
+
+            moveY: function (_direction) {
+
+                if (this.focusPos == 1) {
+
+                    controller.focusArea = 0;          // 移到菜单区
+
+                    if (_direction < 0) {
+
+                        menuObj.focusPosX = 0;
+                        menuObj.focusPosY = 1;
+
+                    } else {
+
+                        menuObj.focusPosX = 0;
+                        menuObj.focusPosY = 0;
+
+                    }
+
+                    menuObj.focusOn();
+
+                }
+
+            },
+
+            doSelect: function () {
+
+                var link = this.postItemArray[this.focusPos].url;
+
+                if ("" != link) {
+                    window.location.href = link;
+                }
 
             }
-
         },
-
-        doSelect: function () {
-
-            var link = this.postItemArray[this.focusPos].url;
-
-            if ("" != link) {
-                window.location.href = link;
-            }
-
-        }
-    },
         listObj = {
 
-        focusPos: 0,                        // 记录光标在区域内的位置
-        listItemNum: 6,                     // 列表元素的显示数量
-        listItemArray: [
-            {left: 845, top: 215, width: 350, height: 30},
-            {left: 845, top: 250, width: 350, height: 30},
-            {left: 845, top: 285, width: 350, height: 30},
-            {left: 845, top: 320, width: 350, height: 30},
-            {left: 845, top: 355, width: 350, height: 30},
-            {left: 1035, top: 590, width: 150, height: 30}
-        ],
-        listItemTitleArray: [],
+            focusPos: 0,                        // 记录光标在区域内的位置
+            listItemNum: 6,                     // 列表元素的显示数量
+            listItemArray: [
+                {left: 835, top: 205, width: 350, height: 30},
+                {left: 835, top: 240, width: 350, height: 30},
+                {left: 835, top: 275, width: 350, height: 30},
+                {left: 835, top: 310, width: 350, height: 30},
+                {left: 835, top: 345, width: 350, height: 30},
+                {left: 1025, top: 580, width: 150, height: 30}
+            ],
+            listItemTitleArray: [],
 
-        init: function () {
+            init: function () {
 
-            this.addListItem("111", '"美丽莆田 社会治理"司法行政创新现场会', 1, 111);
-            this.addListItem("111", '建设美丽莆田行动纲要', 1, 111);
-            this.addListItem("111", '美丽港城 冉冉起', 1, 111);
-            this.addListItem("111", '拱辰街道依法拆除违章建筑', 1, 111);
-            this.addListItem("111", '开启“智慧物流” 助力物畅其流', 1, 111);
+                this.addListItem("111", '"美丽莆田 社会治理"司法行政创新现场会', 1, 111);
+                this.addListItem("111", '建设美丽莆田行动纲要', 1, 111);
+                this.addListItem("111", '美丽港城 冉冉起', 1, 111);
+                this.addListItem("111", '拱辰街道依法拆除违章建筑', 1, 111);
+                this.addListItem("111", '开启“智慧物流” 助力物畅其流', 1, 111);
 
-            this.addListItem(0, ">>更多信息", 0, 0);
+                this.addListItem(0, ">>更多信息", 0, 0);
 
 //            this.setListItemTitle();
 
 //            listObj.addListItem(0, ">>更多信息", 0, 0);
 //            this.setListItemTitle();
 
-        },
+            },
 
-        setListItemTitle: function () {
+            setListItemTitle: function () {
 
-            for (var i = 0; i < listObj.listItemTitleArray.length; i++) {
+                for (var i = 0; i < listObj.listItemTitleArray.length; i++) {
 
-                $("list_menu_" + i).children[0].innerHTML = listObj.listItemTitleArray[i].title;
-                $("list_menu_" + i).children[0].style.color = "#000000";
+                    $("list_menu_" + i).children[0].innerHTML = listObj.listItemTitleArray[i].title;
+                    $("list_menu_" + i).children[0].style.color = "#000000";
 
-            }
+                }
 
-        },
+            },
 
-        addListItem: function (_assetID, _title, _flag, _id) {
+            addListItem: function (_assetID, _title, _flag, _id) {
 
-            if (this.listItemTitleArray.length >= this.listItemNum) {
+                if (this.listItemTitleArray.length >= this.listItemNum) {
 
-                this.listItemTitleArray.pop();
+                    this.listItemTitleArray.pop();
 
-            }
+                }
 
-            this.listItemTitleArray.push({assetID: _assetID, title: _title, flag: _flag, id: _id});
+                this.listItemTitleArray.push({assetID: _assetID, title: _title, flag: _flag, id: _id});
 
-        },
+            },
 
-        removeAllListItem: function () {
+            removeAllListItem: function () {
 
-            while (this.listItemTitleArray.length > 0) {
+                while (this.listItemTitleArray.length > 0) {
 
-                this.listItemTitleArray.pop();
+                    this.listItemTitleArray.pop();
 
-            }
+                }
 
-        },
+            },
 
-        focusOn: function () {
+            focusOn: function () {
 
-            $("self_ad_focus").style.left = this.listItemArray[this.focusPos].left + "px";
-            $("self_ad_focus").style.top = this.listItemArray[this.focusPos].top - 5 + "px";
-            $("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
-            $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
+                $("self_ad_focus").style.left = this.listItemArray[this.focusPos].left + "px";
+                $("self_ad_focus").style.top = this.listItemArray[this.focusPos].top - 5 + "px";
+                $("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
+                $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
 
-            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
-            if (null != _focusListItem) {
-                showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 10);
-            }
+                var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+                if (null != _focusListItem) {
+                    showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 10);
+                }
 //            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
 
-        },
+            },
 
-        focusOut: function () {
+            focusOut: function () {
 
-            var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
-            if (null != _focusListItem) {
-                _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
-            }
+                var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+                if (null != _focusListItem) {
+                    _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+                }
 //            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
 //            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
 
-        },
+            },
 
-        moveX: function (_direction) {
+            moveX: function (_direction) {
 
-            this.focusOut();
+                this.focusOut();
 
-            if (_direction < 0) {
+                if (_direction < 0) {
 
-                controller.focusArea = 1;   // 移到海报区域
+                    controller.focusArea = 1;   // 移到海报区域
 
-                postObj.focusPos = 0;
-                postObj.focusOn();
-
-            } else {
-
-                controller.focusArea = 0;   // 移到菜单区域
-
-                menuObj.focusPosX = 0;
-                menuObj.focusPosY = 0;
-                menuObj.focusOn();
-
-            }
-
-        },
-
-        moveY: function (_direction) {
-
-            this.focusOut();
-
-            this.focusPos += _direction;
-
-            if (this.focusPos >= 0 && this.focusPos < this.listItemTitleArray.length) {
-
-
-            } else if (this.focusPos < 0) {
-
-                this.focusPos = this.listItemTitleArray.length - 1;
-
-
-            } else {
-
-                this.focusPos = 0;
-
-            }
-
-            this.focusOn();
-
-        },
-
-        doSelect: function () {
-
-            var _link = "";
-
-            if (this.listItemTitleArray[this.focusPos].flag == 1) {     // 文字列表项
-
-                _link = "play.html?assetid=" + this.listItemTitleArray[this.focusPos].assetID + "&backUrl=" + encodeURIComponent(window.location.href);
-
-                console.info("listObj   ==>     doSelect    ==> URL = " + _link);
-
-                window.location.href = _link;
-            } else {                                                    // 更多内容
-
-                _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
-
-                window.location.href = _link;
-
-            }
-        }
-
-    },
-        controller = {
-
-        focusArea: 0,
-
-        init: function () {
-
-            console.info("controller ==> init");
-
-            transferStation.record();
-
-            listObj.init();
-
-            $("self_ad_focus").style.visibility = "visible";
-
-            this.focusOn();
-
-            ajaxForWeather();                // 获取天气信息
-
-        },
-
-        focusOn: function () {
-
-            switch (this.focusArea) {
-                case 0:             // 菜单
-
-                    menuObj.focusOn();
-
-                    break;
-                case 1:             // 海报
-
+                    postObj.focusPos = 0;
                     postObj.focusOn();
 
-                    break;
-                case 2:             // 文字列表
+                } else {
 
-                    listObj.focusOn();
+                    controller.focusArea = 0;   // 移到菜单区域
 
-                    break;
-                default:
-                    break;
+                    menuObj.focusPosX = 0;
+                    menuObj.focusPosY = 0;
+                    menuObj.focusOn();
+
+                }
+
+            },
+
+            moveY: function (_direction) {
+
+                this.focusOut();
+
+                this.focusPos += _direction;
+
+                if (this.focusPos >= 0 && this.focusPos < this.listItemTitleArray.length) {
+
+
+                } else if (this.focusPos < 0) {
+
+                    this.focusPos = this.listItemTitleArray.length - 1;
+
+
+                } else {
+
+                    this.focusPos = 0;
+
+                }
+
+                this.focusOn();
+
+            },
+
+            doSelect: function () {
+
+                var _link = "";
+
+                if (this.listItemTitleArray[this.focusPos].flag == 1) {     // 文字列表项
+
+                    _link = "play.html?assetid=" + this.listItemTitleArray[this.focusPos].assetID + "&backUrl=" + encodeURIComponent(window.location.href);
+
+                    console.info("listObj   ==>     doSelect    ==> URL = " + _link);
+
+                    window.location.href = _link;
+                } else {                                                    // 更多内容
+
+                    _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
+
+                    window.location.href = _link;
+
+                }
             }
 
         },
+        controller = {
 
-        focusOut: function () {
+            focusArea: 0,
 
-        },
+            init: function () {
 
-        moveX: function (_direction) {
+                console.info("controller ==> init");
 
-            switch (this.focusArea) {
-                case 0:             // 菜单
+                transferStation.record();
 
-                    menuObj.moveX(_direction);
+                listObj.init();
 
-                    break;
-                case 1:             // 海报
+                $("self_ad_focus").style.visibility = "visible";
+
+                this.focusOn();
+            },
+
+            focusOn: function () {
+
+                switch (this.focusArea) {
+                    case 0:             // 菜单
+
+                        menuObj.focusOn();
+
+                        break;
+                    case 1:             // 海报
+
+                        postObj.focusOn();
+
+                        break;
+                    case 2:             // 文字列表
+
+                        listObj.focusOn();
+
+                        break;
+                    default:
+                        break;
+                }
+
+            },
+
+            focusOut: function () {
+
+            },
+
+            moveX: function (_direction) {
+
+                switch (this.focusArea) {
+                    case 0:             // 菜单
+
+                        menuObj.moveX(_direction);
+
+                        break;
+                    case 1:             // 海报
 
 
-                    postObj.moveX(_direction);
+                        postObj.moveX(_direction);
 
-                    break;
-                case 2:             // 文字列表
+                        break;
+                    case 2:             // 文字列表
 
-                    listObj.moveX(_direction);
+                        listObj.moveX(_direction);
 
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
+
+            },
+
+            moveY: function (_direction) {
+
+                switch (this.focusArea) {
+                    case 0:             // 菜单
+
+                        menuObj.moveY(_direction);
+
+                        break;
+                    case 1:             // 海报
+
+                        postObj.moveY(_direction);
+
+                        break;
+                    case 2:             // 文字列表
+
+                        listObj.moveY(_direction);
+
+                        break;
+                    default:
+                        break;
+                }
+
+            },
+
+            changePage: function (_direction) {
+
+            },
+
+            doSelect: function () {
+
+            },
+
+            doBack: function () {
+
+                var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+
+                window.location.href = _url;
+
             }
 
-        },
 
-        moveY: function (_direction) {
-
-            switch (this.focusArea) {
-                case 0:             // 菜单
-
-                    menuObj.moveY(_direction);
-
-                    break;
-                case 1:             // 海报
-
-                    postObj.moveY(_direction);
-
-                    break;
-                case 2:             // 文字列表
-
-                    listObj.moveY(_direction);
-
-                    break;
-                default:
-                    break;
-            }
-
-        },
-
-        changePage: function (_direction) {
-
-        },
-
-        doSelect: function () {
-
-        },
-
-        doBack: function () {
-
-            var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
-
-            window.location.href = _url;
-
-        }
-
-
-    };
+        };
 
     function grabEvent(_event) {
 

@@ -8,12 +8,11 @@
 }
 
 #affairs_content {
-    position: relative;
-    top: 5px;
+    position: absolute;
+    top: 152px;
     left: 62px;
     width: 1042px;
     height: 100%;
-    /*margin: 0 auto;*/
 }
 
 #affairs_left_panel {
