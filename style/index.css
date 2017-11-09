@@ -1,38 +1,38 @@
 
 .post-entry {
     position: absolute;
-    left: 30px;
-    top: 154px;
+    left: 20px;
+    top: 136px;
 }
 
 .example-post {
     float: left;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
 }
 
 #example-post-1 {
     width: 354px;
-    height: 285px;
+    height: 300px;
 }
 
 #example-post-2 {
-    width: 449px;
-    height: 285px;
+    width: 500px;
+    height: 300px;
 }
 
 #icon_video_play {
     position: absolute;
-    left: 540px;
-    top: 107px;
+    left: 580px;
+    top: 158px;
 }
 
 #index_notices_board {
     position: absolute;
-    left: 852px;
-    top: 150px;
+    left: 880px;
+    top: 135px;
     background: url(../images/bg-list-item.png);
     width: 386px;
-    height: 282px;
+    height: 300px;
     margin: 3px 3px;
 }
 
@@ -61,12 +61,6 @@
 }
 
 /* ----  功能版块  ---- */
-/*.btn-entry {*/
-/*float: left;*/
-/*margin: 10px 64px;*/
-/*!*margin: 10px 0;*!*/
-/*}*/
-
 .btn-entry-item {
     position: absolute;
     /*float: left;*/

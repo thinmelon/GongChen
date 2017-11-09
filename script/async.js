@@ -7,7 +7,7 @@ var postman = {
     xhr: null,
 
     createXmlHttpRequest: function (_successCallback, _failedCallback) {
-        // $("debug-message").innerHTML += "<br/>" + "postman    ==>    createXmlHttpRequest";
+        $("debug-message").innerHTML += "<br/>" + "postman    ==>    createXmlHttpRequest";
         if (postman.xhr !== null) {
             postman.abortRequest();
         } else {
@@ -43,21 +43,21 @@ var postman = {
          500: 服务器内部错误
          * */
         postman.xhr.onreadystatechange = function () {
-            // $("debug-message").innerHTML += "<br/>" + "readyState ==> " + postman.xhr.readyState + " status ==>  " + postman.xhr.status;
+            $("debug-message").innerHTML += "<br/>" + "readyState ==> " + postman.xhr.readyState + " status ==>  " + postman.xhr.status;
             var
                 contentType = "";
 
             if (postman.xhr.readyState === 4) {
                 if (postman.xhr.status === 200) {
                     contentType = postman.xhr.getResponseHeader("Content-type");
-                    // $("debug-message").innerHTML += "<br/>" + " ==>  success ==> Content-type: " + contentType + " ResponseType: " + postman.xhr.responseType;
+                    $("debug-message").innerHTML += "<br/>" + " ==>  success ==> Content-type: " + contentType + " ResponseType: " + postman.xhr.responseType;
                     if (contentType && contentType.indexOf("xml") >= 0) {
                         _successCallback(postman.xhr.responseXML);
                     } else {
                         _successCallback(postman.xhr.responseText);
                     }
                 } else if (postman.xhr.status === 404) {
-                    // $("debug-message").innerHTML += "<br/>" + " ==>  failed";
+                    $("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     var _result = {
                         errcode: 404,
                         errmsg: "Not found! "
@@ -70,7 +70,7 @@ var postman = {
     },
 
     sendRequest: function (_method, _url, _data) {
-        // $("debug-message").innerHTML += "<br/>" + "postman    ==>    sendRequest";
+        $("debug-message").innerHTML += "<br/>" + "postman    ==>    sendRequest";
         // 规定请求的类型、URL 以及是否异步处理请求
         postman.xhr.open(_method, _url, true);
         if ("GET" === _method) {
@@ -88,7 +88,7 @@ var postman = {
 
     abortRequest: function () {
         if (postman.xhr !== null) {
-            // $("debug-message").innerHTML += "<br/>" + "postman    ==>    abortRequest";
+            $("debug-message").innerHTML += "<br/>" + "postman    ==>    abortRequest";
             postman.xhr.abort();        // 中止异步请求
 
         }

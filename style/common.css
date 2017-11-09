@@ -59,8 +59,10 @@ body {
     position: absolute;
     top: 20px;
     right: 30px;
+    width: 700px;
+    word-wrap: break-word;
     font-size: 20px;
     z-index: 9999999;
     background-color: azure;
-    visibility: hidden;
+    visibility: visible;
 }

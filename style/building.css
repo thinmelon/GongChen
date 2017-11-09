@@ -54,13 +54,9 @@
 #building_ad {
     float: left;
     width: 501px;
-    height: 521px;
+    height: 390px;
     margin-top: 8px;
     margin-right: 24px;
-}
-
-#building_ad img{
-    width: 501px;
 }
 
 #building_entry {

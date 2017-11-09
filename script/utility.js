@@ -243,6 +243,8 @@ var transferStation = {
     type: 0,
 
     assetId: "",            //  视频ID
+    itemId: 0,              //  图文列表项ID
+
     backUrl: "",            //  返回路径
 
     record: function () {
@@ -250,52 +252,43 @@ var transferStation = {
         var params = parseRequestUrl();
 
         if (params.hasOwnProperty("focusArea")) {
-
             console.info("==>   focusArea = " + params["focusArea"]);
             transferStation.idxFocusArea = parseInt(params["focusArea"]);
-
         }
 
         if (params.hasOwnProperty("focusPos")) {
-
             console.info("==>   focusPos = " + params["focusPos"]);
             transferStation.idxFocusPos = parseInt(params["focusPos"]);
-
         }
 
         if (params.hasOwnProperty("focusItemName")) {
-
             console.info("==>   focusItemName = " + params["focusItemName"]);
             transferStation.idxFocusName = params["focusItemName"];
-
         }
 
         if (params.hasOwnProperty("resourceId")) {
-
             console.info("==>   resourceId = " + params["resourceId"]);
             transferStation.resourceId = parseInt(params["resourceId"]);
-
         }
 
         if (params.hasOwnProperty("type")) {
-
             console.info("==>   type = " + params["type"]);
             transferStation.type = parseInt(params["type"]);
-
         }
 
         if (params.hasOwnProperty("assetId")) {
-
             console.info("==>   assetId = " + params["assetId"]);
             transferStation.assetId = params["assetId"];
-
         }
 
         if (params.hasOwnProperty("backUrl")) {
-
             console.info("==>   backUrl = " + params["backUrl"]);
             transferStation.backUrl = params["backUrl"];
+        }
 
+        if (params.hasOwnProperty("itemId")) {
+            console.info("==>   itemId = " + params["itemId"]);
+            transferStation.itemId = params["itemId"];
         }
     }
 
@@ -334,6 +327,15 @@ var paramObj = {
     ],
     indexResourceIdArray: [
         {title: "首页左侧海报", resourceId: "503"}
+    ],
+
+    buildingResourceIdArray: [
+        {title: "智慧党建", resourceId: "660"}
+    ],
+
+    peaceResourceIdArray: [
+        {title: "文明创建", resourceId: "662"},
+        {title: "通知公告", resourceId: "663"}
     ],
 
     weather: "",
@@ -456,7 +458,7 @@ function ajaxForWeather() {
     if (document.getElementById("weather-forecast")) {
         if (paramObj.temperature.length === 0) {
             console.info("===>  ajaxForWeather");
-            ajaxForWeather();
+            // ajaxForWeather();
         } else {
             document.getElementById("weather-forecast").innerHTML += "<br/>" +
                 "今日天气：&nbsp;&nbsp;&nbsp;" + paramObj.weather +
