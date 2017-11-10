@@ -6,38 +6,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>图文列表</title>
     <link rel="stylesheet" href="../style/common.css">
+    <link rel="stylesheet" href="../style/list.css">
 </head>
 <body>
-<div style="position:absolute; left:0px; top:0px; width:1280px; height:720px; background-image:url(../images/list/001.png); background-repeat:no-repeat; overflow:hidden;">
-    <div style="position: absolute; left: 81px; top: 27px; width: 289px; height: 84px; background-image: url(../images/list/058.png);"></div>
-    <div id="top_btn"
-         style="position: absolute; left: 1096px; top: 42px; width: 131px; height: 49px; background-image: url(../images/list/006.png);"></div>
-
-    <div style="position: absolute; left: 74px; top: 112px; width: 1130px; height: 500px; background-image: url(../images/list/018.png);">
-        <div id="title"
-             style="position: absolute; left: 20px; top: 17px; width: 1090px; height: 40px; line-height: 40px; font-size: 25px; text-align: center;"></div>
-        <div style='position:absolute; left: 15px; top: 89px; width:500px;'><img id="preview"
-                                                                                 src='../images/list/tm.gif'
-                                                                                 width='500' height='332'/></div>
-        <div style="position: absolute; left: 530px; top: 89px; width: 580px; height: 342px; line-height: 38px; font-size: 23px; overflow:hidden;">
-            <div id="content" style="position: absolute; left: 0px; top: 0px; width: 580px;"></div>
-        </div>
-
-        <div style="position: absolute; left: 0px; top: 75px; width: 1130px; height: 1px; background-image: url(../images/list/024.png);"></div>
-        <div style="position: absolute; left: 402px; top: 455px; width: 236px; height: 25px; background-image: url(../images/list/019.png);">
-            <div id="page_num"
-                 style="position: absolute; left: 88px; top: 0px; width: 60px; height: 23px; line-height: 23px; font-size:23px; text-align: center;">
-                /
-            </div>
-        </div>
+<div class="subject"></div>
+<div class="center">
+    <div id="title" class="title"></div>
+    <div class="preview">
+        <img id="preview" src='../images/list/tm.gif' alt="图片轮播" width="500" height="332"/>
     </div>
+    <div id="content" class="content">
+    </div>
+    <div class="page">1/2</div>
 
-    <!--<div style="position: absolute; left: 71px; top: 646px; width: 1142px; height: 51px;">-->
-    <!--<div style="position: absolute; left: 0px; top: 14px; width: 24px; height: 18px; background-image: url(images/10.png);"></div>-->
-    <!--<div style="position: absolute; left: 31px; top: 0px; width: 1101px; height: 45px; line-height: 45px; color: #333; font-size: 23px;">-->
-    <!--<marquee></marquee>-->
-    <!--</div>-->
-    <!--</div>-->
 </div>
 
 <!--底部-->
@@ -73,11 +54,82 @@
 <script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
-    document.onkeydown = grabEvent;
+    var preview = {
+        position: 0,
+        size: 0,
+        album: [],
+
+        showAlbum: function () {
+            document.getElementById("preview").src = paramObj.imgUrl + this.album[this.position].img;
+            this.position = (this.position + 1) % this.size;
+        },
+
+        init: function (imageArray) {
+            var that = this;
+
+            this.album = imageArray || this.album;
+            this.size = this.album.length;
+            preview.showAlbum();
+            setInterval(function () {
+                that.showAlbum();
+            }, 3000);
+        }
+    };
+
+    var controller = new Controller();
+
+    function Controller() {
+        this.backUrl = "";
+
+        this.init = function () {
+            console.info("controller   ==>   init");
+            transferStation.record();
+//            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
+            ajaxForTitleById(transferStation.itemId);
+        };
+
+        this.render = function (data) {
+            showTitleForMarquee(data.title, document.getElementById("title"), 15);
+            document.getElementById("content").innerHTML = data.content;
+            preview.init(data.imgArr);
+        };
+
+        this.doBack = function () {
+            $("debug-message").innerHTML += "<br/>" + " ==> doBack | URL: " + this.backUrl;
+            window.location.href = this.backUrl;
+        }
+    }
+
+    function ajaxForTitleById(id) {
+        var _url = paramObj.serverUrl +
+                "queryTitleByIdMobile.shtml?id=" + id,
+            postman = new Postman();
+
+        document.getElementById("debug-message").innerHTML += "<br/>" + " ==> ajaxForTitleById ";
+        document.getElementById("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+
+        postman.createXmlHttpRequest(onFetchResourceSuccess, onFetchResourceFail);
+        postman.sendRequest('GET', _url, null);
+    }
+
+    function onFetchResourceSuccess(html) {
+        var json = eval('(' + html + ')');
+
+        $("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceSuccess ";
+//        $("debug-message").innerHTML += "<br/>" + html;
+
+        if ("1" === json.code || 1 === json.code) {
+            controller.render(json);
+        }
+    }
+
+    function onFetchResourceFail(error) {
+        document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceFail ";
+        document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+    }
+
     function grabEvent(_event) {
         var code = Event(_event);
-
-        console.info("KEY DOWN  ==> " + _event);
         switch (code) {
             case "KEY_UP": //
 //                oparateObj.moveY(-1);
@@ -102,79 +154,13 @@
                 return false;
             case "KEY_EXIT":
             case "KEY_BACK":
-//                oparateObj.doBack();
+                controller.doBack();
                 return false;
             default:
                 break;
         }
     }
-
-    var preview = {
-        position: 0,
-        size: 0,
-        album: [],
-
-        showAlbum: function () {
-            document.getElementById("preview").src = paramObj.imgUrl + this.album[this.position].img;
-            this.position = (this.position + 1) % this.size;
-        },
-
-        init: function (imageArray) {
-            var that = this;
-
-            this.album = imageArray || this.album;
-            this.size = this.album.length;
-            preview.showAlbum();
-            setInterval(function () {
-                that.showAlbum();
-            }, 3000);
-        }
-    };
-
-    var controller = {
-        init: function () {
-            console.info("controller   ==>   init");
-            transferStation.record();
-            ajaxForTitleById(transferStation.itemId);
-        },
-        render: function (data) {
-            showTitleForMarquee(data.title, document.getElementById("title"), 38);
-            document.getElementById("content").innerHTML = data.content;
-            preview.init(data.imgArr);
-        }
-    };
-
+    document.onkeydown = grabEvent;
     window.onload = controller.init;
-
-    function ajaxForTitleById(id) {
-        var _url = paramObj.serverUrl +
-            "queryTitleByIdMobile.shtml?id=" + id;
-
-//        $("debug-message").innerHTML += "<br/>" + " ==> ajaxForTitleById ";
-//        $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
-
-        postman.createXmlHttpRequest(onFetchResourceSuccess, onFetchResourceFail);
-        postman.sendRequest('GET', _url, null);
-    }
-
-    function onFetchResourceSuccess(html) {
-        var json = eval('(' + html + ')');
-
-//        $("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceSuccess ";
-//        $("debug-message").innerHTML += "<br/>" + html;
-
-        if ("1" === json.code || 1 === json.code) {
-            controller.render(json);
-            /*{"content":"测试测试","dataMessage":"获取成功","title":"测试","flag":"0","code":1,"date":"2016-07-26 11:13:00","imgArr":[{"img":""}]}*/
-//            oparateObj.dateArray = json;
-//            oparateObj.show();
-//            oparateObj.initPopup();
-        }
-    }
-
-    function onFetchResourceFail(error) {
-        $("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceFail ";
-        $("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
-    }
 </script>
 </html>

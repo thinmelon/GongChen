@@ -1,0 +1,62 @@
+.subject {
+    position: absolute;
+    left: 150px;
+    top: 70px;
+    width: 289px;
+    height: 84px;
+    background: url(../images/intro/intro-logo.png) no-repeat;
+}
+
+.center {
+    position: absolute;
+    left: 30px;
+    top: 170px;
+    width: 1198px;
+    height: 459px;
+    background: url(../images/list/bg_content.png) no-repeat;
+}
+
+.title {
+    position: absolute;
+    left: 300px;
+    top: -25px;
+    width: 592px;
+    height: 58px;
+    padding-top: 5px;
+    line-height: 40px;
+    font-size: 45px;
+    text-align: center;
+    color: white;
+    background: url(../images/list/bg_title.png) no-repeat;
+}
+
+.preview {
+    position: absolute;
+    left: 100px;
+    top: 59px;
+    width: 500px;
+    height: 332px;
+}
+
+.content {
+    position: absolute;
+    left: 630px;
+    top: 49px;
+    width: 520px;
+    height: 342px;
+    line-height: 38px;
+    font-size: 30px;
+    font-weight: bold;
+    overflow: hidden;
+    color: #701A1C;
+}
+
+.page{
+    position: absolute;
+    left: 600px;
+    top: 420px;
+    width: 520px;
+    height: 342px;
+    font-size: 20px;
+    font-weight: bold;
+}

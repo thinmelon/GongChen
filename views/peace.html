@@ -38,19 +38,28 @@
         <div class="politics_notices_board_bar"
              style="background: url(../images/politics/politics_list_bar.png) no-repeat; width: 370px; height: 39px;"></div>
         <div id="list_menu_0" class="politics_list_item" style="top: 50px;">
-            <div class="politics_list_item_text">"美丽莆田 社会治理"司法行政创新现场会</div>
+            <div class="politics_list_item_text"></div>
         </div>
-        <div id="list_menu_1" class="politics_list_item" style="top: 86px;">
-            <div class="politics_list_item_text">建设美丽莆田行动纲要</div>
+        <div id="list_menu_1" class="politics_list_item" style="top: 85px;">
+            <div class="politics_list_item_text"></div>
         </div>
-        <div id="list_menu_2" class="politics_list_item" style="top: 122px;">
-            <div class="politics_list_item_text">美丽港城 冉冉起</div>
+        <div id="list_menu_2" class="politics_list_item" style="top: 120px;">
+            <div class="politics_list_item_text"></div>
         </div>
-        <div id="list_menu_3" class="politics_list_item" style="top: 158px;">
-            <div class="politics_list_item_text">拱辰街道依法拆除违章建筑</div>
+        <div id="list_menu_3" class="politics_list_item" style="top: 155px;">
+            <div class="politics_list_item_text"></div>
         </div>
-        <div id="list_menu_4" class="politics_list_item" style="top: 194px;">
-            <div class="politics_list_item_text">开启“智慧物流” 助力物畅其流</div>
+        <div id="list_menu_4" class="politics_list_item" style="top: 190px;">
+            <div class="politics_list_item_text"></div>
+        </div>
+        <div id="list_menu_5" class="politics_list_item" style="top: 225px;">
+            <div class="politics_list_item_text"></div>
+        </div>
+        <div id="list_menu_6" class="politics_list_item" style="top: 260px;">
+            <div class="politics_list_item_text"></div>
+        </div>
+        <div id="list_menu_7" class="politics_list_item" style="top: 295px;">
+            <div class="politics_list_item_text"></div>
         </div>
         <div id="politics-notice-board-more"
              style="background: url(../images/list-item-more.png) no-repeat; width: 126px; height: 18px;"></div>
@@ -124,11 +133,12 @@
 
                 _num += this.focusPosX;
 
-                $("self_ad_focus").style.left = this.menuPosArray[_num].left + "px";
-                $("self_ad_focus").style.top = this.menuPosArray[_num].top + "px";
-                $("self_ad_focus").style.width = this.menuPosArray[_num].width + "px";
-                $("self_ad_focus").style.height = this.menuPosArray[_num].height + "px";
-
+                var _focusNode = document.getElementById("self_ad_focus");
+                _focusNode.style.visibility = "visible";
+                _focusNode.style.left = this.menuPosArray[_num].left + "px";
+                _focusNode.style.top = this.menuPosArray[_num].top + "px";
+                _focusNode.style.width = this.menuPosArray[_num].width + "px";
+                _focusNode.style.height = this.menuPosArray[_num].height + "px";
             }
             ,
 
@@ -141,31 +151,28 @@
                 this.focusPosX += _direction;
 
                 if (this.focusPosX >= 0 && this.focusPosX < this.itemsPerLine[this.focusPosY]) {
-
                     if (this.focusPosX >= this.itemsPerLine[this.focusPosY]) {
                         this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
                     }
-
                     this.focusOn();
 
                 } else if (this.focusPosX < 0) {
-
                     this.focusPosX = 0;
-
-                    controller.focusArea = 2;
-                    controller.focusOn();
-
+                    if (listObj.listItemTitleArray.length > 0) {
+                        controller.focusArea = 2;
+                        controller.focusOn();
+                    } else {
+                        controller.focusArea = 1;
+                        postObj.focusPos = 0;
+                        postObj.focusOn();
+                    }
                 } else {
-
                     this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
-
                     controller.focusArea = 1;
                     postObj.focusPos = 0;
                     postObj.focusOn();
-
                 }
-            }
-            ,
+            },
 
             moveY: function (_direction) {
 
@@ -215,6 +222,7 @@
             }
 
         },
+
         postObj = {
 
             focusPos: 0,                // 记录光标在区域内的位置
@@ -241,12 +249,12 @@
             },
 
             focusOn: function () {
-
-                $("self_ad_focus").style.left = this.postItemArray[this.focusPos].left + "px";
-                $("self_ad_focus").style.top = this.postItemArray[this.focusPos].top + "px";
-                $("self_ad_focus").style.width = this.postItemArray[this.focusPos].width + "px";
-                $("self_ad_focus").style.height = this.postItemArray[this.focusPos].height + "px";
-
+                var _focusNode = document.getElementById("self_ad_focus");
+                _focusNode.style.visibility = "visible";
+                _focusNode.style.left = this.postItemArray[this.focusPos].left + "px";
+                _focusNode.style.top = this.postItemArray[this.focusPos].top + "px";
+                _focusNode.style.width = this.postItemArray[this.focusPos].width + "px";
+                _focusNode.style.height = this.postItemArray[this.focusPos].height + "px";
             },
 
             focusOut: function () {
@@ -257,27 +265,24 @@
 
                 if (_direction < 0) {
 
-                    if (this.focusPos == 0) {
-
+                    if (this.focusPos === 0) {
                         controller.focusArea = 0;       //  移到菜单区域
                         menuObj.focusPosY = 0;          //  光标定位至首行
                         menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
                         menuObj.focusOn();
-
                     } else {
-
-                        controller.focusArea = 2;       // 移到文字列表区域
-                        listObj.focusOn();
-
+                        if (listObj.listItemTitleArray.length > 0) {
+                            controller.focusArea = 2;       // 移到文字列表区域
+                            listObj.focusOn();
+                        }
                     }
 
                 } else {
-
-                    controller.focusArea = 2;           // 移到文字列表区域
-                    listObj.focusOn();
-
+                    if (listObj.listItemTitleArray.length > 0) {
+                        controller.focusArea = 2;           // 移到文字列表区域
+                        listObj.focusOn();
+                    }
                 }
-
 
             },
 
@@ -288,13 +293,9 @@
                 if (this.focusPos >= 0 && this.focusPos < this.postItemArray.length) {
 
                 } else if (this.focusPos < 0) {
-
                     this.focusPos = this.postItemArray.length - 1;
-
                 } else {
-
                     this.focusPos = 0;
-
                 }
 
                 this.focusOn();
@@ -311,274 +312,225 @@
 
             }
         },
-        listObj = {
 
-            focusPos: 0,                        // 记录光标在区域内的位置
-            listItemNum: 6,                     // 列表元素的显示数量
-            listItemArray: [
-                {left: 839, top: 208, width: 350, height: 30},
-                {left: 839, top: 243, width: 350, height: 30},
-                {left: 839, top: 278, width: 350, height: 30},
-                {left: 839, top: 313, width: 350, height: 30},
-                {left: 839, top: 350, width: 350, height: 30},
-                {left: 1029, top: 580, width: 150, height: 30}
-            ],
-            listItemTitleArray: [],
+        listObj = new ListObj();
 
-            init: function () {
+    var controller = {
 
-                this.addListItem("111", '"美丽莆田 社会治理"司法行政创新现场会', 1, 111);
-                this.addListItem("111", '建设美丽莆田行动纲要', 1, 111);
-                this.addListItem("111", '美丽港城 冉冉起', 1, 111);
-                this.addListItem("111", '拱辰街道依法拆除违章建筑', 1, 111);
-                this.addListItem("111", '开启“智慧物流” 助力物畅其流', 1, 111);
+        focusArea: 0,
 
-                this.addListItem(0, ">>更多信息", 0, 0);
+        init: function () {
 
-//            this.setListItemTitle();
+            console.info("controller ==> init");
+            transferStation.record();
+            listObj.init();
+            $("self_ad_focus").style.visibility = "visible";
+            this.focusOn();
+        },
 
-//            listObj.addListItem(0, ">>更多信息", 0, 0);
-//            this.setListItemTitle();
+        focusOn: function () {
 
-            },
+            switch (this.focusArea) {
+                case 0:             // 菜单
 
-            setListItemTitle: function () {
-
-                for (var i = 0; i < listObj.listItemTitleArray.length; i++) {
-
-                    $("list_menu_" + i).children[0].innerHTML = listObj.listItemTitleArray[i].title;
-                    $("list_menu_" + i).children[0].style.color = "#000000";
-
-                }
-
-            },
-
-            addListItem: function (_assetID, _title, _flag, _id) {
-
-                if (this.listItemTitleArray.length >= this.listItemNum) {
-
-                    this.listItemTitleArray.pop();
-
-                }
-
-                this.listItemTitleArray.push({assetID: _assetID, title: _title, flag: _flag, id: _id});
-
-            },
-
-            removeAllListItem: function () {
-
-                while (this.listItemTitleArray.length > 0) {
-
-                    this.listItemTitleArray.pop();
-
-                }
-
-            },
-
-            focusOn: function () {
-
-                $("self_ad_focus").style.left = this.listItemArray[this.focusPos].left + "px";
-                $("self_ad_focus").style.top = this.listItemArray[this.focusPos].top - 5 + "px";
-                $("self_ad_focus").style.width = this.listItemArray[this.focusPos].width + "px";
-                $("self_ad_focus").style.height = this.listItemArray[this.focusPos].height + "px";
-
-                var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
-                if (null != _focusListItem) {
-                    showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 12);
-                }
-//            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, $("list_menu_" + this.focusPos).children[0], 20);
-//            $("list_menu_" + this.focusPos).children[0].style.color = "#00F";
-
-            },
-
-            focusOut: function () {
-
-                var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
-                if (null != _focusListItem) {
-                    _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
-                }
-//            $("list_menu_" + this.focusPos).children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
-//            $("list_menu_" + this.focusPos).children[0].style.color = "#000000";
-
-            },
-
-            moveX: function (_direction) {
-
-                this.focusOut();
-
-                if (_direction < 0) {
-
-                    controller.focusArea = 1;   // 移到海报区域
-
-                    postObj.focusPos = 0;
-                    postObj.focusOn();
-
-                } else {
-
-                    controller.focusArea = 0;   // 移到菜单区域
-
-                    menuObj.focusPosX = 0;
-                    menuObj.focusPosY = 0;
                     menuObj.focusOn();
 
-                }
+                    break;
+                case 1:             // 海报
 
-            },
+                    postObj.focusOn();
 
-            moveY: function (_direction) {
+                    break;
+                case 2:             // 文字列表
 
-                this.focusOut();
+                    listObj.focusOn();
 
-                this.focusPos += _direction;
-
-                if (this.focusPos >= 0 && this.focusPos < this.listItemTitleArray.length) {
-
-
-                } else if (this.focusPos < 0) {
-
-                    this.focusPos = this.listItemTitleArray.length - 1;
-
-
-                } else {
-
-                    this.focusPos = 0;
-
-                }
-
-                this.focusOn();
-
-            },
-
-            doSelect: function () {
-
-                var _link = "";
-
-                if (this.listItemTitleArray[this.focusPos].flag == 1) {     // 文字列表项
-
-                    _link = "play.html?assetid=" + this.listItemTitleArray[this.focusPos].assetID + "&backUrl=" + encodeURIComponent(window.location.href);
-
-                    console.info("listObj   ==>     doSelect    ==> URL = " + _link);
-
-                    window.location.href = _link;
-                } else {                                                    // 更多内容
-
-                    _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
-
-                    window.location.href = _link;
-
-                }
+                    break;
+                default:
+                    break;
             }
 
         },
-        controller = {
 
-            focusArea: 0,
+        focusOut: function () {
 
-            init: function () {
+        },
 
-                console.info("controller ==> init");
-                transferStation.record();
-                listObj.init();
-                $("self_ad_focus").style.visibility = "visible";
-                this.focusOn();
-//                document.getElementById("debug-message").innerHTML = "----- 调试区 -----" + "<br />";
-            },
+        moveX: function (_direction) {
 
-            focusOn: function () {
+            switch (this.focusArea) {
+                case 0:             // 菜单
 
-                switch (this.focusArea) {
-                    case 0:             // 菜单
+                    menuObj.moveX(_direction);
 
-                        menuObj.focusOn();
-
-                        break;
-                    case 1:             // 海报
-
-                        postObj.focusOn();
-
-                        break;
-                    case 2:             // 文字列表
-
-                        listObj.focusOn();
-
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            focusOut: function () {
-
-            },
-
-            moveX: function (_direction) {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.moveX(_direction);
-
-                        break;
-                    case 1:             // 海报
+                    break;
+                case 1:             // 海报
 
 
-                        postObj.moveX(_direction);
+                    postObj.moveX(_direction);
 
-                        break;
-                    case 2:             // 文字列表
+                    break;
+                case 2:             // 文字列表
 
-                        listObj.moveX(_direction);
+                    listObj.moveX(_direction);
 
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            moveY: function (_direction) {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.moveY(_direction);
-
-                        break;
-                    case 1:             // 海报
-
-                        postObj.moveY(_direction);
-
-                        break;
-                    case 2:             // 文字列表
-
-                        listObj.moveY(_direction);
-
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            changePage: function (_direction) {
-
-            },
-
-            doSelect: function () {
-
-            },
-
-            doBack: function () {
-
-                var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos;
-
-                window.location.href = _url;
-
+                    break;
+                default:
+                    break;
             }
 
+        },
 
+        moveY: function (_direction) {
+
+            switch (this.focusArea) {
+                case 0:             // 菜单
+
+                    menuObj.moveY(_direction);
+
+                    break;
+                case 1:             // 海报
+
+                    postObj.moveY(_direction);
+
+                    break;
+                case 2:             // 文字列表
+
+                    listObj.moveY(_direction);
+
+                    break;
+                default:
+                    break;
+            }
+
+        },
+
+        changePage: function (_direction) {
+
+        },
+
+        doSelect: function () {
+            switch (this.focusArea) {
+                case 0:             // 菜单
+                    menuObj.doSelect();
+                    break;
+                case 1:             // 海报
+                    postObj.doSelect();
+                    break;
+                case 2:             // 文字列表
+                    listObj.doSelect();
+                    break;
+                default:
+                    break;
+            }
+        },
+
+        doBack: function () {
+            window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+        }
+    };
+
+    function ListObj() {
+        // 复制ListHelper的实例属性
+        ListHelper.call(this);
+
+        // 属性
+        this.focusPos = 0;
+        this.listItemNum = 8;
+
+        this.itemLeft = 845;
+        this.itemTop = 200;
+        this.itemWidth = 358;
+        this.itemHeight = 23;
+
+        this.itemMoreLeft = 1030;
+        this.itemMoreTop = 570;
+        this.itemMoreWidth = 158;
+        this.itemMoreHeight = 23;
+
+        // 方法
+        this.init = function () {
+//            var test = [
+//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111},
+//                {assetID: 611, title: '建设美丽莆田行动纲要', flag: 0, id: 111},
+//                {assetID: 611, title: '美丽港城 冉冉起', flag: 0, id: 111},
+//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', flag: 0, id: 111},
+//                {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
+//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111},
+//                {assetID: 611, title: '建设美丽莆田行动纲要', flag: 0, id: 111},
+//                {assetID: 611, title: '美丽港城 冉冉起', flag: 0, id: 111},
+//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', flag: 0, id: 111},
+//                {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
+//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
+//            ];
+//            this.addListItem(test);
+            var that = this,
+                postman = new Postman(),
+                _url = paramObj.serverUrl +
+                    "queryTitleListMobile.shtml?resourceId=" + paramObj.peaceResourceIdArray[1].resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
+
+            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+
+            postman.createXmlHttpRequest(
+                function (html) {
+                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListSuccess ";
+                    var json = eval('(' + html + ')');
+                    $("debug-message").innerHTML += "<br/>" + " URL:" + html;
+
+                    if ("1" === json.code || 1 === json.code) {
+                        that.addListItem(json.dataArray);
+                    }
+                },
+                function (error) {
+                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
+                    $("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+                });
+            postman.sendRequest(
+                "GET",
+                _url,
+                null
+            );
         };
+
+        this.moveX = function (_direction) {
+            this.focusOut();
+            if (_direction < 0) {
+                controller.focusArea = 1;   // 移到海报区域
+
+                postObj.focusPos = 0;
+                postObj.focusOn();
+            } else {
+                controller.focusArea = 0;   // 移到菜单区域
+
+                menuObj.focusPosX = 0;
+                menuObj.focusPosY = 0;
+                menuObj.focusOn();
+            }
+        };
+
+        this.moveY = function (_direction) {
+            this.focusOut();
+            this.focusPos += _direction;
+            if (this.focusPos >= 0 && this.focusPos < this.listItemTitleArray.length) {
+            } else if (this.focusPos < 0) {
+                this.focusPos = this.listItemTitleArray.length - 1;
+            } else {
+                this.focusPos = 0;
+            }
+            this.focusOn();
+        };
+
+        this.doSelect = function () {
+            var _link = "";
+
+            if (this.listItemTitleArray[this.focusPos].flag === 0) {         // 文字列表项
+                _link = "list.html?itemId=" + this.listItemTitleArray[this.focusPos].id + "&backUrl=" + encodeURIComponent(window.location.href);
+            } else {                                                    // 更多内容
+                _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
+            }
+            window.location.href = _link;
+        }
+    }
 
     function grabEvent(_event) {
 

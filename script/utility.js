@@ -295,7 +295,6 @@ var transferStation = {
 };
 
 var paramObj = {
-    operator: "",
     //serverUrl : "http://localhost:8080/manage/web/",
     //imgUrl : "http://localhost:8080/manage/",
     //serverUrl : "http://192.168.55.10:8080/manage/web/",		//  给电脑用的
@@ -309,28 +308,22 @@ var paramObj = {
     index_back_url: "",
     index_url: "index.htm",
 
-    mlylResourceIdArray: [
-        {title: "民俗风情", resourceId: "505"},
-        {title: "秀峰美景", resourceId: "506"},
-        {title: "右侧大海报", resourceId: "507"}
-    ],
-    djjyResourceIdArray: [
-        {title: "党员之家", resourceId: "508"}
-    ],
-    zzwgResourceIdArray: [
-        //{title: "综治网格", resourceId: "105"}
-        {title: "综治网格", resourceId: "501"}
-    ],
-    bmfwResourceIdArray: [
-        {title: "便民服务首页栏目", resourceId: "502"},
-        {title: "办事流程", resourceId: "509"}
-    ],
-    indexResourceIdArray: [
-        {title: "首页左侧海报", resourceId: "503"}
+    introResourceIdArray: [
+        {title: "走进拱辰", resourceId: "664"},
+        {title: "通知公告", resourceId: "665"}
     ],
 
     buildingResourceIdArray: [
         {title: "智慧党建", resourceId: "660"}
+    ],
+
+    cityResourceIdArray: [
+        {title: "平安建设", resourceId: "666"}
+    ],
+
+    affairsResourceIdArray: [
+        {title: "政务公开", resourceId: "667"},
+        {title: "通知公告", resourceId: "671"}
     ],
 
     peaceResourceIdArray: [
@@ -338,14 +331,135 @@ var paramObj = {
         {title: "通知公告", resourceId: "663"}
     ],
 
+    serviceResourceIdArray: [
+        {title: "服务大厅", resourceId: "669"},
+        {title: "通知公告", resourceId: "670"}
+    ],
+
+    operator: "",
     weather: "",
     temperature: "",
     windScale: ""
 };
 
+/*----------------------------------------- 图文列表助手  ---------------------------------*/
+
+function ListHelper() {
+    // 属性
+    this.listItemNum = 0;
+    this.listItemArray = [];
+    this.listItemTitleArray = [];
+
+    this.itemLeft = 888;
+    this.itemTop = 185;
+    this.itemWidth = 378;
+    this.itemHeight = 23;
+
+    this.itemMoreLeft = 1088;
+    this.itemMoreTop = 390;
+    this.itemMoreWidth = 158;
+    this.itemMoreHeight = 23;
+
+    this.setListItemTitle = function () {
+        var i,
+            length;
+
+        for (i = 0, length = this.listItemTitleArray.length; i < length; i++) {
+            if (this.listItemTitleArray[i].flag === 0 || this.listItemTitleArray[i].flag === "0") {
+                document.getElementById("list_menu_" + i).children[0].innerHTML = this.listItemTitleArray[i].title;
+                document.getElementById("list_menu_" + i).children[0].style.color = "#000000";
+                this.listItemArray.push({
+                    left: this.itemLeft,
+                    top: this.itemTop + (i * 35),
+                    width: this.itemWidth,
+                    height: this.itemHeight
+                });
+            } else {
+                this.listItemArray.push({
+                    left: this.itemMoreLeft,
+                    top: this.itemMoreTop,
+                    width: this.itemMoreWidth,
+                    height: this.itemMoreHeight
+                });
+            }
+        }
+    };
+
+    this.addListItem = function (array) {
+        var j,
+            length;
+
+        while (this.listItemTitleArray.length > 0) {
+            this.listItemTitleArray.pop();
+        }
+
+        while (this.listItemArray.length > 0) {
+            this.listItemArray.pop();
+        }
+
+        for (j = 0, length = array.length; (j < length) && (j < this.listItemNum); j++) {
+
+            if (array[j].flag === "0" || array[j].flag === 0) {
+                this.listItemTitleArray.push({
+                    assetID: array[j].assetid,
+                    title: array[j].title,
+                    flag: parseInt(array[j].flag),
+                    id: array[j].id
+                });
+            }
+        }
+
+        if (array.length > this.listItemNum) {
+            this.listItemTitleArray.push({
+                assetID: 0,
+                title: "",
+                flag: -1,
+                id: 0
+            });
+        }
+        this.setListItemTitle();
+    };
+
+    this.removeAllListItem = function () {
+        while (this.listItemTitleArray.length > 0) {
+            this.listItemTitleArray.pop();
+        }
+        while (this.listItemArray.length > 0) {
+            this.listItemArray.pop();
+        }
+    };
+
+    this.focusOn = function () {
+
+        var _focusNode = document.getElementById("self_ad_focus");
+        _focusNode.style.visibility = "visible";
+
+        _focusNode.style.left = this.listItemArray[this.focusPos].left + "px";
+        _focusNode.style.top = this.listItemArray[this.focusPos].top + "px";
+        _focusNode.style.width = this.listItemArray[this.focusPos].width + "px";
+        _focusNode.style.height = this.listItemArray[this.focusPos].height + "px";
+
+        var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+        if ((typeof(_focusListItem) !== "undefined") && (this.listItemTitleArray[this.focusPos].flag === 0)) {
+            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 13);
+        }
+    };
+
+    this.focusOut = function () {
+        var _focusNode = document.getElementById("self_ad_focus");
+        _focusNode.style.visibility = "hidden";
+
+        var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
+        if ((typeof (_focusListItem) !== "undefined") && (this.listItemTitleArray[this.focusPos].flag === 0)) {
+            _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+        }
+    };
+}
+
+/*------------------------------------- 天气预报  ---------------------------------*/
 /*
  * 获取operator区域
- * */
+ */
 function getOperator() {
     var operator,
         operatorKey,
@@ -433,54 +547,48 @@ function getWeatherInfoSuccess(response) {
 }
 
 function getWeatherInfoFail(response) {
-    // $("debug-message").innerHTML += "<br/>" + "getWeatherInfoFail ==> " + response;
-    document.getElementById("weather-forecast").innerHTML += "<br/>" + "暂无天气信息";
+    $("debug-message").innerHTML += "<br/>" + "getWeatherInfoFail ==> " + response;
+    document.getElementById("weather-forecast").innerHTML = "暂无天气信息";
 }
 
 function ajaxForWeather() {
-    // $("debug-message").innerHTML += "<br/>" + "ajaxForWearther()";
-    // getOperator();
+    $("debug-message").innerHTML += "<br/>" + "ajaxForWearther()";
+    var
+        // _url = "http://10.215.0.36/weather/sy/" + paramObj.operator + ".js",
+        _url = "http://10.215.0.36/weather/sy/PUTIAN.js",
+        postman = new Postman();
+
     postman.createXmlHttpRequest(getWeatherInfoSuccess, getWeatherInfoFail);
+    $("debug-message").innerHTML += "<br/>" + "URL ==> " + _url;
     postman.sendRequest(
         "GET",
         // "http://10.215.0.36/weather/sy/" + paramObj.operator + ".js",
-        "http://10.215.0.36/weather/sy/PUTIAN.js",
+        _url,
         ""
     );
 }
 
+/**
+ *  -   自运行
+ */
 (function () {
-    // var weather,
-    //     temperature,
-    //     windScale;
     console.info("====== Load utility.js ======");
 
     if (document.getElementById("weather-forecast")) {
         if (paramObj.temperature.length === 0) {
             console.info("===>  ajaxForWeather");
-            // ajaxForWeather();
+            // getOperator();
+            ajaxForWeather();
         } else {
             document.getElementById("weather-forecast").innerHTML += "<br/>" +
                 "今日天气：&nbsp;&nbsp;&nbsp;" + paramObj.weather +
                 "&nbsp;&nbsp;&nbsp;" + paramObj.temperature +
                 "&nbsp;&nbsp;&nbsp;" + paramObj.windScale;
         }
-        // weather = getGlobalVar("__WEATHER__");
-        // temperature = getGlobalVar("__TEMPERATURE__");
-        // windScale = getGlobalVar("__WINDSCALE__");
-        // if (null !== weather && "" !== weather) {
-        //     document.getElementById("weather-forecast").innerHTML += "<br/>" +
-        //         "今日天气：&nbsp;&nbsp;&nbsp;" + weather +
-        //         "&nbsp;&nbsp;&nbsp;" + temperature +
-        //         "&nbsp;&nbsp;&nbsp;" + windScale;
-        // } else {
-        //     console.info("===>  ajaxForWeather");
-        //     ajaxForWeather();
-        // }
     }
 })();
 
-/*-----------------------------------------读写盒子全局变量代码---------------------------------*/
+/*----------------------------------------- 读写盒子全局变量代码 ---------------------------------*/
 function getGlobalVar(_key) {
     if ("undefined" !== typeof(iPanel)) {
         return iPanel.getGlobalVar(_key) || "";
