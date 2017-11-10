@@ -8,7 +8,7 @@ function Postman() {
     this.createXmlHttpRequest = function (_successCallback, _failedCallback) {
         var that = this;
 
-        $("debug-message").innerHTML += "<br/>" + "postman    ==>    createXmlHttpRequest";
+        $("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
         if (this.xhr !== null) {
             this.abortRequest();
         } else {
@@ -60,7 +60,7 @@ function Postman() {
                 } else if (that.xhr.status === 404) {
                     $("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     _failedCallback("资源未找到");
-                } else{
+                } else {
                     $("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     _failedCallback("错误");
                 }

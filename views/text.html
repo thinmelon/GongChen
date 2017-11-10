@@ -4,7 +4,7 @@
 <head>
     <meta name="page-view-size" content="1280*720">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>图文列表</title>
+    <title>纯文本</title>
     <link rel="stylesheet" href="../style/common.css">
     <link rel="stylesheet" href="../style/list.css">
 </head>
@@ -12,11 +12,8 @@
 <div class="subject"></div>
 <div class="center">
     <div id="title" class="title"></div>
-    <div class="preview">
-        <img id="preview" src='../images/list/tm.gif' alt="图片轮播" width="500" height="332"/>
-    </div>
-    <div id="trapper">
-        <div id="content" class="content">
+    <div id="text-trapper">
+        <div id="content" class="text-content">
             很多年前，一个男人从英国回来，认识了一个预科毕业的女孩子，她长得清秀美丽，男人一见倾心，放弃了其他女子，娶她为妻。
 
             婚后，他觉得一个年轻女子不应该在家里埋没她的青春，她应该出去看看世界。他用心栽培她，他知道什么工作最适合她，而又最有前途。
@@ -75,27 +72,6 @@
 <script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
-    var preview = {
-        position: 0,
-        size: 0,
-        album: [],
-
-        showAlbum: function () {
-            document.getElementById("preview").src = paramObj.imgUrl + this.album[this.position].img;
-            this.position = (this.position + 1) % this.size;
-        },
-
-        init: function (imageArray) {
-            var that = this;
-
-            this.album = imageArray || this.album;
-            this.size = this.album.length;
-            preview.showAlbum();
-            setInterval(function () {
-                that.showAlbum();
-            }, 3000);
-        }
-    };
 
     var controller = new Controller();
 
@@ -104,7 +80,7 @@
 
         PageHelper.call(this);
 
-        this.offset_height = document.getElementById("trapper").offsetHeight;
+        this.offset_height = document.getElementById("text-trapper").offsetHeight;
         this.scroll_height = document.getElementById("content").scrollHeight;
         this.total_pages = Math.ceil(this.scroll_height / this.offset_height);
         this.cur_page = 1;
@@ -115,8 +91,8 @@
             transferStation.record();
             that.backUrl = transferStation.backUrl;
             document.getElementById("pager").innerHTML = that.cur_page + "/" + that.total_pages;
-//            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
-            ajaxForTitleById(transferStation.itemId);
+            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
+//            ajaxForTitleById(transferStation.itemId);
         };
 
         this.render = function (data) {
@@ -127,7 +103,6 @@
             console.info("offsetHeight: " + that.offset_height + " scrollHeight: " + that.scroll_height);
             that.total_pages = Math.ceil(that.scroll_height / that.offset_height);
             that.cur_page = 1;
-            preview.init(data.imgArr);
         };
 
         this.doBack = function () {
@@ -150,8 +125,8 @@
     function onFetchResourceSuccess(html) {
         var json = eval('(' + html + ')');
 
-        $("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceSuccess ";
-//        $("debug-message").innerHTML += "<br/>" + html;
+        document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceSuccess ";
+        document.getElementById("debug-message").innerHTML += "<br/>" + html;
 
         if ("1" === json.code || 1 === json.code) {
             controller.render(json);

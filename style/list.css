@@ -38,25 +38,50 @@
     height: 332px;
 }
 
-.content {
+#trapper{
     position: absolute;
     left: 630px;
     top: 49px;
     width: 520px;
     height: 342px;
+    overflow: hidden;
+}
+
+#text-trapper{
+    position: absolute;
+    left: 100px;
+    top: 49px;
+    width: 1000px;
+    height: 342px;
+    overflow: hidden;
+}
+
+.content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 520px;
     line-height: 38px;
     font-size: 30px;
     font-weight: bold;
-    overflow: hidden;
     color: #701A1C;
 }
 
-.page{
+.text-content{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1000px;
+    line-height: 38px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #701A1C;
+}
+
+#pager{
     position: absolute;
     left: 600px;
     top: 420px;
-    width: 520px;
-    height: 342px;
     font-size: 20px;
     font-weight: bold;
 }
