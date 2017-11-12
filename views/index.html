@@ -70,7 +70,7 @@
     <img id="item-img-6" alt="btn-service" src="../images/btn-service-disable.png"/>
 </div>
 
-<div id="weather-forecast">天气预报</div>
+<div id="weather-forecast"></div>
 <div id="intro-btn-usage"></div>
 
 <div id="self_ad_focus">
@@ -125,8 +125,10 @@
                 this.menuItemArray = [];
                 this.menuItemArray.push({
                     name: "index_intro",
-                    url: "intro.html?focusArea=0&focusPos=0"
-                });
+//                    url: "intro.html?focusArea=0&focusPos=0"
+                    url: ""
+                })
+                ;
                 this.menuItemArray.push({
                     name: "index_building",
                     url: "peace.html?focusArea=0&focusPos=1"
@@ -210,10 +212,39 @@
 
             doSelect: function () {
 
-                var link = this.menuItemArray[this.focusPos].url;
 
-                if ("" != link) {
-                    window.location.href = link;
+                var that = this,
+                    postman,
+                    link = this.menuItemArray[this.focusPos].url,
+                    _url = paramObj.serverUrl +
+                        "queryTitleListMobile.shtml?resourceId=" + paramObj.introResourceIdArray[1].resourceId + "&num=1&cur_page=1";
+
+                if (this.menuItemArray[this.focusPos].name === "index_intro") {
+                    postman = new Postman();
+
+                    document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] URL ==> " + _url;
+
+                    postman.createXmlHttpRequest(
+                        function (html) {
+                            var json = eval('(' + html + ')');
+
+                            if ("1" === json.code || 1 === json.code) {
+                                if (json.hasOwnProperty("dataArray") && json.dataArray.length > 0) {
+                                    window.location.href = "text.html?itemId=" + json.dataArray[0].id + "&backUrl=" + encodeURIComponent(window.location.href)
+                                }
+                            }
+                        },
+                        function () {
+                            document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] ==> onFetchResourceFail ";
+                            document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+                        });
+
+                    postman.sendRequest('GET', _url, null);
+
+                } else {
+                    if ("" !== link) {
+                        window.location.href = link;
+                    }
                 }
 
             }
@@ -310,154 +341,136 @@
             }
         },
 
-        listObj = new ListObj();
+        listObj = new ListObj(),
 
-    var
-        controller = {
-            focusArea: 1,                   // 当前光标所在区域
-            timeoutID: 0,
-            init: function () {
-                menuObj.init();                 // 初始化菜单项
-                listObj.init();                 // 初始化列表项
+        controller = new Controller();
 
-                var params = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
+    function Controller() {
+        var that = this;
 
-                if (params.hasOwnProperty("focusArea")) {
+        Assistant.call(this);
 
-                    console.info("==>   focusArea = " + params["focusArea"]);
-                    this.focusArea = parseInt(params["focusArea"]);
+        this.focusArea = 1;                   // 当前光标所在区域
 
-                }
+        this.init = function () {
+            menuObj.init();                 // 初始化菜单项
+            listObj.init();                 // 初始化列表项
 
-                if (params.hasOwnProperty("focusPos")) {
+            var params = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
 
-                    console.info("==>   focusPos = " + params["focusPos"]);
-                    switch (this.focusArea) {
-                        case 0:
-                            menuObj.focusPos = parseInt(params["focusPos"]);
-                            break;
-                        case 1:
-                            postObj.focusPos = parseInt(params["focusPos"]);
-                            break;
-                        case 2:
-                            listObj.focusPos = parseInt(params["focusPos"]);
-                            break;
-                        default:
-                            break;
-                    }
-                }
+            if (params.hasOwnProperty("focusArea")) {
 
-                this.focusOn();                 // 光标定位至目标位置
-//                document.getElementById("debug-message").innerHTML = "----- 调试区 -----" + "<br />";
-//                document.getElementById("debug-message").innerHTML = "回退地址：" + paramObj.backUrl;
+                console.info("==>   focusArea = " + params["focusArea"]);
+                that.focusArea = parseInt(params["focusArea"]);
 
-            },
+            }
 
+            if (params.hasOwnProperty("focusPos")) {
 
-            focusOn: function () {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.focusOn();
-
+                console.info("==>   focusPos = " + params["focusPos"]);
+                switch (that.focusArea) {
+                    case 0:
+                        menuObj.focusPos = parseInt(params["focusPos"]);
                         break;
-                    case 1:             // 海报
-
-                        postObj.focusOn();
-
+                    case 1:
+                        postObj.focusPos = parseInt(params["focusPos"]);
                         break;
-                    case 2:             // 文字列表
-
-                        listObj.focusOn();
-
+                    case 2:
+                        listObj.focusPos = parseInt(params["focusPos"]);
                         break;
                     default:
                         break;
                 }
-            },
+            }
 
-            focusOut: function () {
+            that.focusOn();                 // 光标定位至目标位置
+        };
 
-            },
 
-            moveX: function (_direction) {
+        this.focusOn = function () {
 
-                console.info("controller ==> moveX " + _direction);
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.focusOn();
+                    break;
+                case 1:             // 海报
+                    postObj.focusOn();
+                    break;
+                case 2:             // 文字列表
+                    listObj.focusOn();
+                    break;
+                default:
+                    break;
+            }
+        };
 
-                switch (this.focusArea) {
-                    case 0:             // 菜单
+        this.focusOut = function () {
 
-                        menuObj.moveX(_direction);
+        };
 
-                        break;
-                    case 1:             // 海报
+        this.moveX = function (_direction) {
 
-                        postObj.moveX(_direction);
+            console.info("controller ==> moveX " + _direction);
 
-                        break;
-                    case 2:             // 文字列表
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveX(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveX(_direction);
+                    break;
+                case 2:             // 文字列表
+                    listObj.moveX(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
 
-                        listObj.moveX(_direction);
+        this.moveY = function (_direction) {
 
-                        break;
-                    default:
-                        break;
-                }
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveY(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveY(_direction);
+                    break;
+                case 2:             // 文字列表
+                    listObj.focusOut();
+                    listObj.moveY(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
 
-            },
+        this.doSelect = function () {
 
-            moveY: function (_direction) {
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.doSelect();
+                    break;
+                case 1:             // 海报
+                    postObj.doSelect();
+                    break;
+                case 2:             // 文字列表
+                    listObj.doSelect(listObj.focusPos);
+                    break;
+                default:
+                    break;
+            }
+        };
 
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.moveY(_direction);
-
-                        break;
-                    case 1:             // 海报
-
-                        postObj.moveY(_direction);
-
-                        break;
-                    case 2:             // 文字列表
-
-                        listObj.focusOut();
-                        listObj.moveY(_direction);
-
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            doSelect: function () {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-                        menuObj.doSelect();
-                        break;
-                    case 1:             // 海报
-                        postObj.doSelect();
-                        break;
-                    case 2:             // 文字列表
-                        listObj.doSelect();
-                        break;
-                    default:
-                        break;
-                }
-            },
-
-            doBack: function () {
-                if ("undefined" !== typeof(GlobalVarManager)) {
-                    window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
-                }
+        this.doBack = function () {
+            if ("undefined" !== typeof(GlobalVarManager)) {
+                window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
+            }
 //                window.history.back();
 //                window.location.href = "http://10.184.255.11:80/ptmlxc/index.htm";  // 美丽乡村列表页
 //                window.location.href = paramObj.backUrl;
-            }
-        };
+        }
+    }
 
     function ListObj() {
         // 复制ListHelper的实例属性
@@ -468,10 +481,10 @@
         // 方法
         this.init = function () {
 //            var test = [
-//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111},
-//                {assetID: 611, title: '建设美丽莆田行动纲要', flag: 0, id: 111},
-//                {assetID: 611, title: '美丽港城 冉冉起', flag: 0, id: 111},
-//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', flag: 0, id: 111},
+//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', img: '', flag: 0, id: 111},
+//                {assetID: 611, title: '建设美丽莆田行动纲要', img: '1', flag: 0, id: 111},
+//                {assetID: 611, title: '美丽港城 冉冉起', img: '1', flag: 0, id: 111},
+//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', img: '1', flag: 0, id: 111},
 //                {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
 //                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
 //            ];
@@ -530,21 +543,6 @@
                 menuObj.focusOn();
             }
         };
-
-        this.doSelect = function () {
-            var _link = "";
-
-            if (this.listItemTitleArray[this.focusPos].flag === 0) {     // 文字列表项
-//                    _link = "play.html?assetid=" + this.listItemTitleArray[this.focusPos].assetID +
-//                        "&backUrl=" + encodeURIComponent(window.location.href);
-                _link = "list.html?itemId=" + this.listItemTitleArray[this.focusPos].id +
-                    "&backUrl=" + encodeURIComponent(window.location.href);
-            } else {                                                    // 更多内容
-                _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId +
-                    "&focusArea=2&focusPos=" + this.focusPos;
-            }
-            window.location.href = _link;
-        }
     }
 
     function grabEvent(_event) {
@@ -552,6 +550,10 @@
         var code = Event(_event);
 
         switch (code) {
+            case "KEY_NUMBER1":
+                console.info("KEY_NUMBER1");
+                controller.toggle();
+                return false;
             case "KEY_UP": //
                 controller.moveY(-1);
                 return false;

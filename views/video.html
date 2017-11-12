@@ -5,54 +5,153 @@
     <title>视频播放</title>
 </head>
 
-<body bgcolor="#000000" leftmargin="0" topmargin="0">
+<body style="position: absolute; left: 0; top: 0; margin: 0; background: #000000;">
 
 <!--加载图标-->
 <div id="loadingImg" style="position:absolute; left:579px; top:299px; width:121px; height:121px; visibility: hidden">
     <img src="../images/loadingIcon.gif" width="121" height="121"/>
 </div>
 
-<div id="message" style="position: absolute; top:10px; left: 30px; color: azure"></div>
+<div id="debug-message" style="
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    width: 1024px;
+    word-wrap: break-word;
+    font-size: 15px;
+    z-index: 9999999;
+    color: azure;
+    overflow: scroll;
+    display: none;">
+
+</div>
 
 </body>
+
 
 <script type="application/javascript" src="../script/async.js"></script>
 <script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="application/javascript">
+    var controller = new Controller();
 
-    var
-        assetId = "",
-        backUrl = "";
 
-    function init() {
-        console.info("  ==>     init()");
+    function Controller() {
+        var that = this;
 
-        transferStation.record();
+        Assistant.call(this);
 
-        assetId = transferStation.assetId;
-        backUrl = transferStation.backUrl;
+        this.assetId = "";
+        this.backUrl = "";
+        this.ip = GlobalVarManager.getItemStr("ip");
+        this.port = GlobalVarManager.getItemStr("port");
+        this.account = GlobalVarManager.getItemStr("account");
+        this.client = CAManager.cardSerialNumber;
 
-        console.info("assetId: " + assetId + ",backUrl:" + backUrl);
-        $("message").innerHTML += "<br/>" + "assetId: " + assetId + ", backUrl:" + backUrl;
+//        this.ip = '10.215.0.12';
+//        this.port = '8080';
+//        this.account = '8350310392603009';
+//        this.client = '8350310392603009';
 
-        // 获取视频相关参数
-        postman.createXmlHttpRequest(getParametersSuccess, getParametersFail);
-        $("message").innerHTML += "<br/>" + "IP: " + GlobalVarManager.getItemStr("ip") + " Port: " + GlobalVarManager.getItemStr("port") + " Client: " + CAManager.cardSerialNumber + " Account: " + GlobalVarManager.getItemStr("account");
-        postman.sendRequest(
-            "POST",
-            "http://" + GlobalVarManager.getItemStr("ip") + ":" + GlobalVarManager.getItemStr("port") + "/GetItemData",
-            "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><GetItemData titleAssetId='" +
-            assetId + "' portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + GlobalVarManager.getItemStr("account") + "' languageCode='Zh-CN' profile='1'/>");
-    }
+        this.init = function () {
+            var requestUrl,
+                data,
+                postman = new Postman();
 
-    function exit() {
-        console.info("  ==>     exit()");
-        postman.abortRequest();
-    }
 
-    function doBack() {
-        window.location.href = backUrl;
+            transferStation.record();
+
+            that.assetId = transferStation.assetId;
+            that.backUrl = transferStation.backUrl;
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "assetId: " + that.assetId + ", backUrl:" + that.backUrl;
+
+//            getDetailData(that.assetId);
+
+            // 获取视频相关参数
+            postman.createXmlHttpRequest(getParametersSuccess, getParametersFail);
+
+            requestUrl = "http://" + that.ip + ":" + that.port + "/GetItemData";
+            data = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><GetItemData titleAssetId='" + that.assetId
+                + "' portalId='1' client='" + that.client
+                + "' account='" + that.account
+                + "' languageCode='Zh-CN' profile='1'/>";
+            document.getElementById("debug-message").innerHTML += "<br/>" + "URL ==> " + requestUrl;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "Data ==> " + encodeURI(data);
+
+            postman.sendRequest(
+                "POST",
+                requestUrl,
+                data);
+
+        };
+
+        this.playVideo = function (_video) {
+            var requestUrl,
+                data,
+                postman = new Postman();
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "  ==>     PlayVideo()";
+
+            postman.createXmlHttpRequest(
+                function (_response) {
+                    document.getElementById("debug-message").innerHTML += "<br/>" + "  ==>     getVideoAddressSuccess";
+
+                    var _data = parseDom(_response);
+                    var _json = parseJson(_data.toJson());
+
+                    document.getElementById("debug-message").innerHTML += "<br/>" + "Data  ==> " + _data;
+
+                    if (typeof (_json) === "object" && _json !== null) {
+
+                        var rtsp = _json.StartResponse[0].rtsp.split(";");
+                        var serverId = rtsp[2].split(":");
+                        var playUrl = rtsp[0] + ";" + rtsp[1] + ";" + serverId[0] + ":8080" + ";areacode=" + VOD.areaCode + ";client=" + CAManager.cardSerialNumber;
+                        GlobalVarManager.setItemStr("vodPlayUrl", playUrl);
+                        // playUrl
+                        // rtsp://10.215.0.50:554/;purchaseToken=2264654112;serverID=10.215.0.12:8080;areacode=3069;client=8350310392603009
+
+                        document.getElementById("debug-message").innerHTML += "<br/>" + "Video Play URL ==> " + playUrl;
+
+                        var playIp = "http://vod.fjgdwl.com:80/gldb/NEW_UI/vodPlay/";   // 去vod播放的路径
+                        var resumePoint = 0;
+                        var _link = playIp + "vodPlay.htm?previewId=" + _json.StartResponse[0].previewAssetId +
+                            "&startTime=" + _json.StartResponse[0].startTime + "&purchaseToken=" + _json.StartResponse[0].purchaseToken +
+                            "&playCurrName=" + _video.titleFull + "&assetId=" + that.assetId +
+                            "&rentDateTime=" + _video.RentalInfo[0].rentDateTime + "&providerId=" + _video.providerId +
+                            "&displayRunTime=" + _video.displayRunTime + "&folderAssetId=" + _video.folderAssetId +
+                            "&resumePoint=" + resumePoint + "&from=" + that.backUrl;
+
+                        document.getElementById("debug-message").innerHTML += "<br/>" + "getVideoAddressSuccess ==> =" + _link;
+                        window.location.href = _link;
+                    }
+                },
+                function (error) {
+                    document.getElementById("debug-message").innerHTML += "<br/>" + "  ==>     getVideoAddressFailed";
+                    document.getElementById("debug-message").innerHTML += "<br/>" + error;
+                }
+            );
+
+            requestUrl = "http://" + that.ip + ":" + that.port + "/SelectionStart";
+            data = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><SelectionStart titleAssetId='" + that.assetId
+                + "' folderAssetId='" + that.assetId
+                + "' portalId='1'  client='" + that.client
+                + "' account='" + that.account
+                + "' serviceId='" + _video.serviceId + "'/>";
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "URL ==> " + requestUrl;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "Data ==> " + encodeURI(data);
+
+            postman.sendRequest(
+                "POST",
+                requestUrl,
+                data
+            );
+        };
+
+        this.doBack = function () {
+            window.location.href = that.backUrl;
+        }
     }
 
     function getParametersSuccess(_response) {
@@ -62,102 +161,34 @@
             _message = "",
             _errorCode;
 
-        console.info("  ==>     getParametersSuccess() with response " + _response);
-        $("message").innerHTML += "<br/>" + "  ==>     getParametersSuccess()";
-        $("message").innerHTML += "<br/>" + "  ==>     Response: " + _response;
+        document.getElementById("debug-message").innerHTML += "<br/>" + "  ==>     getParametersSuccess()";
+        document.getElementById("debug-message").innerHTML += "<br/>" + "  ==>     Response: " + _response;
 
         _data = parseDom(_response);
         _json = eval('(' + _data.toJson() + ')');
+        document.getElementById("debug-message").innerHTML += "<br/>" + "  typeof ==> " + typeof (_json);
 
         if (typeof (_json) === "object" && _json !== null) {
 
             if (_key in _json) {
-
-                toPlayVideo(_json.ItemData[0].SelectableItem[0]);     //
-
+                controller.playVideo(_json.ItemData[0].SelectableItem[0]);     //
             } else {
-
                 // 错误处理
                 if ("NavServerResponse" in _json) {
-                    _message = _json.NavServerResponse[0].message;
+                    _message = _json.NavServerResponse[0].debug;
                     _errorCode = _json.NavServerResponse[0].code;
-
-                    $("message").innerHTML += "<br/>" + "Error - " + _errorCode + ", message:" + _message;
+                    document.getElementById("debug-message").innerHTML += "<br/>" + "Error - " + _errorCode + ", message:" + _message;
+                } else {
+                    document.getElementById("debug-message").innerHTML += "<br/>" + "获取数据失败";
                 }
-
             }
 
-        } else {
-
-            // 错误处理
-
         }
     }
 
-    function getParametersFail(_response) {
-        console.info("  ==>     getParametersFail() with response " + _response);
-        $("message").innerHTML += "<br/>" + "  ==>     getParametersFail()";
-
-    }
-
-    function toPlayVideo(_video) {
-        var
-            account = "8350310530884545",
-            videoParam = _video;
-
-        console.info("  ==>     toPlayVideo()");
-        $("message").innerHTML += "<br/>" + "  ==>     toPlayVideo()";
-
-        postman.createXmlHttpRequest(getVideoAddressSuccess, getVideoAddressFailed);
-        postman.sendRequest(
-            "POST",
-            "http://10.215.0.12:8080/SelectionStart",
-            "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><SelectionStart titleAssetId='" +
-            assetId + "' folderAssetId='" + assetId + "' portalId='1'  client='" + CAManager.cardSerialNumber +
-            "' account='" + account + "' serviceId='" + videoParam.serviceId + "'/>"
-        );
-    }
-
-    function getVideoAddressSuccess(_response) {
-        console.info("  ==>     getVideoAddressSuccess()");
-        $("message").innerHTML += "<br/>" + "  ==>     getVideoAddressSuccess";
-
-        var _data = parseDom(_response);
-        var _json = parseJson(_data.toJson());
-
-        if (typeof (_json) === "object" && _json !== null) {
-
-            var rtsp = _json.StartResponse[0].rtsp.split(";");
-            var serverId = rtsp[2].split(":");
-            var playUrl = rtsp[0] + ";" + rtsp[1] + ";" + serverId[0] + ":8080" + ";areacode=" + VOD.areaCode + ";client=" + CAManager.cardSerialNumber;
-            GlobalVarManager.setItemStr("vodPlayUrl", playUrl);     // areacode: 3019
-
-            $("message").innerHTML += "<br/>" + "getVideoAddressSuccess ==> " + playUrl;
-            $("message").innerHTML += "<br/><br/><br/>";
-
-            var playIp = "http://vod.fjgdwl.com:80/gldb/NEW_UI/vodPlay/";   // 去vod播放的路径
-            var resumePoint = 0;
-
-            var _link = playIp + "vodPlay.htm?previewId=" + _json.StartResponse[0].previewAssetId +
-                "&startTime=" + _json.StartResponse[0].startTime + "&purchaseToken=" + _json.StartResponse[0].purchaseToken +
-                "&playCurrName=" + videoParam.titleFull + "&assetId=" + assetId +
-                "&rentDateTime=" + videoParam.RentalInfo[0].rentDateTime + "&providerId=" + videoParam.providerId +
-                "&displayRunTime=" + videoParam.displayRunTime + "&folderAssetId=" + videoParam.folderAssetId +
-                "&resumePoint=" + resumePoint + "&from=" + backUrl;
-
-            $("message").innerHTML += "<br/>" + "getVideoAddressSuccess ==> =" + _link;
-            $("message").innerHTML += "<br/><br/><br/>";
-
-            window.location.href = _link;
-
-        } else {
-            // 错误处理
-        }
-    }
-
-    function getVideoAddressFailed(_response) {
-        console.info("  ==>     getVideoAddressFailed()");
-        $("message").innerHTML += "<br/>" + "  ==>     getVideoAddressFailed";
+    function getParametersFail(error) {
+        document.getElementById("debug-message").innerHTML += "<br/>" + "  ==>     getParametersFail()";
+        document.getElementById("debug-message").innerHTML += "<br/>" + error;
     }
 
     function grabEvent(_event) {
@@ -165,16 +196,19 @@
         var code = Event(_event);
 
         switch (code) {
+            case "KEY_NUMBER1":
+                console.info("KEY_NUMBER1");
+                controller.toggle();
+                return false;
             case "KEY_EXIT":
             case "KEY_BACK":
-                doBack();
+                controller.doBack();
                 return false;
             default:
                 break;
         }
     }
     document.onkeydown = grabEvent;
-    window.onload = init;
-    window.onunload = exit;
+    window.onload = controller.init;
 
 </script>

@@ -15,7 +15,7 @@ function showTitleForMarquee(_title, _obj, _num) {
         _obj.innerHTML = _title;
     }
 }
-
+/*----------------------------------------- URL 解析器 ---------------------------------------*/
 /***
  * 解析URL
  * @returns {{}}
@@ -39,6 +39,7 @@ function parseRequestUrl() {
 
 }
 
+/*----------------------------------------- 视频返回结果 解析器 ---------------------------------------*/
 /**
  * 适用xml文件和dom文档
  * @param frag:dom对象, xml文件数据
@@ -55,8 +56,11 @@ function parseDom(frag) {
         len = childs.length,
         attrs = frag.attributes;
 
+    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>     parseDom";
+
     if (attrs !== null) {
         for (i = 0; i < attrs.length; i++) {
+            document.getElementById("debug-message").innerHTML += "<br/>" + "nodeName=" + attrs[i].nodeName + "  ===>  " + attrs[i].nodeValue;
             obj[attrs[i].nodeName] = attrs[i].nodeValue;
         }
     }
@@ -122,7 +126,7 @@ function parseDom(frag) {
         var i,
             a = [];
         for (i = 0; i < len; i++) {
-            if (childs[i].nodeName == tag)
+            if (childs[i].nodeName === tag)
                 a.push(childs[i]);
         }
         return a;
@@ -229,6 +233,7 @@ Object.prototype.toJson = function () {
     } else return 'not object';
 };
 
+/*-----------------------------------------  中转站 ---------------------------------------*/
 /***
  * Record URL params
  * @type {{idxFocusArea: number, idxFocusPos: number, idxFocusName: string, resourceId: number, type: number, assetId: string, backUrl: string, record: transferStation.record}}
@@ -342,6 +347,19 @@ var paramObj = {
     windScale: ""
 };
 
+/*----------------------------------------- 调试界面 ---------------------------------------*/
+
+function Assistant() {
+    this.toggle = function () {
+        console.info(document.getElementById("debug-message").style.display);
+        if (document.getElementById("debug-message").style.display === "block") {
+            document.getElementById("debug-message").style.display = "none";
+        } else {
+            document.getElementById("debug-message").style.display = "block";
+        }
+    }
+}
+
 /*----------------------------------------- 分页器 ---------------------------------------*/
 
 function PageHelper() {
@@ -380,6 +398,8 @@ function PageHelper() {
 /*----------------------------------------- 图文列表助手  ---------------------------------*/
 
 function ListHelper() {
+    var that = this;
+    
     // 属性
     this.listItemNum = 0;
     this.listItemArray = [];
@@ -438,6 +458,7 @@ function ListHelper() {
                 this.listItemTitleArray.push({
                     assetID: array[j].assetid,
                     title: array[j].title,
+                    img: array[j].img,
                     flag: parseInt(array[j].flag),
                     id: array[j].id
                 });
@@ -448,6 +469,7 @@ function ListHelper() {
             this.listItemTitleArray.push({
                 assetID: 0,
                 title: "",
+                img: "",
                 flag: -1,
                 id: 0
             });
@@ -488,6 +510,21 @@ function ListHelper() {
         if ((typeof (_focusListItem) !== "undefined") && (this.listItemTitleArray[this.focusPos].flag === 0)) {
             _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
         }
+    };
+
+    this.doSelect = function (focusPos) {
+        var _link = "";
+
+        if (that.listItemTitleArray[focusPos].flag === 0) {         // 文字列表项
+            if (that.listItemTitleArray[focusPos].img === "") {
+                _link = "text.html?itemId=" + that.listItemTitleArray[focusPos].id + "&backUrl=" + encodeURIComponent(window.location.href);
+            } else {
+                _link = "list.html?itemId=" + that.listItemTitleArray[focusPos].id + "&backUrl=" + encodeURIComponent(window.location.href);
+            }
+        } else {                                                    // 更多内容
+            // _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
+        }
+        window.location.href = _link;
     };
 }
 

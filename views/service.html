@@ -216,6 +216,7 @@
             }
 
         },
+
         postObj = {
 
             focusPos: 0,                // 记录光标在区域内的位置
@@ -318,103 +319,107 @@
 
             }
         },
+
         listObj = new ListObj(),
-        controller = {
 
-            focusArea: 0,
+        controller = new Controller();
 
-            init: function () {
+    function Controller() {
 
-                console.info("controller ==> init");
+        var that = this;
 
-                transferStation.record();
+        Assistant.call(this);
 
-                listObj.init();
+        this.focusArea = 0;
 
-                $("self_ad_focus").style.visibility = "visible";
+        this.init = function () {
 
-                this.focusOn();
-            },
+            console.info("controller ==> init");
+            transferStation.record();
+            listObj.init();
+            $("self_ad_focus").style.visibility = "visible";
+            that.focusOn();
+        };
 
-            focusOn: function () {
+        this.focusOn = function () {
 
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-                        menuObj.focusOn();
-                        break;
-                    case 1:             // 海报
-                        postObj.focusOn();
-                        break;
-                    case 2:             // 文字列表
-                        listObj.focusOn();
-                        break;
-                    default:
-                        break;
-                }
-            },
-
-            focusOut: function () {
-
-            },
-
-            moveX: function (_direction) {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-                        menuObj.moveX(_direction);
-                        break;
-                    case 1:             // 海报
-                        postObj.moveX(_direction);
-                        break;
-                    case 2:             // 文字列表
-                        listObj.moveX(_direction);
-                        break;
-                    default:
-                        break;
-                }
-            },
-
-            moveY: function (_direction) {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-                        menuObj.moveY(_direction);
-                        break;
-                    case 1:             // 海报
-                        postObj.moveY(_direction);
-                        break;
-                    case 2:             // 文字列表
-                        listObj.moveY(_direction);
-                        break;
-                    default:
-                        break;
-                }
-            },
-
-            changePage: function (_direction) {
-
-            },
-
-            doSelect: function () {
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-                        menuObj.doSelect();
-                        break;
-                    case 1:             // 海报
-                        postObj.doSelect();
-                        break;
-                    case 2:             // 文字列表
-                        listObj.doSelect();
-                        break;
-                    default:
-                        break;
-                }
-            },
-
-            doBack: function () {
-                window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.focusOn();
+                    break;
+                case 1:             // 海报
+                    postObj.focusOn();
+                    break;
+                case 2:             // 文字列表
+                    listObj.focusOn();
+                    break;
+                default:
+                    break;
             }
         };
+
+        this.focusOut = function () {
+
+        };
+
+        this.moveX = function (_direction) {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveX(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveX(_direction);
+                    break;
+                case 2:             // 文字列表
+                    listObj.moveX(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.moveY = function (_direction) {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveY(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveY(_direction);
+                    break;
+                case 2:             // 文字列表
+                    listObj.moveY(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.changePage = function (_direction) {
+
+        };
+
+        this.doSelect = function () {
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.doSelect();
+                    break;
+                case 1:             // 海报
+                    postObj.doSelect();
+                    break;
+                case 2:             // 文字列表
+                    listObj.doSelect(listObj.focusPos);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.doBack = function () {
+            window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+        }
+    }
 
     function ListObj() {
         // 复制ListHelper的实例属性
@@ -503,18 +508,6 @@
             }
             this.focusOn();
         };
-
-        this.doSelect = function () {
-            var _link = "";
-
-            if (this.listItemTitleArray[this.focusPos].flag === 0) {         // 文字列表项
-                _link = "list.html?itemId=" + this.listItemTitleArray[this.focusPos].id +
-                    "&backUrl=" + encodeURIComponent(window.location.href);
-            } else {                                                    // 更多内容
-                _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
-            }
-            window.location.href = _link;
-        }
     }
 
     function grabEvent(_event) {
@@ -522,6 +515,10 @@
         var code = Event(_event);
 
         switch (code) {
+            case "KEY_NUMBER1":
+                console.info("KEY_NUMBER1");
+                controller.toggle();
+                return false;
             case "KEY_UP": //
                 controller.moveY(-1);
                 return false;

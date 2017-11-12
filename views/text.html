@@ -14,23 +14,6 @@
     <div id="title" class="title"></div>
     <div id="text-trapper">
         <div id="content" class="text-content">
-            很多年前，一个男人从英国回来，认识了一个预科毕业的女孩子，她长得清秀美丽，男人一见倾心，放弃了其他女子，娶她为妻。
-
-            婚后，他觉得一个年轻女子不应该在家里埋没她的青春，她应该出去看看世界。他用心栽培她，他知道什么工作最适合她，而又最有前途。
-
-            数年后，妻子不负他所望，工作颇有出色。他想她更上层楼，把她引荐到一间实力雄厚的大机构，公司股东之一是他的朋友。
-
-            后来，他的妻子却爱上他这位朋友，要跟他离婚。妻子走后，他跟三岁的女儿相依为命。女人长得很像一位电视艺人，女儿常常指著电视叫：“妈妈！妈妈！”
-
-            一天晚上，他无法回家陪伴女儿，打电话给我，请我支看看她。我到了他的家，看见小女孩寂寞地瑟缩在沙发后面。这一幕我永远不会忘记，孩子太可怜。
-
-            失意的男人仍然常对我说：“我很会栽培我的妻子。”
-
-            他最引以为傲的，是他毫不自私，把一个女人由一个普通预科毕业生，栽培成为高级行政人员。但，女人固然不须伟大，男从又何必太伟大呢？
-
-            他栽培她，期望她出色，却因此使她更有条件选择一个比自己丈夫出色的男人。
-
-            还是自私一点好。
         </div>
     </div>
     <div id="pager">
@@ -78,69 +61,77 @@
     function Controller() {
         var that = this;
 
+        Assistant.call(this);
         PageHelper.call(this);
-
-        this.offset_height = document.getElementById("text-trapper").offsetHeight;
-        this.scroll_height = document.getElementById("content").scrollHeight;
-        this.total_pages = Math.ceil(this.scroll_height / this.offset_height);
-        this.cur_page = 1;
 
         this.backUrl = "";
 
         this.init = function () {
             transferStation.record();
             that.backUrl = transferStation.backUrl;
+//            that.setParameters();
+//            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
+            queryContentByID(transferStation.itemId);
+        };
+
+        this.setParameters = function(){
+            that.offset_height = document.getElementById("text-trapper").offsetHeight;
+            that.scroll_height = document.getElementById("content").scrollHeight;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "offset: " + that.offset_height;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "scroll: " + that.scroll_height;
+            that.total_pages = Math.ceil(that.scroll_height / that.offset_height);
+            that.cur_page = 1;
             document.getElementById("pager").innerHTML = that.cur_page + "/" + that.total_pages;
-            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
-//            ajaxForTitleById(transferStation.itemId);
         };
 
         this.render = function (data) {
             showTitleForMarquee(data.title, document.getElementById("title"), 15);
             document.getElementById("content").innerHTML = data.content;
-            that.offset_height = document.getElementById("trapper").offsetHeight;
-            that.scroll_height = document.getElementById("content").scrollHeight;
-            console.info("offsetHeight: " + that.offset_height + " scrollHeight: " + that.scroll_height);
-            that.total_pages = Math.ceil(that.scroll_height / that.offset_height);
-            that.cur_page = 1;
+
+            setTimeout(function () {
+                that.setParameters();
+            }, 500);
         };
 
         this.doBack = function () {
             window.location.href = that.backUrl;
-        }
+        };
     }
 
-    function ajaxForTitleById(id) {
+    function queryContentByID(id) {
         var _url = paramObj.serverUrl +
                 "queryTitleByIdMobile.shtml?id=" + id,
             postman = new Postman();
 
-        document.getElementById("debug-message").innerHTML += "<br/>" + " ==> ajaxForTitleById ";
-        document.getElementById("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+        document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] URL ==> " + _url;
 
-        postman.createXmlHttpRequest(onFetchResourceSuccess, onFetchResourceFail);
+        postman.createXmlHttpRequest(onFetchContentSuccess, onFetchContentFail);
         postman.sendRequest('GET', _url, null);
     }
 
-    function onFetchResourceSuccess(html) {
+    function onFetchContentSuccess(html) {
         var json = eval('(' + html + ')');
 
-        document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceSuccess ";
-        document.getElementById("debug-message").innerHTML += "<br/>" + html;
+        document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] ==> onFetchContentSuccess ";
+//        document.getElementById("debug-message").innerHTML += "<br/>" + html;
 
         if ("1" === json.code || 1 === json.code) {
             controller.render(json);
         }
     }
 
-    function onFetchResourceFail(error) {
-        document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceFail ";
+    function onFetchContentFail(error) {
+        document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] ==> onFetchContentFail ";
         document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
     }
 
     function grabEvent(_event) {
         var code = Event(_event);
         switch (code) {
+            case "KEY_NUMBER1":
+                console.info("KEY_NUMBER1");
+                controller.toggle();
+                return false;
             case "KEY_UP": //
 //                oparateObj.moveY(-1);
                 return false;
@@ -158,10 +149,12 @@
 //                oparateObj.moveX(1);
                 return false;
             case "KEY_PAGE_UP": //
-//                oparateObj.changePage(-1);
+                console.info("KEY_PAGE_UP");
+                controller.turn(document.getElementById("content"), document.getElementById("pager"), -1);
                 return false;
             case "KEY_PAGE_DOWN": //
-//                oparateObj.changePage(1);
+                console.info("KEY_PAGE_DOWN");
+                controller.turn(document.getElementById("content"), document.getElementById("pager"), 1);
                 return false;
             case "KEY_SELECT": //
 //                oparateObj.doSelect();

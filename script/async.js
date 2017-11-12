@@ -3,12 +3,15 @@
  * @type {{xhr: null, createXmlHttpRequest: postman.createXmlHttpRequest, sendRequest: postman.sendRequest, abortRequest: postman.abortRequest}}
  */
 function Postman() {
+    var that = this;
+
     this.xhr = null;
+    this.method = "";
 
     this.createXmlHttpRequest = function (_successCallback, _failedCallback) {
         var that = this;
 
-        $("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
+        document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
         if (this.xhr !== null) {
             this.abortRequest();
         } else {
@@ -44,24 +47,31 @@ function Postman() {
          500: 服务器内部错误
          * */
         this.xhr.onreadystatechange = function () {
-            $("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
             var
                 contentType = "";
 
             if (that.xhr.readyState === 4) {
                 if (that.xhr.status === 200) {
                     contentType = that.xhr.getResponseHeader("Content-type");
-                    $("debug-message").innerHTML += "<br/>" + " ==>  success ==> Content-type: " + contentType + " ResponseType: " + that.xhr.responseType;
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  success ==> Content-Type: " + contentType + " ResponseType: " + that.xhr.responseType;
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " responseXML: " + that.xhr.responseXML + " Type: " + typeof(that.xhr.responseXML);
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " responseText: " + that.xhr.responseText + " Type: " + typeof(that.xhr.responseText);
                     if (contentType && contentType.indexOf("xml") >= 0) {
                         _successCallback(that.xhr.responseXML);
                     } else {
-                        _successCallback(that.xhr.responseText);
+                        if (that.method === "POST") {
+                            _successCallback(that.xhr.responseXML);
+                        }
+                        else {
+                            _successCallback(that.xhr.responseText);
+                        }
                     }
                 } else if (that.xhr.status === 404) {
-                    $("debug-message").innerHTML += "<br/>" + " ==>  failed";
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     _failedCallback("资源未找到");
                 } else {
-                    $("debug-message").innerHTML += "<br/>" + " ==>  failed";
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     _failedCallback("错误");
                 }
             }
@@ -69,7 +79,8 @@ function Postman() {
     };
 
     this.sendRequest = function (_method, _url, _data) {
-        $("debug-message").innerHTML += "<br/>" + "Postman    ==>    sendRequest";
+        document.getElementById("debug-message").innerHTML += "<br/>" + "Postman    ==>    sendRequest";
+        that.method = _method;
         // 规定请求的类型、URL 以及是否异步处理请求
         this.xhr.open(_method, _url, true);
         if ("GET" === _method) {
@@ -78,7 +89,8 @@ function Postman() {
             // 向请求添加 HTTP 头（必需）
             // header: 规定头的名称
             // value: 规定头的值
-            this.xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            // this.xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            this.xhr.setRequestHeader("Content-type", "application/xml;charset=utf-8");
             // 将请求发送到服务器
             this.xhr.send(_data);
         }
@@ -86,7 +98,7 @@ function Postman() {
 
     this.abortRequest = function () {
         if (this.xhr !== null) {
-            $("debug-message").innerHTML += "<br/>" + "postman    ==>    abortRequest";
+            document.getElementById("debug-message").innerHTML += "<br/>" + "postman    ==>    abortRequest";
             this.xhr.abort();        // 中止异步请求
 
         }
