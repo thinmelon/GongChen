@@ -319,7 +319,8 @@ var paramObj = {
     ],
 
     buildingResourceIdArray: [
-        {title: "智慧党建", resourceId: "660"}
+        {title: "智慧党建", resourceId: "660"},
+        {title: "左侧海报", resourceId: "672"}
     ],
 
     cityResourceIdArray: [
@@ -395,11 +396,88 @@ function PageHelper() {
     };
 }
 
+/*----------------------------------------- 海报模块助手  ---------------------------------*/
+function PostHelper() {
+    var that = this;
+
+    // 属性
+    this.focusPos = 0;                // 记录光标在区域内的位置
+    this.postItemArray = [];
+    this.resourceId = "";
+
+    // 方法
+    this.init = function () {
+        var postman,
+            url;
+
+        console.info("PostHelper    =>  init()");
+
+        if (that.resourceId !== "") {
+
+            postman = new Postman();
+            url = paramObj.serverUrl +
+                "queryTitleListMobile.shtml?resourceId=" + that.resourceId + "&num=" + this.postItemArray.length + "&cur_page=1";
+
+            $("debug-message").innerHTML += "<br/>" + " URL ==> " + url;
+
+            postman.createXmlHttpRequest(
+                function (html) {
+                    var i,
+                        length,
+                        json = eval('(' + html + ')');
+
+                    if ("1" === json.code || 1 === json.code) {
+                        for (i = 0, length = json.dataArray.length; i < length; i++) {
+                            that.postItemArray[i].url = "video.html?assetId=" + json.dataArray[i].assetid
+                                + "&backUrl=" + encodeURIComponent(window.location.href);
+                            document.getElementById("debug-message").innerHTML += "<br/>" + " add url into item[" + i + "] ==> " + that.postItemArray[i].url;
+                            document.getElementById("post-item-" + i).src = paramObj.imgUrl + json.dataArray[i].img;
+                            document.getElementById("debug-message").innerHTML += "<br/>" + " set item[" + i + "] image url as ==> " + document.getElementById("post-item-" + i).src;
+                        }
+                    }
+                },
+                function (error) {
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+                });
+            postman.sendRequest(
+                "GET",
+                url,
+                null
+            );
+        }
+    };
+
+    this.focusOn = function () {
+
+        var _focusNode = document.getElementById("self_ad_focus");
+        _focusNode.style.visibility = "visible";
+        _focusNode.style.left = that.postItemArray[this.focusPos].left + "px";
+        _focusNode.style.top = this.postItemArray[this.focusPos].top + "px";
+        _focusNode.style.width = this.postItemArray[this.focusPos].width + "px";
+        _focusNode.style.height = this.postItemArray[this.focusPos].height + "px";
+
+    };
+
+    this.focusOut = function () {
+        var _focusNode = document.getElementById("self_ad_focus");
+        _focusNode.style.visibility = "hidden";
+    };
+
+    this.doSelect = function () {
+
+        var link = that.postItemArray[that.focusPos].url;
+        if ("" !== link) {
+            window.location.href = link;
+        }
+    }
+}
+
 /*----------------------------------------- 图文列表助手  ---------------------------------*/
 
 function ListHelper() {
     var that = this;
-    
+
     // 属性
     this.listItemNum = 0;
     this.listItemArray = [];
@@ -645,19 +723,19 @@ function ajaxForWeather() {
  */
 (function () {
     console.info("====== Load utility.js ======");
-
-    if (document.getElementById("weather-forecast")) {
-        if (paramObj.temperature.length === 0) {
-            console.info("===>  ajaxForWeather");
-            // getOperator();
-            ajaxForWeather();
-        } else {
-            document.getElementById("weather-forecast").innerHTML += "<br/>" +
-                "今日天气：&nbsp;&nbsp;&nbsp;" + paramObj.weather +
-                "&nbsp;&nbsp;&nbsp;" + paramObj.temperature +
-                "&nbsp;&nbsp;&nbsp;" + paramObj.windScale;
-        }
-    }
+    ajaxForWeather();
+    // if (document.getElementById("weather-forecast")) {
+    //     if (paramObj.temperature.length === 0) {
+    //         console.info("===>  ajaxForWeather");
+    //         // getOperator();
+    //         // ajaxForWeather();
+    //     } else {
+    //         document.getElementById("weather-forecast").innerHTML += "<br/>" +
+    //             "今日天气：&nbsp;&nbsp;&nbsp;" + paramObj.weather +
+    //             "&nbsp;&nbsp;&nbsp;" + paramObj.temperature +
+    //             "&nbsp;&nbsp;&nbsp;" + paramObj.windScale;
+    //     }
+    // }
 })();
 
 /*----------------------------------------- 读写盒子全局变量代码 ---------------------------------*/

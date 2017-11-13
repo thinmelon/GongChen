@@ -17,11 +17,11 @@
 <div class="row">
     <div class="post-entry">
         <div id="example-post-1" class="example-post">
-            <img src="../images/post-1.jpg" width="353px" height="300px">
+            <img id="post-item-0" src="../images/post-1.jpg" width="353px" height="300px" alt="海报">
         </div>
         <div id="example-post-2" class="example-post">
-            <img src="../images/post-2.jpg" width="500px" height="300px">
-            <img id="icon_video_play" src="../images/video_play.PNG" width="73" height="71">
+            <img id="post-item-1" src="../images/post-2.jpg" width="500px" height="300px" alt="海报">
+            <!--<img id="icon_video_play" src="../images/video_play.PNG" width="73" height="71">-->
         </div>
     </div>
 
@@ -230,7 +230,8 @@
 
                             if ("1" === json.code || 1 === json.code) {
                                 if (json.hasOwnProperty("dataArray") && json.dataArray.length > 0) {
-                                    window.location.href = "text.html?itemId=" + json.dataArray[0].id + "&backUrl=" + encodeURIComponent(window.location.href)
+                                    window.location.href = "text.html?itemId=" + json.dataArray[0].id
+                                        + "&backUrl=" + encodeURIComponent(window.location.href)
                                 }
                             }
                         },
@@ -250,96 +251,7 @@
             }
         },
 
-        postObj = {
-
-            focusPos: 0,                // 记录光标在区域内的位置
-            postItemArray: [
-                {
-                    left: 18,
-                    top: 134,
-                    width: 355,
-                    height: 302,
-                    url: "video.html?assetId=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
-                },
-
-                {
-                    left: 372,
-                    top: 134,
-                    width: 502,
-                    height: 302,
-                    url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
-                }
-            ],
-
-            init: function () {
-            },
-
-            focusOn: function () {
-
-                var _focusNode = document.getElementById("self_ad_focus");
-                _focusNode.style.visibility = "visible";
-                _focusNode.style.left = this.postItemArray[this.focusPos].left + "px";
-                _focusNode.style.top = this.postItemArray[this.focusPos].top + "px";
-                _focusNode.style.width = this.postItemArray[this.focusPos].width + "px";
-                _focusNode.style.height = this.postItemArray[this.focusPos].height + "px";
-
-            },
-
-            focusOut: function () {
-                var _focusNode = document.getElementById("self_ad_focus");
-                _focusNode.style.visibility = "hidden";
-            },
-
-            moveX: function (_direction) {
-
-                this.focusOut();
-
-                this.focusPos += _direction;
-
-                if (this.focusPos >= 0 && this.focusPos < this.postItemArray.length) {
-
-                    this.focusOn();
-
-                } else if (this.focusPos < 0) {
-                    if (listObj.listItemTitleArray.length > 0) {
-                        this.focusPos = 0;
-                        controller.focusArea = 2;
-                        listObj.focusOn();
-                    } else {
-                        this.focusPos = this.postItemArray.length - 1;
-                        this.focusOn();
-                    }
-
-                } else {
-                    if (listObj.listItemTitleArray.length > 0) {
-                        this.focusPos = this.postItemArray.length - 1;
-                        controller.focusArea = 2;
-                        listObj.focusOn();
-                    } else {
-                        this.focusPos = 0;
-                        this.focusOn();
-                    }
-                }
-            },
-
-            moveY: function (_direction) {
-
-                this.focusOut();
-
-                controller.focusArea = 0;
-                menuObj.focusOn();
-
-            },
-
-            doSelect: function () {
-
-                var link = this.postItemArray[this.focusPos].url;
-                if ("" !== link) {
-                    window.location.href = link;
-                }
-
-            }
-        },
+        postObj = new PostObj(),
 
         listObj = new ListObj(),
 
@@ -354,6 +266,7 @@
 
         this.init = function () {
             menuObj.init();                 // 初始化菜单项
+            postObj.init();                 // 初始化海报
             listObj.init();                 // 初始化列表项
 
             var params = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
@@ -472,6 +385,73 @@
         }
     }
 
+    function PostObj() {
+        var that = this;
+
+        PostHelper.call(this);
+
+        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
+        this.postItemArray = [
+            {
+                left: 18,
+                top: 134,
+                width: 355,
+                height: 302,
+                url: ""
+//                    url: "video.html?assetId=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
+            },
+
+            {
+                left: 372,
+                top: 134,
+                width: 502,
+                height: 302,
+                url: ""
+//                    url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
+            }
+        ];
+
+        this.moveX = function (_direction) {
+
+            this.focusOut();
+
+            this.focusPos += _direction;
+
+            if (this.focusPos >= 0 && this.focusPos < this.postItemArray.length) {
+
+                this.focusOn();
+
+            } else if (this.focusPos < 0) {
+                if (listObj.listItemTitleArray.length > 0) {
+                    this.focusPos = 0;
+                    controller.focusArea = 2;
+                    listObj.focusOn();
+                } else {
+                    this.focusPos = this.postItemArray.length - 1;
+                    this.focusOn();
+                }
+
+            } else {
+                if (listObj.listItemTitleArray.length > 0) {
+                    this.focusPos = this.postItemArray.length - 1;
+                    controller.focusArea = 2;
+                    listObj.focusOn();
+                } else {
+                    this.focusPos = 0;
+                    this.focusOn();
+                }
+            }
+        };
+
+        this.moveY = function (_direction) {
+
+            this.focusOut();
+
+            controller.focusArea = 0;
+            menuObj.focusOn();
+        }
+    }
+
     function ListObj() {
         // 复制ListHelper的实例属性
         ListHelper.call(this);
@@ -489,32 +469,33 @@
 //                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
 //            ];
 //            this.addListItem(test);
-            var that = this,
-                postman = new Postman(),
-                _url = paramObj.serverUrl +
-                    "queryTitleListMobile.shtml?resourceId=" + paramObj.peaceResourceIdArray[1].resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
 
-            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
-
-            postman.createXmlHttpRequest(
-                function (html) {
-                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListSuccess ";
-                    var json = eval('(' + html + ')');
-                    $("debug-message").innerHTML += "<br/>" + " URL:" + html;
-
-                    if ("1" === json.code || 1 === json.code) {
-                        that.addListItem(json.dataArray);
-                    }
-                },
-                function (error) {
-                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
-                    $("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
-                });
-            postman.sendRequest(
-                "GET",
-                _url,
-                null
-            );
+//            var that = this,
+//                postman = new Postman(),
+//                _url = paramObj.serverUrl +
+//                    "queryTitleListMobile.shtml?resourceId=" + paramObj.buildingResourceIdArray[1].resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
+//
+//            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+//
+//            postman.createXmlHttpRequest(
+//                function (html) {
+//                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListSuccess ";
+//                    var json = eval('(' + html + ')');
+//                    $("debug-message").innerHTML += "<br/>" + " URL:" + html;
+//
+//                    if ("1" === json.code || 1 === json.code) {
+//                        that.addListItem(json.dataArray);
+//                    }
+//                },
+//                function (error) {
+//                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
+//                    $("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+//                });
+//            postman.sendRequest(
+//                "GET",
+//                _url,
+//                null
+//            );
         };
 
         this.moveX = function (_direction) {
