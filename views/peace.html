@@ -223,95 +223,7 @@
 
         },
 
-        postObj = {
-
-            focusPos: 0,                // 记录光标在区域内的位置
-            postItemArray: [
-                {
-                    left: 375,
-                    top: 150,
-                    width: 451,
-                    height: 355,
-                    url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
-                },
-
-                {
-                    left: 59,
-                    top: 505,
-                    width: 767,
-                    height: 116,
-//                url: _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId
-                    url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
-                }
-            ],
-
-            init: function () {
-            },
-
-            focusOn: function () {
-                var _focusNode = document.getElementById("self_ad_focus");
-                _focusNode.style.visibility = "visible";
-                _focusNode.style.left = this.postItemArray[this.focusPos].left + "px";
-                _focusNode.style.top = this.postItemArray[this.focusPos].top + "px";
-                _focusNode.style.width = this.postItemArray[this.focusPos].width + "px";
-                _focusNode.style.height = this.postItemArray[this.focusPos].height + "px";
-            },
-
-            focusOut: function () {
-
-            },
-
-            moveX: function (_direction) {
-
-                if (_direction < 0) {
-
-                    if (this.focusPos === 0) {
-                        controller.focusArea = 0;       //  移到菜单区域
-                        menuObj.focusPosY = 0;          //  光标定位至首行
-                        menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
-                        menuObj.focusOn();
-                    } else {
-                        if (listObj.listItemTitleArray.length > 0) {
-                            controller.focusArea = 2;       // 移到文字列表区域
-                            listObj.focusOn();
-                        }
-                    }
-
-                } else {
-                    if (listObj.listItemTitleArray.length > 0) {
-                        controller.focusArea = 2;           // 移到文字列表区域
-                        listObj.focusOn();
-                    }
-                }
-
-            },
-
-            moveY: function (_direction) {
-
-                this.focusPos += _direction;
-
-                if (this.focusPos >= 0 && this.focusPos < this.postItemArray.length) {
-
-                } else if (this.focusPos < 0) {
-                    this.focusPos = this.postItemArray.length - 1;
-                } else {
-                    this.focusPos = 0;
-                }
-
-                this.focusOn();
-
-            },
-
-            doSelect: function () {
-
-                var link = this.postItemArray[this.focusPos].url;
-
-                if ("" != link) {
-                    window.location.href = link;
-                }
-
-            }
-        },
+        postObj = new PostObj(),
 
         listObj = new ListObj(),
 
@@ -329,6 +241,7 @@
 
             console.info("controller ==> init");
             transferStation.record();
+            postObj.init();
             listObj.init();
             $("self_ad_focus").style.visibility = "visible";
             that.focusOn();
@@ -413,6 +326,64 @@
         };
     }
 
+    function PostObj() {
+        PostHelper.call(this);
+
+        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
+        this.postItemArray = [
+            {
+                left: 375,
+                top: 150,
+                width: 451,
+                height: 355,
+                url: ""
+            },
+
+            {
+                left: 59,
+                top: 505,
+                width: 767,
+                height: 116,
+                url: ""
+            }
+        ];
+
+        this.moveX = function (_direction) {
+            if (_direction < 0) {
+                if (this.focusPos === 0) {
+                    controller.focusArea = 0;       //  移到菜单区域
+                    menuObj.focusPosY = 0;          //  光标定位至首行
+                    menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
+                    menuObj.focusOn();
+                } else {
+                    if (listObj.listItemTitleArray.length > 0) {
+                        controller.focusArea = 2;       // 移到文字列表区域
+                        listObj.focusOn();
+                    }
+                }
+            } else {
+                if (listObj.listItemTitleArray.length > 0) {
+                    controller.focusArea = 2;           // 移到文字列表区域
+                    listObj.focusOn();
+                }
+            }
+        };
+
+        this.moveY = function (_direction) {
+            this.focusPos += _direction;
+            if (this.focusPos >= 0 && this.focusPos < this.postItemArray.length) {
+
+            } else if (this.focusPos < 0) {
+                this.focusPos = this.postItemArray.length - 1;
+            } else {
+                this.focusPos = 0;
+            }
+
+            this.focusOn();
+
+        };
+    }
+
     function ListObj() {
         // 复制ListHelper的实例属性
         ListHelper.call(this);
@@ -431,50 +402,9 @@
         this.itemMoreWidth = 158;
         this.itemMoreHeight = 23;
 
+        this.resourceId = paramObj.peaceResourceIdArray[1].resourceId;
+
         // 方法
-        this.init = function () {
-//            var test = [
-//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111},
-//                {assetID: 611, title: '建设美丽莆田行动纲要', flag: 0, id: 111},
-//                {assetID: 611, title: '美丽港城 冉冉起', flag: 0, id: 111},
-//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', flag: 0, id: 111},
-//                {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
-//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111},
-//                {assetID: 611, title: '建设美丽莆田行动纲要', flag: 0, id: 111},
-//                {assetID: 611, title: '美丽港城 冉冉起', flag: 0, id: 111},
-//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', flag: 0, id: 111},
-//                {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
-//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
-//            ];
-//            this.addListItem(test);
-            var that = this,
-                postman = new Postman(),
-                _url = paramObj.serverUrl +
-                    "queryTitleListMobile.shtml?resourceId=" + paramObj.peaceResourceIdArray[1].resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
-
-            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
-
-            postman.createXmlHttpRequest(
-                function (html) {
-                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListSuccess ";
-                    var json = eval('(' + html + ')');
-                    $("debug-message").innerHTML += "<br/>" + " URL:" + html;
-
-                    if ("1" === json.code || 1 === json.code) {
-                        that.addListItem(json.dataArray);
-                    }
-                },
-                function (error) {
-                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
-                    $("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
-                });
-            postman.sendRequest(
-                "GET",
-                _url,
-                null
-            );
-        };
-
         this.moveX = function (_direction) {
             this.focusOut();
             if (_direction < 0) {

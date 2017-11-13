@@ -161,77 +161,9 @@
             }
 
         },
-        postObj = {
 
-            focusPos: 0,                // 记录光标在区域内的位置
-            postItemArray: [
-                {
-                    left: 97,
-                    top: 258,
-                    width: 523,
-                    height: 380,
-                    url: "play.html?assetid=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
-                }
-            ],
+        postObj = new PostObj(),
 
-            init: function () {
-            },
-
-            focusOn: function () {
-                $("self_ad_focus").style.visibility = "visible";
-                $("self_ad_focus").style.left = this.postItemArray[this.focusPos].left + "px";
-                $("self_ad_focus").style.top = this.postItemArray[this.focusPos].top + "px";
-                $("self_ad_focus").style.width = this.postItemArray[this.focusPos].width + "px";
-                $("self_ad_focus").style.height = this.postItemArray[this.focusPos].height + "px";
-            },
-
-            focusOut: function () {
-
-                $("self_ad_focus").style.visibility = "hidden";
-
-            },
-
-            moveX: function (_direction) {
-
-                this.focusOut();
-
-                controller.focusArea = 2;
-
-                if (_direction < 0) {
-
-                    entryObj.focusPosX = entryObj.itemsPerLine[0] - 1;
-                    entryObj.focusPosY = 0;
-
-                } else {
-
-                    entryObj.focusPosX = 0;
-                    entryObj.focusPosY = 0;
-
-                }
-
-                controller.focusOn();
-
-            },
-
-            moveY: function (_direction) {
-
-                this.focusOut();
-
-                controller.focusArea = 0;
-                controller.focusOn();
-
-            },
-
-            doSelect: function () {
-
-                var link = this.postItemArray[this.focusPos].url;
-
-                if ("" != link) {
-                    window.location.href = link;
-                }
-
-            }
-        },
         entryObj = {
 
             focusPosX: 0,                   // 记录光标在区域内的位置
@@ -337,116 +269,140 @@
             }
 
         },
-        controller = {
 
-            focusArea: 0,
+        controller = new Controller()
+    ;
 
-            init: function () {
+    function PostObj() {
+        PostHelper.call(this);
 
-                console.info("building.html ==>    controller ==>    init");
-
-                // 记住返回参数
-                transferStation.record();
-
-                this.focusOn();
-            },
-
-            focusOn: function () {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.focusOn();
-
-                        break;
-                    case 1:             // 海报
-
-                        postObj.focusOn();
-
-                        break;
-                    case 2:             // 链接
-
-                        entryObj.focusOn();
-
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            focusOut: function () {
-
-            },
-
-            moveX: function (_direction) {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.moveX(_direction);
-
-                        break;
-                    case 1:             // 海报
-
-
-                        postObj.moveX(_direction);
-
-                        break;
-                    case 2:             // 文字列表
-
-                        entryObj.moveX(_direction);
-
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            moveY: function (_direction) {
-
-                switch (this.focusArea) {
-                    case 0:             // 菜单
-
-                        menuObj.moveY(_direction);
-
-                        break;
-                    case 1:             // 海报
-
-                        postObj.moveY(_direction);
-
-                        break;
-                    case 2:             // 文字列表
-
-                        entryObj.moveY(_direction);
-
-                        break;
-                    default:
-                        break;
-                }
-
-            },
-
-            changePage: function (_direction) {
-
-            },
-
-            doSelect: function () {
-
-            },
-
-            doBack: function () {
-                window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
+        this.postItemArray = [
+            {
+                left: 97,
+                top: 258,
+                width: 523,
+                height: 380,
+                url: ""
             }
+        ];
+
+        this.moveX = function (_direction) {
+
+            this.focusOut();
+            controller.focusArea = 2;
+            if (_direction < 0) {
+                entryObj.focusPosX = entryObj.itemsPerLine[0] - 1;
+                entryObj.focusPosY = 0;
+            } else {
+                entryObj.focusPosX = 0;
+                entryObj.focusPosY = 0;
+            }
+            controller.focusOn();
+        };
+
+        this.moveY = function (_direction) {
+            this.focusOut();
+            controller.focusArea = 0;
+            controller.focusOn();
+        };
+    }
+
+    function Controller() {
+        var that = this;
+
+        Assistant.call(this);
+
+        this.focusArea = 0;
+
+        this.init = function () {
+
+            console.info("building.html ==>    controller ==>    init");
+            // 记住返回参数
+            transferStation.record();
+
+            postObj.init();
+
+            this.focusOn();
+        };
+
+        this.focusOn = function () {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.focusOn();
+                    break;
+                case 1:             // 海报
+                    postObj.focusOn();
+                    break;
+                case 2:             // 链接
+                    entryObj.focusOn();
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.focusOut = function () {
 
         };
+
+        this.moveX = function (_direction) {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveX(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveX(_direction);
+                    break;
+                case 2:             // 文字列表
+                    entryObj.moveX(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.moveY = function (_direction) {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveY(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveY(_direction);
+                    break;
+                case 2:             // 文字列表
+                    entryObj.moveY(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.changePage = function (_direction) {
+
+        };
+
+        this.doSelect = function () {
+
+        };
+
+        this.doBack = function () {
+            window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+        };
+    }
 
     function grabEvent(_event) {
 
         var code = Event(_event);
 
         switch (code) {
+            case "KEY_NUMBER1":
+                console.info("KEY_NUMBER1");
+                controller.toggle();
+                return false;
             case "KEY_UP": //
                 controller.moveY(-1);
                 return false;
