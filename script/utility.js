@@ -206,12 +206,12 @@ Object.prototype.toJson = function () {
         arr = [],
         str = '';
 
-    if (typeof this == 'object') {
+    if (typeof this === 'object') {
         if (this instanceof Array) {
             return this.toJson();
         } else {
             for (p in this) {
-                if (typeof this[p] == 'function') break;
+                if (typeof this[p] === 'function') break;
                 switch (typeof this[p]) {
                     case 'number':
                         str = this[p];
@@ -397,6 +397,7 @@ function PageHelper() {
 }
 
 /*----------------------------------------- 海报模块助手  ---------------------------------*/
+
 function PostHelper() {
     var that = this;
 
@@ -492,6 +493,47 @@ function ListHelper() {
     this.itemMoreTop = 390;
     this.itemMoreWidth = 158;
     this.itemMoreHeight = 23;
+
+    this.resourceId = "";
+
+    this.init = function () {
+        // var test = [
+        //     {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', img: '', flag: 0, id: 111},
+        //     {assetID: 611, title: '建设美丽莆田行动纲要', img: '1', flag: 0, id: 111},
+        //     {assetID: 611, title: '美丽港城 冉冉起', img: '1', flag: 0, id: 111},
+        //     {assetID: 611, title: '"拱辰街道依法拆除违章建筑', img: '1', flag: 0, id: 111},
+        //     {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
+        //     {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
+        // ];
+        // this.addListItem(test);
+
+        var that = this,
+            postman = new Postman(),
+            _url = paramObj.serverUrl +
+                "queryTitleListMobile.shtml?resourceId=" + this.resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
+
+        if (this.resourceId !== "") {
+            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+
+            postman.createXmlHttpRequest(
+                function (html) {
+                    var json = eval('(' + html + ')');
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " URL:" + html;
+
+                    if ("1" === json.code || 1 === json.code) {
+                        that.addListItem(json.dataArray);
+                    }
+                },
+                function (error) {
+                    document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+                });
+            postman.sendRequest(
+                "GET",
+                _url,
+                null
+            );
+        }
+    };
 
     this.setListItemTitle = function () {
         var i,

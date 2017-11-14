@@ -11,7 +11,7 @@
 
 <body>
 
-<div class="title-logo"
+<div id="index-logo" class="title-logo"
      style="background: url('../images/index-logo.png') no-repeat; "></div>
 
 <div class="row">
@@ -414,13 +414,9 @@
         this.moveX = function (_direction) {
 
             this.focusOut();
-
             this.focusPos += _direction;
-
             if (this.focusPos >= 0 && this.focusPos < this.postItemArray.length) {
-
                 this.focusOn();
-
             } else if (this.focusPos < 0) {
                 if (listObj.listItemTitleArray.length > 0) {
                     this.focusPos = 0;
@@ -430,7 +426,6 @@
                     this.focusPos = this.postItemArray.length - 1;
                     this.focusOn();
                 }
-
             } else {
                 if (listObj.listItemTitleArray.length > 0) {
                     this.focusPos = this.postItemArray.length - 1;
@@ -455,49 +450,14 @@
     function ListObj() {
         // 复制ListHelper的实例属性
         ListHelper.call(this);
+
         // 属性
         this.focusPos = 0;
         this.listItemNum = 5;
+
+        this.resourceId = "";
+
         // 方法
-        this.init = function () {
-//            var test = [
-//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', img: '', flag: 0, id: 111},
-//                {assetID: 611, title: '建设美丽莆田行动纲要', img: '1', flag: 0, id: 111},
-//                {assetID: 611, title: '美丽港城 冉冉起', img: '1', flag: 0, id: 111},
-//                {assetID: 611, title: '"拱辰街道依法拆除违章建筑', img: '1', flag: 0, id: 111},
-//                {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
-//                {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
-//            ];
-//            this.addListItem(test);
-
-//            var that = this,
-//                postman = new Postman(),
-//                _url = paramObj.serverUrl +
-//                    "queryTitleListMobile.shtml?resourceId=" + paramObj.buildingResourceIdArray[1].resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
-//
-//            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
-//
-//            postman.createXmlHttpRequest(
-//                function (html) {
-//                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListSuccess ";
-//                    var json = eval('(' + html + ')');
-//                    $("debug-message").innerHTML += "<br/>" + " URL:" + html;
-//
-//                    if ("1" === json.code || 1 === json.code) {
-//                        that.addListItem(json.dataArray);
-//                    }
-//                },
-//                function (error) {
-//                    $("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
-//                    $("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
-//                });
-//            postman.sendRequest(
-//                "GET",
-//                _url,
-//                null
-//            );
-        };
-
         this.moveX = function (_direction) {
             this.focusOut();
             if (_direction < 0) {
