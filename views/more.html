@@ -67,11 +67,10 @@
         <div id="more_page_item_text_7" class="more_page_item_text"></div>
     </div>
 
-    <!--<div id="more_page_index_img">-->
-    <!--<div id="more_page_index">-->
-    <!--1/1-->
-    <!--</div>-->
-    <!--</div>-->
+    <div id="more_page_index_img">
+        <div id="more_page_index">
+        </div>
+    </div>
 </div>
 
 <!--底部-->
@@ -116,6 +115,7 @@
         this.focusPosY = 0;
         this.pageIndex = 0;
         this.resourceId = 0;
+        this.totalPages = 0;
         this.displayItemArray = [];
         this.displayItemArray[0] = [];
         this.displayItemArray[1] = [];
@@ -137,8 +137,11 @@
                 count = this.perRowsInPage * this.perItemsInRow,
                 postman = new Postman(),
                 _url = paramObj.serverUrl +
-                    "queryTitleListMobile.shtml?resourceId=" + resourceId + "&num=" + count + "&cur_page=" + pageIndex;
+                    "queryTitleListMobile.shtml?resourceId=" + resourceId + "&num=" + count + "&cur_page=" + pageIndex,
+                _focusNode = document.getElementById("self_ad_focus");
 
+            // 初始化 - 隐藏所有节点
+            _focusNode.style.visibility = "hidden";
             for (i = 0; i < count; i++) {
                 document.getElementById("more_page_item_" + i).style.visibility = "hidden";
             }
@@ -157,6 +160,8 @@
                             if (json.dataArray.length > 0) {
                                 that.resourceId = resourceId;
                                 that.pageIndex = pageIndex;
+                                that.totalPages = json.total_page;
+                                document.getElementById("more_page_index").innerHTML = that.pageIndex + " / " + that.totalPages;
                                 that.addItems(json.dataArray);
                                 that.focusOn();
                             }
@@ -185,7 +190,7 @@
                         top: 153,
                         width: 273,
                         height: 206,
-                        flag: data[i].flag,
+                        flag: parseInt(data[i].flag),
                         assetid: data[i].assetid,
                         img: data[i].img,
                         title: data[i].title,
@@ -197,7 +202,7 @@
                         top: 153 + 237,
                         width: 273,
                         height: 206,
-                        flag: data[i].flag,
+                        flag: parseInt(data[i].flag),
                         assetid: data[i].assetid,
                         img: data[i].img,
                         title: data[i].title,
@@ -233,7 +238,7 @@
             var index;
 
             index = this.pageIndex + _direction;
-            if (index >= 1) {
+            if (index >= 1 && index <= this.totalPages) {
                 document.getElementById("debug-message").innerHTML += "<br/>" + "changePage ==> direction = " + _direction + " | page index = " + index;
                 this.init(this.resourceId, index);
             }
@@ -262,16 +267,28 @@
         };
 
         this.moveY = function (_direction) {
-            console.info("pageItemObj ==> moveY ==> direction = " + _direction);
+            var rows = 0;
+
             this.focusPosY += _direction;
 
-            if (this.focusPosY >= 0 && this.focusPosY < this.perRowsInPage) {
+            if (this.displayItemArray[1].length > 0) {
+                rows = 2;
+            } else if (this.displayItemArray[0].length > 0) {
+                rows = 1;
+            }
+
+            if (this.focusPosY >= 0 && this.focusPosY < rows) {
 
             } else if (this.focusPosY < 0) {
-                this.focusPosY = this.perRowsInPage - 1;
+                this.focusPosY = rows - 1;
             } else {
                 this.focusPosY = 0;
             }
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + " moveY ==> direction = " + _direction
+                + " ==> focusX = " + this.focusPosX
+                + " ==> focusY = " + this.focusPosY;
+
 
             this.focusOn();
 
@@ -281,15 +298,22 @@
         this.doSelect = function () {
             var _link = "";
 
-            if (that.displayItemArray[that.focusPosY][that.focusPosX].flag === 0) {         // 文字列表项
+            document.getElementById("debug-message").innerHTML += "<br/>"
+                + "flag ==> " + that.displayItemArray[that.focusPosY][that.focusPosX].flag
+                + " img ==>" + that.displayItemArray[that.focusPosY][that.focusPosX].img;
+
+            if (that.displayItemArray[that.focusPosY][that.focusPosX].flag === 0 ||
+                that.displayItemArray[that.focusPosY][that.focusPosX].flag === "0") {         // 文字列表项
                 if (that.displayItemArray[that.focusPosY][that.focusPosX].img === "") {
                     _link = "text.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&backUrl=" + encodeURIComponent(window.location.href);
                 } else {
                     _link = "list.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&backUrl=" + encodeURIComponent(window.location.href);
                 }
             }
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "Go to link => " + _link;
             window.location.href = _link;
-        }
+        };
     }
 
     function Controller() {
