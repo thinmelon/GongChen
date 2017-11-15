@@ -4,13 +4,13 @@
 <head>
     <meta name="page-view-size" content="1280*720">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="css/hanxi.css"/>
+    <link rel="stylesheet" type="text/css" href="../style/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../style/more.css"/>
     <title>更多内容</title>
 </head>
 
-<body style="background: url(images/more/bg_more.png) no-repeat;  background-size: 100%">
-
-
+<body>
+<div class="subject"></div>
 <div id="more_page">
     <div id="more_page_item_0" class="more_page_item" style="left: 6px;">
         <div id="more_page_item_img_0" class="more_page_item_img">
@@ -39,57 +39,339 @@
         </div>
         <div id="more_page_item_text_3" class="more_page_item_text"></div>
     </div>
-
-    <div id="more_page_index_img">
-        <div id="more_page_index">
-            1/1
+    <div id="more_page_item_4" class="more_page_item" style="left: 6px; top: 250px;">
+        <div id="more_page_item_img_4" class="more_page_item_img">
+            <img alt="item_img" src="" height="202" width="268"/>
         </div>
+        <div id="more_page_item_text_4" class="more_page_item_text"></div>
     </div>
-</div>
 
-<!--自适应焦点 begin-->
-<div id="page_item_focus"
-     style="position: absolute; top: 153px; left: 60px; width: 270px; height: 206px; opacity: 1; z-index: 5;">
-    <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td width="10" height="10"
-                style="background:url(images/focus_lt.png) no-repeat;"></td>
-            <td style="background:url(images/focus_t.png) repeat-x;"></td>
-            <td width="10" style="background:url(images/focus_rt.png) no-repeat;"></td>
-        </tr>
-        <tr>
-            <td style="background:url(images/focus_l.png) repeat-y;"></td>
-            <td>&nbsp;</td>
-            <td style="background:url(images/focus_r.png) repeat-y;"></td>
-        </tr>
-        <tr>
-            <td width="10" height="10"
-                style="background:url(images/focus_lb.png) no-repeat;"></td>
-            <td style="background:url(images/focus_b.png) repeat-x;"></td>
-            <td style="background:url(images/focus_rb.png) no-repeat;"></td>
-        </tr>
-    </table>
+    <div id="more_page_item_5" class="more_page_item" style="left: 302px; top: 250px;">
+        <div id="more_page_item_img_5" class="more_page_item_img">
+            <img alt="item_img" src="" height="202" width="268"/>
+        </div>
+        <div id="more_page_item_text_5" class="more_page_item_text"></div>
+    </div>
+
+    <div id="more_page_item_6" class="more_page_item" style="left: 598px; top: 250px;">
+        <div id="more_page_item_img_6" class="more_page_item_img">
+            <img alt="item_img" src="" height="202" width="268"/>
+        </div>
+        <div id="more_page_item_text_6" class="more_page_item_text"></div>
+    </div>
+
+    <div id="more_page_item_7" class="more_page_item" style="left: 894px; top: 250px;">
+        <div id="more_page_item_img_7" class="more_page_item_img">
+            <img alt="item_img" src="" height="202" width="268"/>
+        </div>
+        <div id="more_page_item_text_7" class="more_page_item_text"></div>
+    </div>
+
+    <!--<div id="more_page_index_img">-->
+    <!--<div id="more_page_index">-->
+    <!--1/1-->
+    <!--</div>-->
+    <!--</div>-->
 </div>
-<!--自适应焦点 end-->
 
 <!--底部-->
-<div id="weather_forecast"></div>
-<div id="btn_intro"></div>
+<div id="weather-forecast"></div>
+<div id="intro-btn-usage"></div>
 
-<!-- 调试区 -->
-<div id="message"></div>
+<div id="self_ad_focus">
+    <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="10" height="10"
+                style="background:url(../images/focus_lt.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_t.png) repeat-x;"></td>
+            <td width="10" style="background:url(../images/focus_rt.png) no-repeat;"></td>
+        </tr>
+        <tr>
+            <td style="background:url(../images/focus_l.png) repeat-y;"></td>
+            <td>&nbsp;</td>
+            <td style="background:url(../images/focus_r.png) repeat-y;"></td>
+        </tr>
+        <tr>
+            <td width="10" height="10" style="background:url(../images/focus_lb.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_b.png) repeat-x;"></td>
+            <td style="background:url(../images/focus_rb.png) no-repeat;"></td>
+        </tr>
+        </tbody>
+    </table>
+</div><!-- self_ad_focus -->
+<div id="debug-message"></div>
 
 </body>
 
-<script type="text/javascript" src="js/function.js"></script>
-<script type="text/javascript" src="js/keyEvent.js"></script>
-<script type="text/javascript" src="js/param.js"></script>
-<script type="text/javascript" src="js/ajax.js"></script>
+<script type="application/javascript" src="../script/async.js"></script>
+<script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/keyEvent.js"></script>
 <script type="text/javascript">
-    document.onkeydown = grabEvent;
+
+    function MoreHelper() {
+        this.perRowsInPage = 2;         //  每页最多显示两行
+        this.perItemsInRow = 4;         //  每行最多显示四项
+        this.focusPos = [0, 0];           //  默认定位在第一行第一项
+        this.displayItemArray = new Array();
+        this.displayItemArray[0] = new Array();
+        this.displayItemArray[1] = new Array();
+
+        this.init = function () {
+            var data = [
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
+                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"}
+            ];
+
+            var i,
+                max = this.perRowsInPage * this.perItemsInRow,
+                length;
+
+            for (i = 0, length = data.length; i < length && i < max; i++) {
+                if (i < this.perItemsInRow) {
+                    this.displayItemArray[0][i] = {
+                        left: 60 + (i * 296),
+                        top: 153,
+                        width: 270,
+                        height: 206,
+                        assetID: data[i].assetid,
+                        img: data[i].img,
+                        title: data[i].title
+                    }
+                } else {
+                    this.displayItemArray[1][i] = {
+                        left: 60 + ((i - this.perItemsInRow) * 296),
+                        top: 153 + 237,
+                        width: 270,
+                        height: 206,
+                        assetID: data[i].assetid,
+                        img: data[i].img,
+                        title: data[i].title
+                    }
+                }
+                $("more_page_item_text_" + i).innerHTML = data[i].title;
+//                $("more_page_item_img_" + i).children[0].src = paramObj.imgUrl + data[i].img;
+                $("more_page_item_img_" + i).children[0].src = data[i].img;
+
+                /* end of if */
+            }
+            /* end of for */
+        };
+
+        this.focusOn = function () {
+            var _focusNode = document.getElementById("self_ad_focus");
+            _focusNode.style.visibility = "visible";
+
+            _focusNode.style.left = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].left + "px";
+            _focusNode.style.top = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].top + "px";
+            _focusNode.style.width = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].width + "px";
+            _focusNode.style.height = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].height + "px";
+        };
+
+        this.focusOut = function () {
+
+        };
+    }
+
+    function PageItemObj() {
+        var that = this;
+        
+        MoreHelper.call(this);
+
+        this.moveX = function (_direction) {
+
+            console.info("pageItemObj ==> moveX ==> direction = " + _direction);
+            that.focusPos[0] += _direction;
+
+            if (that.focusPos[0] >= 0 && focusPos[0] < that.displayItemArray[0].length) {
+
+            } else if (that.focusPos[0] < 0) {
+                that.focusPos[0] = that.displayItemArray[0].length - 1;
+            } else {
+                that.focusPos[0] = 0;
+            }
+
+            that.focusOn();
+
+//            this.focusPos += _direction;
+//            if (this.focusPos >= 0 && this.focusPos < this.cur_page_num) {
+//                this.focusOn();
+//            } else if (this.focusPos < 0) {
+//                this.focusPos = 0;
+//                if (this.cur_page_index > 1) {      // 不在首页
+//                    this.changePage(-1);            // 换页
+//                }
+//            } else {
+//                if (this.cur_page_index >= this.total_pages) {
+//                    this.focusPos = this.cur_page_num - 1;
+//                } else {
+//                    this.focusPos = 0;
+//                    this.changePage(1);
+//                }
+//            }
+        };
+
+        this.moveY = function (_direction) {
+            console.info("pageItemObj ==> moveY ==> direction = " + _direction);
+        };
+
+        this.changePage = function (_direction) {
+            console.info("pageItemObj ==> changePage ==> direction = " + _direction);
+
+            var _page_index = this.cur_page_index + _direction;
+
+            if (_page_index >= 1 && _page_index <= this.total_pages) {
+                this.cur_page_index += _direction;
+                this.show();
+            }
+        };
+
+        this.doSelect = function () {
+
+            var _num = (this.cur_page_index - 1) * this.per_page_num + this.focusPos;
+            var _link = "play.html?assetid=" + this.pageItemArray[_num].assetID + "&backUrl=" + encodeURIComponent(window.location.href);
+
+            console.info("pageItemObj ==> doSelect ==> URL = " + _link);
+            window.location.href = _link;
+        }
+    }
+
+    var
+        pageItemObj = new PageItemObj(),
+
+        controller = {
+
+            resourceId: 0,
+            type: 0,
+
+            init: function () {
+
+                transferStation.record();       // 记录返回参数
+                this.resourceId = transferStation.resourceId;
+                this.type = transferStation.type;
+
+                pageItemObj.init();
+                pageItemObj.focusOn();
+
+//            this.getParameter();
+
+            },
+
+            focusOn: function () {
+
+                pageItemObj.focusOn();
+
+            },
+
+            focusOut: function () {
+
+                pageItemObj.focusOut();
+
+            },
+
+            moveX: function (_direction) {
+                console.info("==>   moveX");
+                pageItemObj.moveX(_direction);
+
+            },
+
+            moveY: function (_direction) {
+
+                pageItemObj.moveY(_direction);
+
+            },
+
+            changePage: function (_num) {
+
+                pageItemObj.changePage(_num);
+
+            },
+
+            doSelect: function () {
+
+                pageItemObj.doSelect();
+
+            },
+
+            doBack: function () {
+
+                window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea
+                    + "&focusPos=" + transferStation.idxFocusPos
+                    + "&focusItemName=" + transferStation.idxFocusName;
+
+            }
+        };
+
+    //    function ajaxForQueryTitleListMobile() {
+    //
+    //
+    //        var _url = paramObj.serverUrl +
+    //            "queryTitleListMobile.shtml?resourceId=" +
+    //            controller.resourceId +
+    //            "&num=8&cur_page=1";
+    //
+    //        $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> URL: " + _url;
+    //
+    //        ajax({
+    //            url: _url,
+    //            type: "GET", //HTTP 请求类型,GET或POST
+    //            dataType: "html", //请求的文件类型html/xml
+    //
+    //            onSuccess: function (html) { //请求成功后执行[可选]
+    //
+    //                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onSuccess";
+    //                $("message").innerHTML += "<br/>" + "===>  Response = " + html;
+    //
+    //                var json = eval('(' + html + ')');
+    //                if ("1" == json.code || 1 == json.code) {
+    //
+    //                    for (var j = 0; j < json.dataArray.length; j++) {
+    //                        if (json.dataArray[j].flag == "1") {
+    //
+    //                            $("message").innerHTML += "<br/>" + "===>  AssetID in json = " + json.dataArray[j].assetid;
+    //                            $("message").innerHTML += "<br/>" + "===>  Title in json = " + json.dataArray[j].title;
+    //                            $("message").innerHTML += "<br/>" + "===>  img in json = " + json.dataArray[j].img;
+    //
+    //                            pageItemObj.addPageItem(
+    //                                json.dataArray[j].assetid,
+    //                                json.dataArray[j].img,
+    //                                json.dataArray[j].title);
+    //                        }
+    //                    }
+    //
+    //                    pageItemObj.init();
+    //
+    //                }
+    //            },
+    //
+    //            onError: function () { //请求失败后执行[可选]
+    //                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onError";
+    //            },
+    //
+    //            onComplete: function () {// 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
+    //                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onComplete";
+    //            },
+    //
+    //            post: "",
+    //            timeout: 7000  //请求的超时时间，默认7000ms，也可自行设定[可选]
+    //        });
+    //    }
+
     function grabEvent(_event) {
+
         var code = Event(_event);
+
         switch (code) {
+            case "KEY_NUMBER1":
+                console.info("KEY_NUMBER1");
+                controller.toggle();
+                return false;
             case "KEY_UP": //
                 controller.moveY(-1);
                 return false;
@@ -119,273 +401,8 @@
                 break;
         }
     }
-    ;
-
-    var pageItemObj = {
-        focusPos: 0,
-        cur_page_num: 0,
-        per_page_num: 4,
-        cur_page_index: 1,
-        total_pages: 0,
-        total_items: 0,
-
-        displayItemArray: [
-            {left: 60, top: 153, width: 270, height: 206},
-            {left: 356, top: 153, width: 270, height: 206},
-            {left: 652, top: 153, width: 270, height: 206},
-            {left: 948, top: 153, width: 270, height: 206}
-        ],
-        pageItemArray: new Array(),
-
-        init: function () {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> init";
-
-            this.total_items = this.pageItemArray.length;       //  元素总量
-            this.total_pages = Math.ceil(this.total_items / this.per_page_num);     // 页面数
-
-            this.show();
-        },
-
-        addPageItem: function (_assetID, _imgPath, _title) {
-            this.pageItemArray.push({assetID: _assetID, img: _imgPath, title: _title});
-        },
-
-        show: function () {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> show";
-
-            if (this.cur_page_index == this.total_pages) {   //  最后一页
-                this.cur_page_num = this.total_items - ((this.cur_page_index - 1) * this.per_page_num);
-            } else {
-                this.cur_page_num = this.per_page_num;          //  等于页面显示元素数量的最大值
-            }
-
-            var _num = (this.cur_page_index - 1) * this.per_page_num;
-            for (var k = 0; k < this.per_page_num; k++) {
-                if (k < this.cur_page_num) {
-                    $("more_page_item_text_" + k).innerHTML = this.pageItemArray[_num + k].title;
-                    $("more_page_item_img_" + k).children[0].src = paramObj.imgUrl + this.pageItemArray[_num + k].img;
-                    $("message").innerHTML += "<br/>" + "pageItemObj ==> show ==> 设置图片路径:" + $("more_page_item_img_" + k).children[0].src;
-                    $("more_page_item_" + k).style.visibility = "visible";
-                } else {
-                    $("more_page_item_" + k).style.visibility = "hidden";
-                }
-            }
-
-            $("more_page_index").innerHTML = this.cur_page_index + "/" + this.total_pages;
-
-            this.focusOn();
-
-        },
-
-        focusOn: function () {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> focusOn ==>" + this.focusPos;
-
-            $("page_item_focus").style.left = this.displayItemArray[this.focusPos].left + "px";
-            $("page_item_focus").style.top = this.displayItemArray[this.focusPos].top + "px";
-            $("page_item_focus").style.width = this.displayItemArray[this.focusPos].width + "px";
-            $("page_item_focus").style.height = this.displayItemArray[this.focusPos].height + "px";
-
-        },
-
-        focusOut: function () {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> focusOut ==>" + this.focusPos;
-
-        },
-
-        moveX: function (_direction) {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> moveX ==> direction = " + _direction;
-
-            this.focusPos += _direction;
-
-            if (this.focusPos >= 0 && this.focusPos < this.cur_page_num) {
-
-                this.focusOn();
-
-            } else if (this.focusPos < 0) {
-
-                this.focusPos = 0;
-
-                if (this.cur_page_index > 1) {      // 不在首页
-                    this.changePage(-1);            // 换页
-                }
-
-            } else {
-
-                if (this.cur_page_index >= this.total_pages) {
-
-                    this.focusPos = this.cur_page_num - 1;
-
-                } else {
-
-                    this.focusPos = 0;
-                    this.changePage(1);
-
-                }
-            }
-
-        },
-
-        moveY: function (_direction) {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> moveY ==> direction = " + _direction;
-
-        },
-
-        changePage: function (_direction) {
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> changePage ==> direction = " + _direction;
-
-            var _page_index = this.cur_page_index + _direction;
-
-            if (_page_index >= 1 && _page_index <= this.total_pages) {
-                this.cur_page_index += _direction;
-                this.show();
-            }
-
-        },
-
-        doSelect: function () {
-
-            var _num = (this.cur_page_index - 1) * this.per_page_num + this.focusPos;
-            var _link = "play.html?assetid=" + this.pageItemArray[_num].assetID + "&backUrl=" + encodeURIComponent(window.location.href);
-
-            $("message").innerHTML += "<br/>" + "pageItemObj ==> doSelect ==> URL = " + _link;
-            window.location.href = _link;
-
-        }
-    };
-
-    var controller = {
-
-        resourceId: 0,
-        type: 0,
-
-        init: function () {
-
-            $("message").innerHTML += "<br/>" + "controller ==> init";
-
-//            this.getParameter();
-
-            transferStation.record();       // 记录返回参数
-            this.resourceId = transferStation.resourceId;
-            this.type = transferStation.type;
-
-        },
-
-        focusOn: function () {
-
-            pageItemObj.focusOn();
-
-        },
-
-        focusOut: function () {
-
-            pageItemObj.focusOut();
-
-        },
-
-        moveX: function (_direction) {
-
-            pageItemObj.moveX(_direction);
-
-        },
-
-        moveY: function (_direction) {
-
-            pageItemObj.moveY(_direction);
-
-        },
-
-        changePage: function (_num) {
-
-            pageItemObj.changePage(_num);
-
-        },
-
-        doSelect: function () {
-
-            pageItemObj.doSelect();
-
-        },
-
-        doBack: function () {
-
-            var _url = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
-
-            window.location.href = _url;
-
-        }
-    };
-
-    function ajaxForQueryTitleListMobile() {
-
-
-        var _url = paramObj.serverUrl +
-                "queryTitleListMobile.shtml?resourceId=" +
-                controller.resourceId +
-                "&num=8&cur_page=1";
-
-        $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> URL: " + _url;
-
-        ajax({
-            url: _url,
-            type: "GET", //HTTP 请求类型,GET或POST
-            dataType: "html", //请求的文件类型html/xml
-
-            onSuccess: function (html) { //请求成功后执行[可选]
-
-                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onSuccess";
-                $("message").innerHTML += "<br/>" + "===>  Response = " + html;
-
-                var json = eval('(' + html + ')');
-                if ("1" == json.code || 1 == json.code) {
-
-                    for (var j = 0; j < json.dataArray.length; j++) {
-                        if (json.dataArray[j].flag == "1") {
-
-                            $("message").innerHTML += "<br/>" + "===>  AssetID in json = " + json.dataArray[j].assetid;
-                            $("message").innerHTML += "<br/>" + "===>  Title in json = " + json.dataArray[j].title;
-                            $("message").innerHTML += "<br/>" + "===>  img in json = " + json.dataArray[j].img;
-
-                            pageItemObj.addPageItem(
-                                    json.dataArray[j].assetid,
-                                    json.dataArray[j].img,
-                                    json.dataArray[j].title);
-                        }
-                    }
-
-                    pageItemObj.init();
-
-                }
-            },
-
-            onError: function () { //请求失败后执行[可选]
-                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onError";
-            },
-
-            onComplete: function () {// 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
-                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onComplete";
-            },
-
-            post: "",
-            timeout: 7000  //请求的超时时间，默认7000ms，也可自行设定[可选]
-        });
-    }
-
-    function init() {
-
-        controller.init();
-
-        ajaxForQueryTitleListMobile();
-
-    }
-
-    window.onload = init;
+    document.onkeydown = grabEvent;
+    window.onload = controller.init;
 
 </script>
 
