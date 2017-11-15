@@ -112,23 +112,68 @@
     function MoreHelper() {
         this.perRowsInPage = 2;         //  每页最多显示两行
         this.perItemsInRow = 4;         //  每行最多显示四项
-        this.focusPos = [0, 0];           //  默认定位在第一行第一项
-        this.displayItemArray = new Array();
-        this.displayItemArray[0] = new Array();
-        this.displayItemArray[1] = new Array();
+        this.focusPosX = 0;           //  默认定位在第一行第一项
+        this.focusPosY = 0;
+        this.pageIndex = 0;
+        this.resourceId = 0;
+        this.displayItemArray = [];
+        this.displayItemArray[0] = [];
+        this.displayItemArray[1] = [];
 
-        this.init = function () {
-            var data = [
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"},
-                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii"}
-            ];
+        this.init = function (resourceId, pageIndex) {
+//            var data = [
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21}
+//            ];
 
+            var that = this,
+                i,
+                count = this.perRowsInPage * this.perItemsInRow,
+                postman = new Postman(),
+                _url = paramObj.serverUrl +
+                    "queryTitleListMobile.shtml?resourceId=" + resourceId + "&num=" + count + "&cur_page=" + pageIndex;
+
+            for (i = 0; i < count; i++) {
+                document.getElementById("more_page_item_" + i).style.visibility = "hidden";
+            }
+
+//            this.addItems(data);
+//            this.focusOn();
+
+            if (resourceId !== "") {
+                document.getElementById("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+
+                postman.createXmlHttpRequest(
+                    function (html) {
+                        var json = eval('(' + html + ')');
+
+                        if ("1" === json.code || 1 === json.code) {
+                            if (json.dataArray.length > 0) {
+                                that.resourceId = resourceId;
+                                that.pageIndex = pageIndex;
+                                that.addItems(json.dataArray);
+                                that.focusOn();
+                            }
+                        }
+                    },
+                    function (error) {
+                        document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+                    });
+                postman.sendRequest(
+                    "GET",
+                    _url,
+                    null
+                );
+            }
+        };
+
+        this.addItems = function (data) {
             var i,
                 max = this.perRowsInPage * this.perItemsInRow,
                 length;
@@ -138,175 +183,163 @@
                     this.displayItemArray[0][i] = {
                         left: 60 + (i * 296),
                         top: 153,
-                        width: 270,
+                        width: 273,
                         height: 206,
-                        assetID: data[i].assetid,
+                        flag: data[i].flag,
+                        assetid: data[i].assetid,
                         img: data[i].img,
-                        title: data[i].title
+                        title: data[i].title,
+                        id: data[i].id
                     }
                 } else {
-                    this.displayItemArray[1][i] = {
+                    this.displayItemArray[1][(i - this.perItemsInRow)] = {
                         left: 60 + ((i - this.perItemsInRow) * 296),
                         top: 153 + 237,
-                        width: 270,
+                        width: 273,
                         height: 206,
-                        assetID: data[i].assetid,
+                        flag: data[i].flag,
+                        assetid: data[i].assetid,
                         img: data[i].img,
-                        title: data[i].title
+                        title: data[i].title,
+                        id: data[i].id
                     }
                 }
-                $("more_page_item_text_" + i).innerHTML = data[i].title;
-//                $("more_page_item_img_" + i).children[0].src = paramObj.imgUrl + data[i].img;
-                $("more_page_item_img_" + i).children[0].src = data[i].img;
-
                 /* end of if */
+                document.getElementById("more_page_item_text_" + i).innerHTML = data[i].title;
+//                $("more_page_item_img_" + i).children[0].src = paramObj.imgUrl + data[i].img;
+                document.getElementById("more_page_item_img_" + i).children[0].src = data[i].img;
+                document.getElementById("more_page_item_" + i).style.visibility = "visible";
             }
             /* end of for */
         };
 
         this.focusOn = function () {
             var _focusNode = document.getElementById("self_ad_focus");
-            _focusNode.style.visibility = "visible";
 
-            _focusNode.style.left = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].left + "px";
-            _focusNode.style.top = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].top + "px";
-            _focusNode.style.width = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].width + "px";
-            _focusNode.style.height = this.displayItemArray[this.focusPos[0]][this.focusPos[1]].height + "px";
+            if (this.displayItemArray[0].length > 0) {
+                _focusNode.style.visibility = "visible";
+                _focusNode.style.left = this.displayItemArray[this.focusPosY][this.focusPosX].left + "px";
+                _focusNode.style.top = this.displayItemArray[this.focusPosY][this.focusPosX].top + "px";
+                _focusNode.style.width = this.displayItemArray[this.focusPosY][this.focusPosX].width + "px";
+                _focusNode.style.height = this.displayItemArray[this.focusPosY][this.focusPosX].height + "px";
+            }
         };
 
         this.focusOut = function () {
 
         };
+
+        this.changePage = function (_direction) {
+            var index;
+
+            index = this.pageIndex + _direction;
+            if (index >= 1) {
+                document.getElementById("debug-message").innerHTML += "<br/>" + "changePage ==> direction = " + _direction + " | page index = " + index;
+                this.init(this.resourceId, index);
+            }
+        };
     }
 
     function PageItemObj() {
         var that = this;
-        
+
         MoreHelper.call(this);
 
         this.moveX = function (_direction) {
 
             console.info("pageItemObj ==> moveX ==> direction = " + _direction);
-            that.focusPos[0] += _direction;
+            this.focusPosX += _direction;
 
-            if (that.focusPos[0] >= 0 && focusPos[0] < that.displayItemArray[0].length) {
+            if (this.focusPosX >= 0 && this.focusPosX < this.displayItemArray[this.focusPosY].length) {
 
-            } else if (that.focusPos[0] < 0) {
-                that.focusPos[0] = that.displayItemArray[0].length - 1;
+            } else if (this.focusPosX < 0) {
+                this.focusPosX = that.displayItemArray[this.focusPosY].length - 1;
             } else {
-                that.focusPos[0] = 0;
+                this.focusPosX = 0;
             }
 
-            that.focusOn();
-
-//            this.focusPos += _direction;
-//            if (this.focusPos >= 0 && this.focusPos < this.cur_page_num) {
-//                this.focusOn();
-//            } else if (this.focusPos < 0) {
-//                this.focusPos = 0;
-//                if (this.cur_page_index > 1) {      // 不在首页
-//                    this.changePage(-1);            // 换页
-//                }
-//            } else {
-//                if (this.cur_page_index >= this.total_pages) {
-//                    this.focusPos = this.cur_page_num - 1;
-//                } else {
-//                    this.focusPos = 0;
-//                    this.changePage(1);
-//                }
-//            }
+            this.focusOn();
         };
 
         this.moveY = function (_direction) {
             console.info("pageItemObj ==> moveY ==> direction = " + _direction);
+            this.focusPosY += _direction;
+
+            if (this.focusPosY >= 0 && this.focusPosY < this.perRowsInPage) {
+
+            } else if (this.focusPosY < 0) {
+                this.focusPosY = this.perRowsInPage - 1;
+            } else {
+                this.focusPosY = 0;
+            }
+
+            this.focusOn();
+
         };
 
-        this.changePage = function (_direction) {
-            console.info("pageItemObj ==> changePage ==> direction = " + _direction);
 
-            var _page_index = this.cur_page_index + _direction;
+        this.doSelect = function () {
+            var _link = "";
 
-            if (_page_index >= 1 && _page_index <= this.total_pages) {
-                this.cur_page_index += _direction;
-                this.show();
+            if (that.displayItemArray[that.focusPosY][that.focusPosX].flag === 0) {         // 文字列表项
+                if (that.displayItemArray[that.focusPosY][that.focusPosX].img === "") {
+                    _link = "text.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&backUrl=" + encodeURIComponent(window.location.href);
+                } else {
+                    _link = "list.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&backUrl=" + encodeURIComponent(window.location.href);
+                }
             }
+            window.location.href = _link;
+        }
+    }
+
+    function Controller() {
+        var that = this;
+
+        Assistant.call(this);
+        this.backUrl = "";
+
+        this.init = function () {
+
+            transferStation.record();       // 记录返回参数
+            that.backUrl = transferStation.backUrl;
+
+            pageItemObj.init(transferStation.resourceId, 1);
+//            pageItemObj.focusOn();
+        };
+
+        this.focusOn = function () {
+            pageItemObj.focusOn();
+        };
+
+        this.focusOut = function () {
+            pageItemObj.focusOut();
+        };
+
+        this.moveX = function (_direction) {
+            console.info("==>   moveX");
+            pageItemObj.moveX(_direction);
+        };
+
+        this.moveY = function (_direction) {
+            pageItemObj.moveY(_direction);
+        };
+
+        this.changePage = function (_num) {
+            pageItemObj.changePage(_num);
         };
 
         this.doSelect = function () {
+            pageItemObj.doSelect();
+        };
 
-            var _num = (this.cur_page_index - 1) * this.per_page_num + this.focusPos;
-            var _link = "play.html?assetid=" + this.pageItemArray[_num].assetID + "&backUrl=" + encodeURIComponent(window.location.href);
-
-            console.info("pageItemObj ==> doSelect ==> URL = " + _link);
-            window.location.href = _link;
+        this.doBack = function () {
+            window.location.href = that.backUrl;
         }
     }
 
     var
         pageItemObj = new PageItemObj(),
-
-        controller = {
-
-            resourceId: 0,
-            type: 0,
-
-            init: function () {
-
-                transferStation.record();       // 记录返回参数
-                this.resourceId = transferStation.resourceId;
-                this.type = transferStation.type;
-
-                pageItemObj.init();
-                pageItemObj.focusOn();
-
-//            this.getParameter();
-
-            },
-
-            focusOn: function () {
-
-                pageItemObj.focusOn();
-
-            },
-
-            focusOut: function () {
-
-                pageItemObj.focusOut();
-
-            },
-
-            moveX: function (_direction) {
-                console.info("==>   moveX");
-                pageItemObj.moveX(_direction);
-
-            },
-
-            moveY: function (_direction) {
-
-                pageItemObj.moveY(_direction);
-
-            },
-
-            changePage: function (_num) {
-
-                pageItemObj.changePage(_num);
-
-            },
-
-            doSelect: function () {
-
-                pageItemObj.doSelect();
-
-            },
-
-            doBack: function () {
-
-                window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea
-                    + "&focusPos=" + transferStation.idxFocusPos
-                    + "&focusItemName=" + transferStation.idxFocusName;
-
-            }
-        };
+        controller = new Controller();
 
     //    function ajaxForQueryTitleListMobile() {
     //

@@ -513,7 +513,7 @@ function ListHelper() {
                 "queryTitleListMobile.shtml?resourceId=" + this.resourceId + "&num=" + (this.listItemNum + 1) + "&cur_page=1";
 
         if (this.resourceId !== "") {
-            $("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
+            document.getElementById("debug-message").innerHTML += "<br/>" + " URL ==> " + _url;
 
             postman.createXmlHttpRequest(
                 function (html) {
