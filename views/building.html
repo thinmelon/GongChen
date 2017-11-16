@@ -33,7 +33,7 @@
 
 <div id="building_content">
     <div id="building_ad">
-        <img alt="ad_preview" src="../images/building/building_ad.jpg" width="520" height="379"/>
+        <img id="post-item-0" alt="ad_preview" src="../images/building/building_ad.jpg" width="520" height="379"/>
     </div>
 
     <div id="building_entry">
@@ -87,12 +87,12 @@
 
             focusPos: 0,
             menuPosArray: [
-                {url: ""},
-                {url: ""},
-                {url: ""},
-                {url: ""},
-                {url: ""},
-                {url: ""}
+                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[1].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)},
+                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[2].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)},
+                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[3].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)},
+                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[4].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)},
+                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[5].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)},
+                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[6].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)}
             ]
             ,
 
@@ -151,13 +151,11 @@
             ,
 
             doSelect: function () {
-
                 var link = this.menuPosArray[this.focusPos].url;
-
-                if ("" != link) {
+                console.info(link);
+                if ("" !== link) {
                     window.location.href = link;
                 }
-
             }
 
         },
@@ -170,10 +168,34 @@
             focusPosY: 0,                   // 记录光标在区域内的所在行
             itemsPerLine: [2, 2],           // 每行所包含的元素数量
             entryItemArray: [
-                {left: 625, top: 255, width: 255, height: 189, url: ""},
-                {left: 883, top: 255, width: 255, height: 189, url: ""},
-                {left: 625, top: 448, width: 255, height: 189, url: ""},
-                {left: 883, top: 448, width: 255, height: 189, url: ""}
+                {
+                    left: 625,
+                    top: 255,
+                    width: 255,
+                    height: 189,
+                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[7].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 883,
+                    top: 255,
+                    width: 255,
+                    height: 189,
+                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[8].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 625,
+                    top: 448,
+                    width: 255,
+                    height: 189,
+                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[9].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 883,
+                    top: 448,
+                    width: 255,
+                    height: 189,
+                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[10].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                }
             ]
             ,
 
@@ -265,7 +287,19 @@
             },
 
             doSelect: function () {
+                var _num = 0;
 
+                for (var i = 0; i < this.focusPosY; i++) {
+                    _num += this.itemsPerLine[i];
+                }
+
+                _num += this.focusPosX;
+
+                var link = this.entryItemArray[_num].url;
+
+                if ("" !== link) {
+                    window.location.href = link;
+                }
             }
 
         },
@@ -276,13 +310,14 @@
     function PostObj() {
         PostHelper.call(this);
 
-        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
         this.postItemArray = [
             {
                 left: 97,
                 top: 258,
                 width: 523,
                 height: 380,
+                resourceId: paramObj.buildingResourceIdArray[11].resourceId,
+                element: "post-item-0",
                 url: ""
             }
         ];
@@ -386,6 +421,19 @@
         };
 
         this.doSelect = function () {
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.doSelect();
+                    break;
+                case 1:             // 海报
+                    postObj.doSelect();
+                    break;
+                case 2:             // 文字列表
+                    entryObj.doSelect();
+                    break;
+                default:
+                    break;
+            }
 
         };
 

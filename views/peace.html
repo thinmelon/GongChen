@@ -28,10 +28,10 @@
                  style="background: url(../images/politics/politics_culture.png) no-repeat; "></div>
         </div>
         <div id="politics_ad_0">
-            <img alt="ad_preview" src="../images/politics/building_ad.jpg" height="346"/>
+            <img id="post-item-0" alt="ad_preview" src="../images/politics/building_ad.jpg" height="346"/>
         </div>
         <div id="politics_ad_1">
-            <img alt="ad_preview" src="../images/politics/politics_ad_1.jpg" width="764"/>
+            <img id="post-item-1" alt="ad_preview" src="../images/politics/politics_ad_1.jpg" width="764"/>
         </div>
     </div>
     <div id="politics_notices_board">
@@ -106,12 +106,48 @@
             focusPosY: 0,                           // 记录光标在区域内的所在行
             itemsPerLine: [2, 2, 2],                // 每行所包含的元素数量
             menuPosArray: [
-                {left: 59, top: 152, width: 157, height: 116, url: ""},
-                {left: 215, top: 152, width: 157, height: 116, url: ""},
-                {left: 59, top: 268, width: 157, height: 116, url: ""},
-                {left: 215, top: 268, width: 157, height: 116, url: ""},
-                {left: 59, top: 385, width: 157, height: 116, url: ""},
-                {left: 215, top: 385, width: 157, height: 116, url: ""}
+                {
+                    left: 59,
+                    top: 152,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[1].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 215,
+                    top: 152,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[2].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 59,
+                    top: 268,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[3].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 215,
+                    top: 268,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[4].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 59,
+                    top: 385,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[5].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 215,
+                    top: 385,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[6].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                }
             ]
             ,
 
@@ -329,13 +365,14 @@
     function PostObj() {
         PostHelper.call(this);
 
-        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
         this.postItemArray = [
             {
                 left: 375,
                 top: 150,
                 width: 451,
                 height: 355,
+                resourceId: paramObj.peaceResourceIdArray[7].resourceId,
+                element: "post-item-0",
                 url: ""
             },
 
@@ -344,6 +381,8 @@
                 top: 505,
                 width: 767,
                 height: 116,
+                resourceId: paramObj.peaceResourceIdArray[8].resourceId,
+                element: "post-item-1",
                 url: ""
             }
         ];
@@ -402,7 +441,7 @@
         this.itemMoreWidth = 158;
         this.itemMoreHeight = 23;
 
-        this.resourceId = paramObj.peaceResourceIdArray[1].resourceId;
+        this.resourceId = paramObj.peaceResourceIdArray[9].resourceId;
 
         // 方法
         this.moveX = function (_direction) {

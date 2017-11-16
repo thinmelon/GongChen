@@ -125,7 +125,6 @@
                 this.menuItemArray = [];
                 this.menuItemArray.push({
                     name: "index_intro",
-//                    url: "intro.html?focusArea=0&focusPos=0"
                     url: ""
                 })
                 ;
@@ -143,7 +142,6 @@
                 });
                 this.menuItemArray.push({
                     name: "index_city",
-//                url: " http://10.184.255.11/portal2/ggsy.html"
                     url: "city.html?focusArea=0&focusPos=4"
                 });
                 this.menuItemArray.push({
@@ -219,6 +217,7 @@
                     _url = paramObj.serverUrl +
                         "queryTitleListMobile.shtml?resourceId=" + paramObj.introResourceIdArray[1].resourceId + "&num=1&cur_page=1";
 
+                // 走进拱辰
                 if (this.menuItemArray[this.focusPos].name === "index_intro") {
                     postman = new Postman();
 
@@ -231,7 +230,7 @@
                             if ("1" === json.code || 1 === json.code) {
                                 if (json.hasOwnProperty("dataArray") && json.dataArray.length > 0) {
                                     window.location.href = "text.html?itemId=" + json.dataArray[0].id
-                                        + "&backUrl=" + encodeURIComponent(window.location.href)
+                                        + "&backUrl=" + encodeURIComponent(window.location.href + "?focusArea=0&focusPos=0")
                                 }
                             }
                         },
@@ -390,15 +389,15 @@
 
         PostHelper.call(this);
 
-        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
         this.postItemArray = [
             {
                 left: 18,
                 top: 134,
                 width: 355,
                 height: 302,
+                resourceId: paramObj.indexResourceIdArray[1].resourceId,
+                element: "post-item-0",
                 url: ""
-//                    url: "video.html?assetId=FFMZ0000000000009141&backUrl=" + encodeURIComponent(window.location.href)
             },
 
             {
@@ -406,8 +405,9 @@
                 top: 134,
                 width: 502,
                 height: 302,
+                resourceId: paramObj.indexResourceIdArray[2].resourceId,
+                element: "post-item-1",
                 url: ""
-//                    url: "monitor.html?rtsp=rtsp://10.184.255.7:554/140801121006552&backUrl=" + encodeURIComponent(window.location.href)
             }
         ];
 
@@ -455,7 +455,7 @@
         this.focusPos = 0;
         this.listItemNum = 5;
 
-        this.resourceId = "";
+        this.resourceId = paramObj.indexResourceIdArray[3].resourceId;
 
         // 方法
         this.moveX = function (_direction) {

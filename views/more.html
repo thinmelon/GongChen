@@ -122,14 +122,14 @@
 
         this.init = function (resourceId, pageIndex) {
 //            var data = [
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21},
-//                {assetid: 111, img: "../images/post-1.jpg", title: "iiiiiiiii", flag: 0, id: 21}
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21}
 //            ];
 
             var that = this,
@@ -211,6 +211,7 @@
                 }
                 /* end of if */
                 document.getElementById("more_page_item_text_" + i).innerHTML = data[i].title;
+//                showTitleForMarquee(data[i].title, document.getElementById("more_page_item_text_" + i), 10);
 //                $("more_page_item_img_" + i).children[0].src = paramObj.imgUrl + data[i].img;
                 document.getElementById("more_page_item_img_" + i).children[0].src = data[i].img;
                 document.getElementById("more_page_item_" + i).style.visibility = "visible";
@@ -219,7 +220,8 @@
         };
 
         this.focusOn = function () {
-            var _focusNode = document.getElementById("self_ad_focus");
+            var _num = 0,
+                _focusNode = document.getElementById("self_ad_focus");
 
             if (this.displayItemArray[0].length > 0) {
                 _focusNode.style.visibility = "visible";
@@ -227,10 +229,20 @@
                 _focusNode.style.top = this.displayItemArray[this.focusPosY][this.focusPosX].top + "px";
                 _focusNode.style.width = this.displayItemArray[this.focusPosY][this.focusPosX].width + "px";
                 _focusNode.style.height = this.displayItemArray[this.focusPosY][this.focusPosX].height + "px";
+
+                _num = this.focusPosY * this.perItemsInRow + this.focusPosX;
+
+                showTitleForMarquee(this.displayItemArray[this.focusPosY][this.focusPosX].title, document.getElementById("more_page_item_text_" + _num), 10);
             }
         };
 
         this.focusOut = function () {
+            var _num = 0;
+
+            _num = this.focusPosY * this.perItemsInRow + this.focusPosX;
+            if (this.displayItemArray[0].length > 0) {
+                document.getElementById("more_page_item_text_" + _num).innerHTML = this.displayItemArray[this.focusPosY][this.focusPosX].title;
+            }
 
         };
 
@@ -251,6 +263,7 @@
         MoreHelper.call(this);
 
         this.moveX = function (_direction) {
+            this.focusOut();
 
             console.info("pageItemObj ==> moveX ==> direction = " + _direction);
             this.focusPosX += _direction;
@@ -268,6 +281,8 @@
 
         this.moveY = function (_direction) {
             var rows = 0;
+
+            this.focusOut();
 
             this.focusPosY += _direction;
 

@@ -30,10 +30,10 @@
                  style="background: url(../images/city/city_volunteer.png) no-repeat; "></div>
         </div>
         <div id="city_ad_0">
-            <img alt="ad_preview" src="../images/city/city_mid_ad.jpg" width="446px"/>
+            <img id="post-item-0" alt="ad_preview" src="../images/city/city_mid_ad.jpg" width="446px"/>
         </div>
         <div id="city_ad_1">
-            <img alt="ad_preview" src="../images/city/city_ad_1.jpg" width="446px" height="111"/>
+            <img id="post-item-1" alt="ad_preview" src="../images/city/city_ad_1.jpg" width="446px" height="111"/>
         </div>
     </div>
     <div id="city_notices_board">
@@ -109,13 +109,55 @@
             focusPosY: 0,                           // 记录光标在区域内的所在行
             itemsPerLine: [2, 2, 2, 1],             // 每行所包含的元素数量
             menuPosArray: [
-                {left: 70, top: 142, width: 157, height: 116, url: ""},
-                {left: 230, top: 142, width: 157, height: 116, url: ""},
-                {left: 70, top: 260, width: 157, height: 116, url: ""},
-                {left: 230, top: 260, width: 157, height: 116, url: ""},
-                {left: 70, top: 378, width: 157, height: 116, url: ""},
-                {left: 230, top: 378, width: 157, height: 116, url: ""},
-                {left: 70, top: 495, width: 320, height: 116, url: ""}
+                {
+                    left: 70,
+                    top: 142,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[1].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 230,
+                    top: 142,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[2].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 70,
+                    top: 260,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[3].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 230,
+                    top: 260,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[4].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 70,
+                    top: 378,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[5].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 230,
+                    top: 378,
+                    width: 157,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[6].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 70,
+                    top: 495,
+                    width: 320,
+                    height: 116,
+                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[7].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                }
             ]
             ,
 
@@ -219,7 +261,7 @@
 
                 var link = this.menuPosArray[_num].url;
 
-                if ("" != link) {
+                if ("" !== link) {
                     window.location.href = link;
                 }
 
@@ -227,7 +269,7 @@
 
         },
 
-        postObj =  new PostObj(),
+        postObj = new PostObj(),
 
         listObj = new ListObj(),
 
@@ -334,13 +376,14 @@
     function PostObj() {
         PostHelper.call(this);
 
-        this.resourceId = paramObj.buildingResourceIdArray[1].resourceId;
         this.postItemArray = [
             {
                 left: 385,
                 top: 142,
                 width: 451,
                 height: 348,
+                resourceId: paramObj.cityResourceIdArray[8].resourceId,
+                element: "post-item-0",
                 url: ""
             },
 
@@ -349,6 +392,8 @@
                 top: 494,
                 width: 451,
                 height: 116,
+                resourceId: paramObj.cityResourceIdArray[9].resourceId,
+                element: "post-item-1",
                 url: ""
             }
         ];
@@ -424,7 +469,7 @@
         this.itemMoreWidth = 158;
         this.itemMoreHeight = 30;
 
-        this.resourceId = paramObj.peaceResourceIdArray[1].resourceId;
+        this.resourceId = paramObj.cityResourceIdArray[10].resourceId;
 
         // 方法
         this.moveX = function (_direction) {

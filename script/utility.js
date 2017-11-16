@@ -299,6 +299,8 @@ var transferStation = {
 
 };
 
+/*----------------------------------------- 参数配置 ---------------------------------------*/
+
 var paramObj = {
     //serverUrl : "http://localhost:8080/manage/web/",
     //imgUrl : "http://localhost:8080/manage/",
@@ -308,39 +310,141 @@ var paramObj = {
     imgUrl: "http://10.184.255.10:8080/manage/",
     backUrl: "",
 
-    isPc: 1, //显示审核预览：1；显示正式发布：0
-    areaId: "21",//主栏目ID
+    isPc: 1,                //显示审核预览：1；显示正式发布：0
+    areaId: "21",           //主栏目ID
     index_back_url: "",
-    index_url: "index.htm",
 
-    introResourceIdArray: [
-        {title: "走进拱辰", resourceId: "664"},
-        {title: "通知公告", resourceId: "665"}
-    ],
+    /**
+     * 首页
+     */
+    indexResourceIdArray: [
+        {title: "首页", resourceId: ""},
+        // ---------------  菜单  ---------------  //
 
-    buildingResourceIdArray: [
-        {title: "智慧党建", resourceId: "660"},
-        {title: "左侧海报", resourceId: "672"}
-    ],
 
-    cityResourceIdArray: [
-        {title: "平安建设", resourceId: "666"}
-    ],
+        // ---------------  海报（播放视频）  ---------------  //
+        {title: "左侧海报", resourceId: "672"},
+        {title: "右侧海报", resourceId: "672"},
 
-    affairsResourceIdArray: [
-        {title: "政务公开", resourceId: "667"},
+        // ---------------  列表  ---------------  //
         {title: "通知公告", resourceId: "671"}
     ],
 
-    peaceResourceIdArray: [
-        {title: "文明创建", resourceId: "662"},
-        {title: "通知公告", resourceId: "663"}
+    /**
+     * 走进拱辰
+     */
+    introResourceIdArray: [
+        {title: "走进拱辰", resourceId: "664"},
+        // ---------------  菜单  ---------------  //
+
+        // ---------------  海报（播放视频）  ---------------  //
+
+        // ---------------  正文  ---------------  //
+        {title: "简介", resourceId: "665"}
     ],
 
+    /**
+     * 平安建设
+     */
+    peaceResourceIdArray: [
+        {title: "平安建设", resourceId: "666"},
+        // ---------------  菜单  ---------------  //
+        {title: "法制建设", resourceId: "671"},
+        {title: "民生保障", resourceId: "671"},
+        {title: "公共安防", resourceId: "671"},
+        {title: "群众权益", resourceId: "671"},
+        {title: "信息服务", resourceId: "671"},
+        {title: "平安文化", resourceId: "671"},
+
+        // ---------------  海报（播放视频）  ---------------  //
+        {title: "顶部海报", resourceId: "672"},
+        {title: "底部海报", resourceId: "672"},
+
+        // ---------------  列表  ---------------  //
+        {title: "最新信息", resourceId: "671"}
+    ],
+
+
+    /**
+     * 政务公开
+     */
+    affairsResourceIdArray: [
+        {title: "政务公开", resourceId: "667"},
+        // ---------------  菜单  ---------------  //
+        {title: "政策法规", resourceId: "671"},
+        {title: "工作动态", resourceId: "671"},
+        {title: "政府信息", resourceId: "671"},
+        {title: "公示公告", resourceId: "671"},
+
+        // ---------------  海报（播放视频）  ---------------  //
+        {title: "顶部海报", resourceId: "672"},
+        {title: "底部海报", resourceId: "672"},
+
+        // ---------------  列表  ---------------  //
+        {title: "通知公告", resourceId: "671"}
+    ],
+
+    /**
+     * 智慧党建
+     */
+    buildingResourceIdArray: [
+        {title: "智慧党建", resourceId: "660"},
+        // ---------------  菜单  ---------------  //
+        {title: "党的声音", resourceId: "671"},
+        {title: "党建常识", resourceId: "671"},
+        {title: "党的历程", resourceId: "671"},
+        {title: "党风廉政", resourceId: "671"},
+        {title: "拱辰先锋", resourceId: "671"},
+        {title: "两学一做", resourceId: "671"},
+        {title: "全国党员远教", resourceId: "671"},
+        {title: "地市党员远教", resourceId: "671"},
+        {title: "专题学习", resourceId: "671"},
+        {title: "通知公告", resourceId: "671"},
+
+        // ---------------  海报（播放视频）  ---------------  //
+        {title: "左侧海报", resourceId: "672"}
+
+        // ---------------  列表  ---------------  //
+    ],
+
+    /**
+     * 文明创建
+     */
+    cityResourceIdArray: [
+        {title: "文明创建", resourceId: "662"},
+        // ---------------  菜单  ---------------  //
+        {title: "文明聚集", resourceId: "671"},
+        {title: "美丽乡村", resourceId: "671"},
+        {title: "道德建设", resourceId: "671"},
+        {title: "传统文化", resourceId: "671"},
+        {title: "城市管理", resourceId: "671"},
+        {title: "主题活动", resourceId: "671"},
+        {title: "志愿者服务", resourceId: "671"},
+
+        // ---------------  海报（播放视频）  ---------------  //
+        {title: "顶部海报", resourceId: "672"},
+        {title: "底部海报", resourceId: "672"},
+
+        // ---------------  列表  ---------------  //
+        {title: "最新消息", resourceId: "663"}
+    ],
+
+    /**
+     * 服务大厅
+     */
     serviceResourceIdArray: [
         {title: "服务大厅", resourceId: "669"},
-        {title: "通知公告", resourceId: "670"},
-        {title: "公共服务", resourceId: "676"}
+        // ---------------  菜单  ---------------  //
+        {title: "办事流程", resourceId: "675"},
+        {title: "公共服务", resourceId: "676"},
+        {title: "公积金查询", resourceId: "671"},
+
+        // ---------------  海报（播放视频）  ---------------  //
+        {title: "左侧海报", resourceId: "672"},
+        {title: "右侧海报", resourceId: "672"},
+
+        // ---------------  列表  ---------------  //
+        {title: "最新消息", resourceId: "670"}
     ],
 
     operator: "",
@@ -405,48 +509,54 @@ function PostHelper() {
     // 属性
     this.focusPos = 0;                // 记录光标在区域内的位置
     this.postItemArray = [];
-    this.resourceId = "";
 
     // 方法
-    this.init = function () {
+    this.fetchVideoAssetId = function (resourceId, postItem, element) {
         var postman,
             url;
 
-        console.info("PostHelper    =>  init()");
+        postman = new Postman();
+        url = paramObj.serverUrl +
+            "queryTitleListMobile.shtml?resourceId=" + resourceId + "&num=1&cur_page=1";
 
-        if (that.resourceId !== "") {
+        document.getElementById("debug-message").innerHTML += "<br/>" + " URL ==> " + url;
 
-            postman = new Postman();
-            url = paramObj.serverUrl +
-                "queryTitleListMobile.shtml?resourceId=" + that.resourceId + "&num=" + this.postItemArray.length + "&cur_page=1";
+        postman.createXmlHttpRequest(
+            function (html) {
+                var i,
+                    length,
+                    json = eval('(' + html + ')');
 
-            $("debug-message").innerHTML += "<br/>" + " URL ==> " + url;
-
-            postman.createXmlHttpRequest(
-                function (html) {
-                    var i,
-                        length,
-                        json = eval('(' + html + ')');
-
-                    if ("1" === json.code || 1 === json.code) {
-                        for (i = 0, length = json.dataArray.length; i < length; i++) {
-                            that.postItemArray[i].url = "video.html?assetId=" + json.dataArray[i].assetid
-                                + "&backUrl=" + encodeURIComponent(window.location.href);
-                            document.getElementById("debug-message").innerHTML += "<br/>" + " add url into item[" + i + "] ==> " + that.postItemArray[i].url;
-                            document.getElementById("post-item-" + i).src = paramObj.imgUrl + json.dataArray[i].img;
-                            document.getElementById("debug-message").innerHTML += "<br/>" + " set item[" + i + "] image url as ==> " + document.getElementById("post-item-" + i).src;
-                        }
+                if ("1" === json.code || 1 === json.code) {
+                    for (i = 0, length = json.dataArray.length; i < length; i++) {
+                        postItem.url = "video.html?assetId=" + json.dataArray[i].assetid
+                            + "&backUrl=" + encodeURIComponent(window.location.href);
+                        document.getElementById("debug-message").innerHTML += "<br/>" + " add url into item ==> " + postItem.url;
+                        // document.getElementById(element).src = paramObj.imgUrl + json.dataArray[i].img;
+                        // document.getElementById("debug-message").innerHTML += "<br/>" + " set item image url as ==> " + document.getElementById(element).src;
                     }
-                },
-                function (error) {
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
-                });
-            postman.sendRequest(
-                "GET",
-                url,
-                null
-            );
+                }
+            },
+            function (error) {
+                document.getElementById("debug-message").innerHTML += "<br/>" + " ==> onFetchListFail ";
+                document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+            });
+        postman.sendRequest(
+            "GET",
+            url,
+            null
+        );
+
+    };
+
+    this.init = function () {
+        var i,
+            length;
+
+        console.info("PostHelper    =>  init");
+        for (i = 0, length = this.postItemArray.length; i < length; i++) {
+            if (this.postItemArray[i].resourceId !== "")
+                this.fetchVideoAssetId(this.postItemArray[i].resourceId, this.postItemArray[i], this.postItemArray[i].element);
         }
     };
 
@@ -467,8 +577,8 @@ function PostHelper() {
     };
 
     this.doSelect = function () {
-
         var link = that.postItemArray[that.focusPos].url;
+        console.info(link);
         if ("" !== link) {
             window.location.href = link;
         }
@@ -740,19 +850,19 @@ function getWeatherInfoSuccess(response) {
 }
 
 function getWeatherInfoFail(response) {
-    $("debug-message").innerHTML += "<br/>" + "getWeatherInfoFail ==> " + response;
-    document.getElementById("weather-forecast").innerHTML = "暂无天气信息";
+    document.getElementById("debug-message").innerHTML += "<br/>" + "getWeatherInfoFail ==> " + response;
+    document.getElementById("weather-forecast").innerHTML = "";
 }
 
 function ajaxForWeather() {
-    $("debug-message").innerHTML += "<br/>" + "ajaxForWearther()";
+    document.getElementById("debug-message").innerHTML += "<br/>" + "==>    ajaxForWearther()";
     var
         // _url = "http://10.215.0.36/weather/sy/" + paramObj.operator + ".js",
         _url = "http://10.215.0.36/weather/sy/PUTIAN.js",
         postman = new Postman();
 
     postman.createXmlHttpRequest(getWeatherInfoSuccess, getWeatherInfoFail);
-    $("debug-message").innerHTML += "<br/>" + "URL ==> " + _url;
+    document.getElementById("debug-message").innerHTML += "<br/>" + "URL ==> " + _url;
     postman.sendRequest(
         "GET",
         // "http://10.215.0.36/weather/sy/" + paramObj.operator + ".js",
