@@ -339,7 +339,8 @@ var paramObj = {
 
     serviceResourceIdArray: [
         {title: "服务大厅", resourceId: "669"},
-        {title: "通知公告", resourceId: "670"}
+        {title: "通知公告", resourceId: "670"},
+        {title: "公共服务", resourceId: "676"}
     ],
 
     operator: "",
