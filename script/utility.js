@@ -15,7 +15,9 @@ function showTitleForMarquee(_title, _obj, _num) {
         _obj.innerHTML = _title;
     }
 }
+
 /*----------------------------------------- URL 解析器 ---------------------------------------*/
+
 /***
  * 解析URL
  * @returns {{}}
@@ -251,6 +253,7 @@ var transferStation = {
     itemId: 0,              //  图文列表项ID
 
     backUrl: "",            //  返回路径
+    subject: "",
 
     record: function () {
 
@@ -294,6 +297,11 @@ var transferStation = {
         if (params.hasOwnProperty("itemId")) {
             console.info("==>   itemId = " + params["itemId"]);
             transferStation.itemId = params["itemId"];
+        }
+
+        if (params.hasOwnProperty("subject")) {
+            console.info("==>   focusArea = " + params["subject"]);
+            transferStation.subject = params["subject"];
         }
     }
 

@@ -10,7 +10,9 @@
 </head>
 
 <body>
-<!--<div class="subject"></div>-->
+<div id="subject">
+    <img src="" alt="logo"/>
+</div>
 <div id="more_page">
     <div id="more_page_item_0" class="more_page_item" style="left: 6px;">
         <div id="more_page_item_img_0" class="more_page_item_img">
@@ -347,6 +349,8 @@
             transferStation.record();       // 记录返回参数
             that.backUrl = transferStation.backUrl;
 
+            document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
+
             pageItemObj.init(transferStation.resourceId, 1);
 //            pageItemObj.focusOn();
         };
@@ -384,61 +388,6 @@
     var
         pageItemObj = new PageItemObj(),
         controller = new Controller();
-
-    //    function ajaxForQueryTitleListMobile() {
-    //
-    //
-    //        var _url = paramObj.serverUrl +
-    //            "queryTitleListMobile.shtml?resourceId=" +
-    //            controller.resourceId +
-    //            "&num=8&cur_page=1";
-    //
-    //        $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> URL: " + _url;
-    //
-    //        ajax({
-    //            url: _url,
-    //            type: "GET", //HTTP 请求类型,GET或POST
-    //            dataType: "html", //请求的文件类型html/xml
-    //
-    //            onSuccess: function (html) { //请求成功后执行[可选]
-    //
-    //                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onSuccess";
-    //                $("message").innerHTML += "<br/>" + "===>  Response = " + html;
-    //
-    //                var json = eval('(' + html + ')');
-    //                if ("1" == json.code || 1 == json.code) {
-    //
-    //                    for (var j = 0; j < json.dataArray.length; j++) {
-    //                        if (json.dataArray[j].flag == "1") {
-    //
-    //                            $("message").innerHTML += "<br/>" + "===>  AssetID in json = " + json.dataArray[j].assetid;
-    //                            $("message").innerHTML += "<br/>" + "===>  Title in json = " + json.dataArray[j].title;
-    //                            $("message").innerHTML += "<br/>" + "===>  img in json = " + json.dataArray[j].img;
-    //
-    //                            pageItemObj.addPageItem(
-    //                                json.dataArray[j].assetid,
-    //                                json.dataArray[j].img,
-    //                                json.dataArray[j].title);
-    //                        }
-    //                    }
-    //
-    //                    pageItemObj.init();
-    //
-    //                }
-    //            },
-    //
-    //            onError: function () { //请求失败后执行[可选]
-    //                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onError";
-    //            },
-    //
-    //            onComplete: function () {// 请求成功.失败或完成(无论成功失败都会调用)时执行的函数[可选]
-    //                $("message").innerHTML += "<br/>" + "===>  ajaxForQueryTListMenuTitle ==> onComplete";
-    //            },
-    //
-    //            post: "",
-    //            timeout: 7000  //请求的超时时间，默认7000ms，也可自行设定[可选]
-    //        });
-    //    }
 
     function grabEvent(_event) {
 
