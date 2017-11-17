@@ -1,10 +1,10 @@
 #index-logo{
-    margin: 39px 0 0 50px;
+    margin: 24px 0 0 50px;
 }
 
 .post-entry {
     position: absolute;
-    left: 20px;
+    left: 25px;
     top: 136px;
 }
 
@@ -32,11 +32,11 @@
 #index_notices_board {
     position: absolute;
     left: 880px;
-    top: 135px;
+    top: 136px;
     background: url(../images/bg-list-item.png);
-    width: 386px;
+    width: 380px;
     height: 300px;
-    margin: 3px 3px;
+    /*margin: 3px 3px;*/
 }
 
 .index_list_item {

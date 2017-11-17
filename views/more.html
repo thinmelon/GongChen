@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<div class="subject"></div>
+<!--<div class="subject"></div>-->
 <div id="more_page">
     <div id="more_page_item_0" class="more_page_item" style="left: 6px;">
         <div id="more_page_item_img_0" class="more_page_item_img">
@@ -122,7 +122,7 @@
 
         this.init = function (resourceId, pageIndex) {
 //            var data = [
-//                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+//                {assetid: 111, img: "../images/post-2.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
 //                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
 //                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
 //                {assetid: 111, img: "../images/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
@@ -139,6 +139,9 @@
                 _url = paramObj.serverUrl +
                     "queryTitleListMobile.shtml?resourceId=" + resourceId + "&num=" + count + "&cur_page=" + pageIndex,
                 _focusNode = document.getElementById("self_ad_focus");
+
+            this.focusPosX = 0;           //  默认定位在第一行第一项
+            this.focusPosY = 0;
 
             // 初始化 - 隐藏所有节点
             _focusNode.style.visibility = "hidden";
@@ -213,7 +216,9 @@
                 document.getElementById("more_page_item_text_" + i).innerHTML = data[i].title;
 //                showTitleForMarquee(data[i].title, document.getElementById("more_page_item_text_" + i), 10);
 //                $("more_page_item_img_" + i).children[0].src = paramObj.imgUrl + data[i].img;
-                document.getElementById("more_page_item_img_" + i).children[0].src = data[i].img;
+                document.getElementById("more_page_item_img_" + i).children[0].src = paramObj.imgUrl + data[i].img;
+                document.getElementById("debug-message").innerHTML += "<br/>" + "set item image src: " + paramObj.imgUrl + data[i].img;
+                document.getElementById("debug-message").innerHTML += "<br/>" + "width: " + document.getElementById("more_page_item_img_" + i).children[0].width + "height: " + document.getElementById("more_page_item_img_" + i).children[0].height;
                 document.getElementById("more_page_item_" + i).style.visibility = "visible";
             }
             /* end of for */

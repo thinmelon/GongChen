@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../style/list.css">
 </head>
 <body>
-<div class="subject"></div>
+<!--<div class="subject"></div>-->
 <div class="center">
     <div id="title" class="title"></div>
     <div class="preview">
@@ -65,6 +65,9 @@
 
         showAlbum: function () {
             document.getElementById("preview").src = paramObj.imgUrl + this.album[this.position].img;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "preview image scr: " + document.getElementById("preview").src;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "width: " + document.getElementById("preview").width + " height: " + document.getElementById("preview").height;
+
             this.position = (this.position + 1) % this.size;
         },
 
@@ -93,7 +96,7 @@
         this.init = function () {
             transferStation.record();
             that.backUrl = transferStation.backUrl;
-//            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
+//            showTitleForMarquee("为人民服务为人民服务务", document.getElementById("title"), 10);
             ajaxForTitleById(transferStation.itemId);
         };
 
@@ -107,7 +110,7 @@
         };
 
         this.render = function (data) {
-            showTitleForMarquee(data.title, document.getElementById("title"), 15);
+            showTitleForMarquee(data.title, document.getElementById("title"), 10);
             document.getElementById("content").innerHTML = data.content;
             preview.init(data.imgArr);
 
@@ -137,7 +140,6 @@
         var json = eval('(' + html + ')');
 
         $("debug-message").innerHTML += "<br/>" + " ==> onFetchResourceSuccess ";
-//        $("debug-message").innerHTML += "<br/>" + html;
 
         if ("1" === json.code || 1 === json.code) {
             controller.render(json);
