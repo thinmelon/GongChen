@@ -751,14 +751,14 @@ function ListHelper() {
         }
     };
 
-    this.doSelect = function (focusPos) {
+    this.doSelect = function (focusPos, subject) {
         var _link = "";
 
         if (that.listItemTitleArray[focusPos].flag === 0) {         // 文字列表项
             if (that.listItemTitleArray[focusPos].img === "") {
-                _link = "text.html?itemId=" + that.listItemTitleArray[focusPos].id + "&backUrl=" + encodeURIComponent(window.location.href);
+                _link = "text.html?itemId=" + that.listItemTitleArray[focusPos].id + "&subject=" + subject + "&backUrl=" + encodeURIComponent(window.location.href);
             } else {
-                _link = "list.html?itemId=" + that.listItemTitleArray[focusPos].id + "&backUrl=" + encodeURIComponent(window.location.href);
+                _link = "list.html?itemId=" + that.listItemTitleArray[focusPos].id + "&subject=" + subject + "&backUrl=" + encodeURIComponent(window.location.href);
             }
         } else {                                                    // 更多内容
             // _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;

@@ -107,32 +107,31 @@
                     top: 153,
                     width: 155,
                     height: 114,
-                    url: "more.html?resourceId=" + paramObj.affairsResourceIdArray[1].resourceId + "&subject=affairs&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.affairsResourceIdArray[1].resourceId
                 },
                 {
                     left: 220,
                     top: 153,
                     width: 155,
                     height: 114,
-                    url: "more.html?resourceId=" + paramObj.affairsResourceIdArray[2].resourceId + "&subject=affairs&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.affairsResourceIdArray[2].resourceId
                 },
                 {
                     left: 63,
                     top: 270,
                     width: 155,
                     height: 114,
-                    url: "more.html?resourceId=" + paramObj.affairsResourceIdArray[3].resourceId + "&subject=affairs&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.affairsResourceIdArray[3].resourceId
                 },
                 {
                     left: 220,
                     top: 270,
                     width: 155,
                     height: 114,
-                    url: "more.html?resourceId=" + paramObj.affairsResourceIdArray[4].resourceId + "&subject=affairs&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.affairsResourceIdArray[4].resourceId
                 }
             ]
             ,
-
 
             init: function () {
 
@@ -222,19 +221,14 @@
             doSelect: function () {
 
                 var _num = 0;
-
                 for (var i = 0; i < this.focusPosY; i++) {
                     _num += this.itemsPerLine[i];
                 }
-
                 _num += this.focusPosX;
 
-                var link = this.menuPosArray[_num].url;
-
-                if ("" !== link) {
-                    window.location.href = link;
+                if ("" !== this.menuPosArray[_num].resourceId) {
+                    window.location.href = "more.html?resourceId=" + this.menuPosArray[_num].resourceId + "&subject=affairs&backUrl=" + encodeURIComponent(window.location.href);
                 }
-
             }
 
         },
@@ -438,7 +432,7 @@
                     postObj.doSelect();
                     break;
                 case 2:             // 文字列表
-                    listObj.doSelect(listObj.focusPos);
+                    listObj.doSelect(listObj.focusPos,"affairs");
                     break;
                 default:
                     break;

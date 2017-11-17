@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="../style/list.css">
 </head>
 <body>
-<!--<div class="subject"></div>-->
+<div id="subject">
+    <img src="" alt="logo"/>
+</div>
 <div class="center">
     <div id="title" class="title"></div>
     <div class="preview">
@@ -96,6 +98,7 @@
         this.init = function () {
             transferStation.record();
             that.backUrl = transferStation.backUrl;
+            document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
 //            showTitleForMarquee("为人民服务为人民服务务", document.getElementById("title"), 10);
             ajaxForTitleById(transferStation.itemId);
         };

@@ -317,7 +317,7 @@
         };
 
 
-        this.doSelect = function () {
+        this.doSelect = function (subject) {
             var _link = "";
 
             document.getElementById("debug-message").innerHTML += "<br/>"
@@ -327,9 +327,9 @@
             if (that.displayItemArray[that.focusPosY][that.focusPosX].flag === 0 ||
                 that.displayItemArray[that.focusPosY][that.focusPosX].flag === "0") {         // 文字列表项
                 if (that.displayItemArray[that.focusPosY][that.focusPosX].img === "") {
-                    _link = "text.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&backUrl=" + encodeURIComponent(window.location.href);
+                    _link = "text.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&subject=" + subject + "&backUrl=" + encodeURIComponent(window.location.href);
                 } else {
-                    _link = "list.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&backUrl=" + encodeURIComponent(window.location.href);
+                    _link = "list.html?itemId=" + that.displayItemArray[that.focusPosY][that.focusPosX].id + "&subject=" + subject + "&backUrl=" + encodeURIComponent(window.location.href);
                 }
             }
 
@@ -343,14 +343,14 @@
 
         Assistant.call(this);
         this.backUrl = "";
+        this.subject = "";
 
         this.init = function () {
 
             transferStation.record();       // 记录返回参数
             that.backUrl = transferStation.backUrl;
-
+            that.subject = transferStation.subject;
             document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
-
             pageItemObj.init(transferStation.resourceId, 1);
 //            pageItemObj.focusOn();
         };
@@ -377,7 +377,7 @@
         };
 
         this.doSelect = function () {
-            pageItemObj.doSelect();
+            pageItemObj.doSelect(that.subject);
         };
 
         this.doBack = function () {
