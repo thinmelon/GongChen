@@ -62,9 +62,9 @@
     top: 0;
     width: 520px;
     line-height: 38px;
-    font-size: 30px;
-    font-weight: bold;
-    color: #701A1C;
+    font-size: 25px;
+    /*font-weight: bold;*/
+    color: #000000;
 }
 
 .text-content{
@@ -73,8 +73,8 @@
     top: 0;
     width: 1000px;
     line-height: 38px;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 25px;
+    /*font-weight: bold;*/
     color: #000000;
 }
 

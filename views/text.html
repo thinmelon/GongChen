@@ -67,10 +67,16 @@
         PageHelper.call(this);
 
         this.backUrl = "";
+        this.focusArea = 2;
+        this.focusPos = 0;
 
         this.init = function () {
             transferStation.record();
             that.backUrl = transferStation.backUrl;
+            that.focusArea = transferStation.idxFocusArea;
+            that.focusPos = transferStation.idxFocusPos;
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "text.html ==>  init | BackURL " + that.backUrl + " | focusArea ==> " + that.focusArea + " | focusPos==> " + that.focusPos;
             if (transferStation.subject !== "") {
                 document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
             }
@@ -99,7 +105,9 @@
         };
 
         this.doBack = function () {
-            window.location.href = that.backUrl;
+            console.info("list.hmtl | Back to " + that.backUrl + "?focusArea=" + that.focusArea + "&focusPos=" + that.focusPos);
+            window.location.href = that.backUrl + "?focusArea=" + that.focusArea + "&focusPos=" + that.focusPos;
+//            window.location.href = that.backUrl;
         };
     }
 

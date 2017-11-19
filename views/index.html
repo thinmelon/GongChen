@@ -211,7 +211,6 @@
 
             doSelect: function () {
 
-
                 var that = this,
                     postman,
                     link = this.menuItemArray[this.focusPos].url,
@@ -279,14 +278,12 @@
             var params = parseRequestUrl();    // 解析URL链接，得到区域及位置参数
 
             if (params.hasOwnProperty("focusArea")) {
-
                 console.info("==>   focusArea = " + params["focusArea"]);
                 that.focusArea = parseInt(params["focusArea"]);
-
+                document.getElementById("debug-message").innerHTML += "<br/>" + "Set focus Area ==> " + that.focusArea;
             }
 
             if (params.hasOwnProperty("focusPos")) {
-
                 console.info("==>   focusPos = " + params["focusPos"]);
                 switch (that.focusArea) {
                     case 0:
@@ -296,19 +293,20 @@
                         postObj.focusPos = parseInt(params["focusPos"]);
                         break;
                     case 2:
+                        that.focusArea = 1;             // 列表项异步提取 返回后光标方可定位 初始化先定位至海报区
                         listObj.focusPos = parseInt(params["focusPos"]);
                         break;
                     default:
                         break;
                 }
+                document.getElementById("debug-message").innerHTML += "<br/>" + "Set focus position ==> " + parseInt(params["focusPos"]);
             }
-
-            that.focusOn();                 // 光标定位至目标位置
+            this.focusOn();                 // 光标定位至目标位置
         };
 
 
         this.focusOn = function () {
-
+            document.getElementById("debug-message").innerHTML += "<br/>" + " Focus on ==> " + that.focusArea;
             switch (that.focusArea) {
                 case 0:             // 菜单
                     menuObj.focusOn();
@@ -375,7 +373,7 @@
                     postObj.doSelect();
                     break;
                 case 2:             // 文字列表
-                    listObj.doSelect(listObj.focusPos,"index");
+                    listObj.doSelect(listObj.focusPos, "index");
                     break;
                 default:
                     break;

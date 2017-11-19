@@ -41,6 +41,16 @@ function parseRequestUrl() {
 
 }
 
+function parseUrlPrefix() {
+    var prefix = window.location.href;
+
+    if (prefix.indexOf("?") !== -1) {
+        prefix = prefix.substr(0, prefix.indexOf("?"));
+    }
+
+    return prefix;
+}
+
 /*----------------------------------------- 视频返回结果 解析器 ---------------------------------------*/
 /**
  * 适用xml文件和dom文档
@@ -300,7 +310,7 @@ var transferStation = {
         }
 
         if (params.hasOwnProperty("subject")) {
-            console.info("==>   focusArea = " + params["subject"]);
+            console.info("==>   subject = " + params["subject"]);
             transferStation.subject = params["subject"];
         }
     }
@@ -520,7 +530,8 @@ function PostHelper() {
 
     // 方法
     this.fetchVideoAssetId = function (resourceId, postItem, element) {
-        var postman,
+        var that = this,
+            postman,
             url;
 
         postman = new Postman();
@@ -538,7 +549,7 @@ function PostHelper() {
                 if ("1" === json.code || 1 === json.code) {
                     for (i = 0, length = json.dataArray.length; i < length; i++) {
                         postItem.url = "video.html?assetId=" + json.dataArray[i].assetid
-                            + "&backUrl=" + encodeURIComponent(window.location.href);
+                            + "&backUrl=" + encodeURIComponent(window.location.href) + "?focusArea=2&focusPos=" + that.focusPos;
                         document.getElementById("debug-message").innerHTML += "<br/>" + " add url into item ==> " + postItem.url;
                         // document.getElementById(element).src = paramObj.imgUrl + json.dataArray[i].img;
                         // document.getElementById("debug-message").innerHTML += "<br/>" + " set item image url as ==> " + document.getElementById(element).src;
@@ -599,13 +610,14 @@ function ListHelper() {
     var that = this;
 
     // 属性
+    this.focusPos = 0;
     this.listItemNum = 0;
     this.listItemArray = [];
     this.listItemTitleArray = [];
 
     this.itemLeft = 888;
-    this.itemTop = 185;
-    this.itemWidth = 378;
+    this.itemTop = 182;
+    this.itemWidth = 365;
     this.itemHeight = 23;
 
     this.itemMoreLeft = 1088;
@@ -622,7 +634,10 @@ function ListHelper() {
         //     {assetID: 611, title: '美丽港城 冉冉起', img: '1', flag: 0, id: 111},
         //     {assetID: 611, title: '"拱辰街道依法拆除违章建筑', img: '1', flag: 0, id: 111},
         //     {assetID: 611, title: '开启“智慧物流” 助力物畅其流', flag: 0, id: 111},
-        //     {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111}
+        //     {assetID: 611, title: '"美丽莆田 社会治理"司法行政创新现场会', flag: 0, id: 111},
+        //     {assetID: 611, title: '建设美丽莆田行动纲要', img: '1', flag: 0, id: 111},
+        //     {assetID: 611, title: '美丽港城 冉冉起', img: '1', flag: 0, id: 111}
+        //
         // ];
         // this.addListItem(test);
 
@@ -730,14 +745,17 @@ function ListHelper() {
         var _focusNode = document.getElementById("self_ad_focus");
         _focusNode.style.visibility = "visible";
 
-        _focusNode.style.left = this.listItemArray[this.focusPos].left + "px";
-        _focusNode.style.top = this.listItemArray[this.focusPos].top + "px";
-        _focusNode.style.width = this.listItemArray[this.focusPos].width + "px";
-        _focusNode.style.height = this.listItemArray[this.focusPos].height + "px";
+        if (that.focusPos < that.listItemArray.length) {
+            _focusNode.style.left = that.listItemArray[that.focusPos].left + "px";
+            _focusNode.style.top = that.listItemArray[that.focusPos].top + "px";
+            _focusNode.style.width = that.listItemArray[that.focusPos].width + "px";
+            _focusNode.style.height = that.listItemArray[that.focusPos].height + "px";
+            document.getElementById("debug-message").innerHTML += "<br/>" + " List Object | Left ==> " + _focusNode.style.left + " Top ==>  " + _focusNode.style.top + " Width ==> " + _focusNode.style.width + " Height ==> " + _focusNode.style.height;
 
-        var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
-        if ((typeof(_focusListItem) !== "undefined") && (this.listItemTitleArray[this.focusPos].flag === 0)) {
-            showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem.children[0], 13);
+            var _focusListItem = document.getElementById("list_menu_" + that.focusPos);
+            if ((typeof(_focusListItem) !== "undefined") && (that.listItemTitleArray[that.focusPos].flag === 0)) {
+                showTitleForMarquee(that.listItemTitleArray[that.focusPos].title, _focusListItem.children[0], 13);
+            }
         }
     };
 
@@ -745,24 +763,25 @@ function ListHelper() {
         var _focusNode = document.getElementById("self_ad_focus");
         _focusNode.style.visibility = "hidden";
 
-        var _focusListItem = document.getElementById("list_menu_" + this.focusPos);
-        if ((typeof (_focusListItem) !== "undefined") && (this.listItemTitleArray[this.focusPos].flag === 0)) {
-            _focusListItem.children[0].innerHTML = this.listItemTitleArray[this.focusPos].title;
+        var _focusListItem = document.getElementById("list_menu_" + that.focusPos);
+        if ((typeof (_focusListItem) !== "undefined") && (that.listItemTitleArray[that.focusPos].flag === 0)) {
+            _focusListItem.children[0].innerHTML = that.listItemTitleArray[that.focusPos].title;
         }
     };
 
     this.doSelect = function (focusPos, subject) {
         var _link = "";
-
+        // "&focusArea=2&focusPos=" + focusPos +
         if (that.listItemTitleArray[focusPos].flag === 0) {         // 文字列表项
             if (that.listItemTitleArray[focusPos].img === "") {
-                _link = "text.html?itemId=" + that.listItemTitleArray[focusPos].id + "&subject=" + subject + "&backUrl=" + encodeURIComponent(window.location.href);
+                _link = "text.html?itemId=" + that.listItemTitleArray[focusPos].id + "&focusArea=2&focusPos=" + focusPos + "&subject=" + subject + "&backUrl=" + parseUrlPrefix();
             } else {
-                _link = "list.html?itemId=" + that.listItemTitleArray[focusPos].id + "&subject=" + subject + "&backUrl=" + encodeURIComponent(window.location.href);
+                _link = "list.html?itemId=" + that.listItemTitleArray[focusPos].id + "&focusArea=2&focusPos=" + focusPos + "&subject=" + subject + "&backUrl=" + parseUrlPrefix();
             }
         } else {                                                    // 更多内容
             // _link = "more.html?resourceId=" + paramObj.djjyResourceIdArray[0].resourceId;
         }
+        document.getElementById("debug-message").innerHTML += "<br/>" + "LINK ==> " + _link;
         window.location.href = _link;
     };
 }

@@ -94,14 +94,21 @@
         PageHelper.call(this);
 
         this.backUrl = "";
+        this.focusArea = 2;
+        this.focusPos = 0;
 
         this.init = function () {
             transferStation.record();
             that.backUrl = transferStation.backUrl;
+            that.focusArea = transferStation.idxFocusArea;
+            that.focusPos = transferStation.idxFocusPos;
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "list.html ==>  init | BackURL " + that.backUrl + " | focusArea ==> " + that.focusArea + " | focusPos==> " + that.focusPos;
             document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
-//            showTitleForMarquee("为人民服务为人民服务务", document.getElementById("title"), 10);
+            //            showTitleForMarquee("为人民服务为人民服务务务务务", document.getElementById("title"), 13);
             ajaxForTitleById(transferStation.itemId);
-        };
+        }
+        ;
 
         this.setParameters = function () {
             that.offset_height = document.getElementById("trapper").offsetHeight;
@@ -113,7 +120,7 @@
         };
 
         this.render = function (data) {
-            showTitleForMarquee(data.title, document.getElementById("title"), 10);
+            showTitleForMarquee(data.title, document.getElementById("title"), 13);
             document.getElementById("content").innerHTML = data.content;
             preview.init(data.imgArr);
 
@@ -123,7 +130,9 @@
         };
 
         this.doBack = function () {
-            window.location.href = that.backUrl;
+            console.info("list.hmtl | Back to " + that.backUrl + "?focusArea=" + that.focusArea + "&focusPos=" + that.focusPos);
+            window.location.href = that.backUrl + "?focusArea=" + that.focusArea + "&focusPos=" + that.focusPos;
+//            window.location.href = that.backUrl;
         }
     }
 
