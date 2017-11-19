@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="../style/list.css">
 </head>
 <body>
-<div class="subject"></div>
+<div id="subject">
+    <img src="../images/intro/intro-logo.png" alt="logo"/>
+</div>
 <div class="center">
     <div id="title" class="title"></div>
     <div id="text-trapper">
@@ -69,12 +71,15 @@
         this.init = function () {
             transferStation.record();
             that.backUrl = transferStation.backUrl;
+            if (transferStation.subject !== "") {
+                document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
+            }
 //            that.setParameters();
 //            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
             queryContentByID(transferStation.itemId);
         };
 
-        this.setParameters = function(){
+        this.setParameters = function () {
             that.offset_height = document.getElementById("text-trapper").offsetHeight;
             that.scroll_height = document.getElementById("content").scrollHeight;
             document.getElementById("debug-message").innerHTML += "<br/>" + "offset: " + that.offset_height;

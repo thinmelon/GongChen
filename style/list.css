@@ -1,10 +1,10 @@
-.subject {
+#subject {
     position: absolute;
     left: 150px;
     top: 70px;
     width: 289px;
     height: 84px;
-    background: url(../images/intro/intro-logo.png) no-repeat;
+    /*background: url(../images/intro/intro-logo.png) no-repeat;*/
 }
 
 .center {

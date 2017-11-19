@@ -111,42 +111,48 @@
                     top: 152,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[1].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.peaceResourceIdArray[1].resourceId
+//                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[1].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 215,
                     top: 152,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[2].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.peaceResourceIdArray[2].resourceId
+//                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[2].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 59,
                     top: 268,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[3].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.peaceResourceIdArray[3].resourceId
+//                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[3].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 215,
                     top: 268,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[4].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.peaceResourceIdArray[4].resourceId
+//                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[4].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 59,
                     top: 385,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[5].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.peaceResourceIdArray[5].resourceId
+//                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[5].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 215,
                     top: 385,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[6].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.peaceResourceIdArray[6].resourceId
+//                    url: "more.html?resourceId=" + paramObj.peaceResourceIdArray[6].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 }
             ]
             ,
@@ -249,12 +255,9 @@
 
                 _num += this.focusPosX;
 
-                var link = this.menuPosArray[_num].url;
-
-                if ("" != link) {
-                    window.location.href = link;
+                if ("" !== this.menuPosArray[_num].resourceId) {
+                    window.location.href = "more.html?resourceId=" + this.menuPosArray[_num].resourceId + "&subject=politics&backUrl=" + encodeURIComponent(window.location.href)
                 }
-
             }
 
         },
@@ -350,7 +353,7 @@
                     postObj.doSelect();
                     break;
                 case 2:             // 文字列表
-                    listObj.doSelect(listObj.focusPos);
+                    listObj.doSelect(listObj.focusPos,"politics");
                     break;
                 default:
                     break;

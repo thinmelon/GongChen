@@ -114,49 +114,56 @@
                     top: 142,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[1].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[1].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[1].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 230,
                     top: 142,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[2].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[2].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[2].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 70,
                     top: 260,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[3].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[3].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[3].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 230,
                     top: 260,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[4].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[4].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[4].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 70,
                     top: 378,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[5].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[5].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[5].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 230,
                     top: 378,
                     width: 157,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[6].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[6].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[6].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 },
                 {
                     left: 70,
                     top: 495,
                     width: 320,
                     height: 116,
-                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[7].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
+                    resourceId: paramObj.cityResourceIdArray[7].resourceId
+//                    url: "more.html?resourceId=" + paramObj.cityResourceIdArray[7].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href)
                 }
             ]
             ,
@@ -259,12 +266,9 @@
 
                 _num += this.focusPosX;
 
-                var link = this.menuPosArray[_num].url;
-
-                if ("" !== link) {
-                    window.location.href = link;
+                if ("" !== this.menuPosArray[_num].resourceId) {
+                    window.location.href = "more.html?resourceId=" + this.menuPosArray[_num].resourceId + "&subject=city&backUrl=" + encodeURIComponent(window.location.href);
                 }
-
             }
 
         },
@@ -361,7 +365,7 @@
                     postObj.doSelect();
                     break;
                 case 2:             // 文字列表
-                    listObj.doSelect(listObj.focusPos);
+                    listObj.doSelect(listObj.focusPos,"city");
                     break;
                 default:
                     break;
