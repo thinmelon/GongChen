@@ -398,15 +398,15 @@ var paramObj = {
     buildingResourceIdArray: [
         {title: "智慧党建", resourceId: "660"},
         // ---------------  菜单  ---------------  //
-        {title: "党的声音", resourceId: ""},
+        {title: "党的声音", resourceId: "710"},
         {title: "党建常识", resourceId: "695"},
-        {title: "党的历程", resourceId: ""},
-        {title: "党风廉政", resourceId: ""},
+        {title: "党的历程", resourceId: "709"},
+        {title: "党风廉政", resourceId: "711"},
         {title: "拱辰先锋", resourceId: "696"},
         {title: "两学一做", resourceId: "697"},
-        {title: "全国党员远教", resourceId: ""},
-        {title: "地市党员远教", resourceId: ""},
-        {title: "专题学习", resourceId: ""},
+        {title: "全国党员远教", resourceId: "713"},
+        {title: "地市党员远教", resourceId: "712"},
+        {title: "专题学习", resourceId: "714"},
         {title: "通知公告", resourceId: ""},
 
         // ---------------  海报（播放视频）  ---------------  //

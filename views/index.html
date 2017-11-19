@@ -129,7 +129,7 @@
                 })
                 ;
                 this.menuItemArray.push({
-                    name: "index_building",
+                    name: "index_politics",
                     url: "peace.html?focusArea=0&focusPos=1"
                 });
                 this.menuItemArray.push({
@@ -137,7 +137,8 @@
                     url: "affairs.html?focusArea=0&focusPos=2"
                 });
                 this.menuItemArray.push({
-                    name: "index_politics",
+                    name: "index_building",
+//                    url: "http://10.215.0.141/fujiandangjian/shipinhuiyi/qgdyyj/index.html?cId=788&IP=192.168.12.65&port=8080"
                     url: "building.html?focusArea=0&focusPos=3"
                 });
                 this.menuItemArray.push({
@@ -241,7 +242,14 @@
 
                     postman.sendRequest('GET', _url, null);
 
-                } else {
+                }
+                else if (this.menuItemArray[this.focusPos].name === "index_building") {
+                    if ("" !== link) {
+//                        GlobalVarManager.setItemStr("dj_app_backUrl",window.location.href);
+                        window.location.href = link;
+                    }
+                }
+                else {
                     if ("" !== link) {
                         window.location.href = link;
                     }
