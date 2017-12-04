@@ -87,12 +87,14 @@
 
             focusPos: 0,
             menuPosArray: [
-                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[1].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)},
+//                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[1].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)},
+                {url: "http://10.215.0.141/fujiandangjian/shipinhuiyi/ddsy.html?cId=783&IP=192.168.12.65&port=8080"},
                 {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[2].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)},
                 {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[3].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)},
                 {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[4].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)},
                 {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[5].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)},
-                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[6].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)}
+//                {url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[6].resourceId + "&subject=building&backUrl=" + encodeURIComponent(window.location.href)}
+                {url: "http://10.215.0.141/fujiandangjian/lxyz.html?cId=787&IP=192.168.12.65&port=8080"}
             ]
             ,
 
@@ -103,17 +105,17 @@
 
             focusOn: function () {
 
-                $("building_menu_item_text_" + this.focusPos).style.background =
+                document.getElementById("building_menu_item_text_" + this.focusPos).style.background =
                     "url(../images/building/building_highlight.png) center no-repeat";
-                $("building_menu_item_text_" + this.focusPos).style.color = "#FFF";
+                document.getElementById("building_menu_item_text_" + this.focusPos).style.color = "#FFF";
 
             }
             ,
 
             focusOut: function () {
 
-                $("building_menu_item_text_" + this.focusPos).style.background = "";
-                $("building_menu_item_text_" + this.focusPos).style.color = "#000";
+                document.getElementById("building_menu_item_text_" + this.focusPos).style.background = "";
+                document.getElementById("building_menu_item_text_" + this.focusPos).style.color = "#000";
             }
             ,
 
@@ -173,7 +175,8 @@
                     top: 255,
                     width: 255,
                     height: 189,
-                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[7].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+//                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[7].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                    url: "http://10.215.0.141/fujiandangjian/shipinhuiyi/qgdyyj/index.html?cId=788&IP=192.168.12.65&port=8080"
                 },
                 {
                     left: 883,
@@ -187,15 +190,16 @@
                     top: 448,
                     width: 255,
                     height: 189,
-                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[9].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+//                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[9].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                    url: "http://10.215.0.141/fujiandangjian/qgdyjy.html?cId=793&IP=192.168.12.65&port=8080"
                 },
                 {
                     left: 883,
                     top: 448,
                     width: 255,
                     height: 189,
-//                    url: "http://10.215.0.141/fujiandangjian/shipinhuiyi/qgdyyj/index.html?cId=788&IP=192.168.12.65&port=8080"
-                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[10].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+//                    url: "more.html?resourceId=" + paramObj.buildingResourceIdArray[10].resourceId + "&backUrl=" + encodeURIComponent(window.location.href)
+                    url: "http://vod.fjgdwl.com:80/ddh2017/index.html"
                 }
             ]
             ,
@@ -206,7 +210,7 @@
 
             focusOn: function () {
 
-                $("self_ad_focus").style.visibility = "visible";
+                document.getElementById("self_ad_focus").style.visibility = "visible";
 
                 var _num = 0;
 
