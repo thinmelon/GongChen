@@ -102,6 +102,7 @@
 <script type="application/javascript" src="../script/async.js"></script>
 <script type="application/javascript" src="../script/utility.js"></script>
 <script type="application/javascript" src="../script/keyEvent.js"></script>
+<script type="application/javascript" src="../script/common.js"></script>
 <script type="application/javascript">
 
     var menuObj = {
@@ -381,8 +382,14 @@
         };
 
         this.doBack = function () {
-            if ("undefined" !== typeof(GlobalVarManager)) {
-                window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
+            var backUrl = GMObj.pathManager.getBackURL(window.location.href);
+            if ("" !== backUrl && null !== backUrl && 0 !== backUrl) {
+                window.location.href = backUrl;
+            } else {
+                //UI 2.0 portal
+                if ("undefined" !== typeof(GlobalVarManager)) {
+                    window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
+                }
             }
 //                window.history.back();
 //                window.location.href = "http://10.184.255.11:80/ptmlxc/index.htm";  // 美丽乡村列表页
