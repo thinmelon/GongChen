@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>纯文本</title>
+    <link rel="stylesheet" href="../style/common.css">
+    <link rel="stylesheet" href="../style/list.css">
+</head>
+<body>
+<div id="subject">
+    <img src="../images/intro/intro-logo.png" alt="logo"/>
+</div>
+<div class="center">
+    <div id="title" class="title"></div>
+    <div id="text-trapper">
+        <div id="content" class="text-content">
+        </div>
+    </div>
+    <div id="pager">
+
+    </div>
+
+</div>
+
+<!--底部-->
+<div id="weather-forecast"></div>
+<div id="intro-btn-usage"></div>
+
+<div id="self_ad_focus">
+    <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="10" height="10"
+                style="background:url(../images/focus_lt.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_t.png) repeat-x;"></td>
+            <td width="10" style="background:url(../images/focus_rt.png) no-repeat;"></td>
+        </tr>
+        <tr>
+            <td style="background:url(../images/focus_l.png) repeat-y;"></td>
+            <td>&nbsp;</td>
+            <td style="background:url(../images/focus_r.png) repeat-y;"></td>
+        </tr>
+        <tr>
+            <td width="10" height="10" style="background:url(../images/focus_lb.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_b.png) repeat-x;"></td>
+            <td style="background:url(../images/focus_rb.png) no-repeat;"></td>
+        </tr>
+        </tbody>
+    </table>
+</div><!-- self_ad_focus -->
+<div id="debug-message"></div>
+</body>
+
+<script type="application/javascript" src="../script/async.js"></script>
+<script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/keyEvent.js"></script>
+<script type="application/javascript">
+
+    var controller = new Controller();
+
+    function Controller() {
+        var that = this;
+
+        Assistant.call(this);
+        PageHelper.call(this);
+
+        this.backUrl = "";
+        this.focusArea = 2;
+        this.focusPos = 0;
+
+        this.init = function () {
+            transferStation.record();
+            that.backUrl = transferStation.backUrl;
+            that.focusArea = transferStation.idxFocusArea;
+            that.focusPos = transferStation.idxFocusPos;
+
+            document.getElementById("debug-message").innerHTML += "<br/>" + "text.html ==>  init | BackURL " + that.backUrl + " | focusArea ==> " + that.focusArea + " | focusPos==> " + that.focusPos;
+            if (transferStation.subject !== "") {
+                document.getElementById("subject").children[0].src = '../images/' + transferStation.subject + '/' + transferStation.subject + '_logo.png';
+            }
+//            that.setParameters();
+//            showTitleForMarquee("为人民服务为人民服务为人民服务为", document.getElementById("title"), 15);
+            queryContentByID(transferStation.itemId);
+        };
+
+        this.setParameters = function () {
+            that.offset_height = document.getElementById("text-trapper").offsetHeight;
+            that.scroll_height = document.getElementById("content").scrollHeight;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "offset: " + that.offset_height;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "scroll: " + that.scroll_height;
+            that.total_pages = Math.ceil(that.scroll_height / that.offset_height);
+            that.cur_page = 1;
+            document.getElementById("pager").innerHTML = that.cur_page + "/" + that.total_pages;
+        };
+
+        this.render = function (data) {
+            showTitleForMarquee(data.title, document.getElementById("title"), 15);
+            document.getElementById("content").innerHTML = data.content;
+
+            setTimeout(function () {
+                that.setParameters();
+            }, 500);
+        };
+
+        this.doBack = function () {
+            console.info("list.hmtl | Back to " + that.backUrl + "?focusArea=" + that.focusArea + "&focusPos=" + that.focusPos);
+            window.location.href = that.backUrl + "?focusArea=" + that.focusArea + "&focusPos=" + that.focusPos;
+//            window.location.href = that.backUrl;
+        };
+    }
+
+    function queryContentByID(id) {
+        var _url = paramObj.serverUrl +
+                "queryTitleByIdMobile.shtml?id=" + id,
+            postman = new Postman();
+
+        document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] URL ==> " + _url;
+
+        postman.createXmlHttpRequest(onFetchContentSuccess, onFetchContentFail);
+        postman.sendRequest('GET', _url, null);
+    }
+
+    function onFetchContentSuccess(html) {
+        var json = eval('(' + html + ')');
+
+        document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] ==> onFetchContentSuccess ";
+//        document.getElementById("debug-message").innerHTML += "<br/>" + html;
+
+        if ("1" === json.code || 1 === json.code) {
+            controller.render(json);
+        }
+    }
+
+    function onFetchContentFail(error) {
+        document.getElementById("debug-message").innerHTML += "<br/>" + "[AJAX] ==> onFetchContentFail ";
+        document.getElementById("debug-message").innerHTML += "<br/>" + " Error ==> " + error;
+    }
+
+    function grabEvent(_event) {
+        var code = Event(_event);
+        switch (code) {
+//            case "KEY_NUMBER1":
+//                console.info("KEY_NUMBER1");
+//                controller.toggle();
+//                return false;
+            case "KEY_UP": //
+//                oparateObj.moveY(-1);
+                return false;
+            case "KEY_DOWN": //
+//                oparateObj.moveY(1);
+                return false;
+            case "KEY_LEFT": //
+                console.info("LEFT");
+                controller.turn(document.getElementById("content"), document.getElementById("pager"), -1);
+//                oparateObj.moveX(-1);
+                return false;
+            case "KEY_RIGHT": //
+                console.info("RIGHT");
+                controller.turn(document.getElementById("content"), document.getElementById("pager"), 1);
+//                oparateObj.moveX(1);
+                return false;
+            case "KEY_PAGE_UP": //
+                console.info("KEY_PAGE_UP");
+                controller.turn(document.getElementById("content"), document.getElementById("pager"), -1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+                console.info("KEY_PAGE_DOWN");
+                controller.turn(document.getElementById("content"), document.getElementById("pager"), 1);
+                return false;
+            case "KEY_SELECT": //
+//                oparateObj.doSelect();
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            default:
+                break;
+        }
+    }
+    document.onkeydown = grabEvent;
+    window.onload = controller.init();
+</script>
+</html>

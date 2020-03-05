@@ -1,0 +1,69 @@
+#subject {
+    position: absolute;
+    left: 39px;
+    top: 50px;
+    width: 289px;
+    height: 84px;
+    /*background: url(../images/intro/intro-logo.png) no-repeat;*/
+}
+
+#more_page {
+    position: absolute;
+    left: 57px;
+    top: 136px;
+    width: 1171px;
+    height: 515px;
+    line-height: 38px;
+    text-align: center;
+    color: #FFF;
+    font-size: 23px;
+}
+
+.more_page_item {
+    position: absolute;
+    top: 13px;
+    width: 268px;
+    height: 202px;
+    visibility: visible;
+}
+
+.more_page_item_img {
+    position: absolute;
+    left: 0px;
+    top: 6px;
+    width: 268px;
+    height: 202px;
+    /*background: url(../images/more/bg_more.png);*/
+    overflow: hidden;
+}
+
+.more_page_item_text {
+    position: absolute;
+    left: 3px;
+    top: 162px;
+    width: 263px;
+    height: 46px;
+    background-image: url(../images/more/more_page_item_text.png);
+    overflow: hidden;
+}
+
+#more_page_index_img {
+    position: absolute;
+    left: 464px;
+    top: 484px;
+    width: 239px;
+    height: 23px;
+    background-image: url(../images/more/more_page_index_img.png);
+}
+
+#more_page_index {
+    position: absolute;
+    left: 88px;
+    top: 0px;
+    width: 60px;
+    height: 23px;
+    line-height: 23px;
+    color: #000;
+    font-size: 23px;
+    text-align: center;
+}

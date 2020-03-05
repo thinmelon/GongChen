@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>服务大厅</title>
+    <link rel="stylesheet" href="../style/common.css">
+    <link rel="stylesheet" href="../style/service.css">
+</head>
+<body style="background: url('../images/service/service_bg.png') no-repeat; background-size: 100%;">
+<div id="service-title-logo"
+     style="background: url('../images/service/service_logo.png') no-repeat; "></div>
+<div id="service_content">
+    <div id="service_left_panel">
+        <div id="service_entry">
+            <div id="service_flow" class="service_entry_item"
+                 style="background: url(../images/service/service_flow.png) no-repeat; "></div>
+            <div id="service_public" class="service_entry_item"
+                 style="background: url(../images/service/service_public.png) no-repeat; "></div>
+            <div id="service_fund" class="service_entry_item"
+                 style="background: url(../images/service/service_fund.png) no-repeat; width: 310px"></div>
+        </div>
+        <div id="service_ad_0">
+            <img id="post-item-0" alt="ad_preview" src="../images/service/service_mid_ad.jpg" width="446px"/>
+        </div>
+        <div id="service_ad_1">
+            <img id="post-item-1" alt="ad_preview" src="../images/service/service_left_ad.jpg" width="312px"/>
+        </div>
+    </div>
+
+    <div id="service_notices_board">
+        <div class="politics_notices_board_bar"
+             style="background: url(../images/politics/politics_list_bar.png) no-repeat; width: 370px; height: 39px;"></div>
+        <div id="list_menu_0" class="service_list_item" style="top: 50px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_1" class="service_list_item" style="top: 85px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_2" class="service_list_item" style="top: 120px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_3" class="service_list_item" style="top: 155px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_4" class="service_list_item" style="top: 190px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_5" class="service_list_item" style="top: 225px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_6" class="service_list_item" style="top: 260px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="list_menu_7" class="service_list_item" style="top: 295px;">
+            <div class="service_list_item_text"></div>
+        </div>
+        <div id="services-notice-board-more"
+             style="background: url(../images/list-item-more.png) no-repeat; width: 126px; height: 18px;"></div>
+    </div>
+</div>
+
+<!--底部-->
+<div id="weather-forecast"></div>
+<div id="intro-btn-usage"></div>
+
+<div id="self_ad_focus">
+    <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="10" height="10"
+                style="background:url(../images/focus_lt.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_t.png) repeat-x;"></td>
+            <td width="10" style="background:url(../images/focus_rt.png) no-repeat;"></td>
+        </tr>
+        <tr>
+            <td style="background:url(../images/focus_l.png) repeat-y;"></td>
+            <td>&nbsp;</td>
+            <td style="background:url(../images/focus_r.png) repeat-y;"></td>
+        </tr>
+        <tr>
+            <td width="10" height="10" style="background:url(../images/focus_lb.png) no-repeat;"></td>
+            <td style="background:url(../images/focus_b.png) repeat-x;"></td>
+            <td style="background:url(../images/focus_rb.png) no-repeat;"></td>
+        </tr>
+        </tbody>
+    </table>
+</div><!-- self_ad_focus -->
+<div id="debug-message"></div>
+
+</body>
+
+<script type="application/javascript" src="../script/async.js"></script>
+<script type="application/javascript" src="../script/utility.js"></script>
+<script type="application/javascript" src="../script/keyEvent.js"></script>
+<script type="application/javascript">
+
+    var menuObj = {
+
+            focusPosX: 0,                   // 记录光标在区域内的位置
+            focusPosY: 0,                   // 记录光标在区域内的所在行
+            itemsPerLine: [2, 1],           // 每行所包含的元素数量
+            menuPosArray: [
+                {
+                    left: 54,
+                    top: 152,
+                    width: 157,
+                    height: 116,
+                    resourceId: paramObj.serviceResourceIdArray[1].resourceId
+//                    url: "more.html?resourceId=" + paramObj.serviceResourceIdArray[1].resourceId + "&subject=service&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 210,
+                    top: 152,
+                    width: 157,
+                    height: 116,
+                    resourceId: paramObj.serviceResourceIdArray[2].resourceId
+//                    url: "more.html?resourceId=" + paramObj.serviceResourceIdArray[2].resourceId + "&subject=service&backUrl=" + encodeURIComponent(window.location.href)
+                },
+                {
+                    left: 54,
+                    top: 268,
+                    width: 316,
+                    height: 116,
+                    resourceId: paramObj.serviceResourceIdArray[3].resourceId
+//                    url: "more.html?resourceId=" + paramObj.serviceResourceIdArray[3].resourceId + "&subject=service&backUrl=" + encodeURIComponent(window.location.href)
+                }
+            ]
+            ,
+
+
+            init: function () {
+
+            }
+            ,
+
+            focusOn: function () {
+
+                var _num = 0;
+
+                for (var i = 0; i < this.focusPosY; i++) {
+                    _num += this.itemsPerLine[i];
+                }
+
+                _num += this.focusPosX;
+
+                var _focusNode = document.getElementById("self_ad_focus");
+                _focusNode.style.visibility = "visible";
+                _focusNode.style.left = this.menuPosArray[_num].left + "px";
+                _focusNode.style.top = this.menuPosArray[_num].top + "px";
+                _focusNode.style.width = this.menuPosArray[_num].width + "px";
+                _focusNode.style.height = this.menuPosArray[_num].height + "px";
+
+            }
+            ,
+
+            focusOut: function () {
+            }
+            ,
+
+            moveX: function (_direction) {
+
+                this.focusPosX += _direction;
+
+                if (this.focusPosX >= 0 && this.focusPosX < this.itemsPerLine[this.focusPosY]) {
+                    this.focusOn();
+                } else if (this.focusPosX < 0) {
+
+                    this.focusPosX = 0;
+                    if (listObj.listItemTitleArray.length > 0) {
+                        controller.focusArea = 2;
+                        controller.focusOn();
+                    } else {
+                        controller.focusArea = 1;
+                        postObj.focusPos = 0;
+                        postObj.focusOn();
+                    }
+                } else {                        // 进入海报区
+
+                    this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+                    controller.focusArea = 1;
+                    postObj.focusPos = 0;
+                    postObj.focusOn();
+                }
+            }
+            ,
+
+            moveY: function (_direction) {
+
+                this.focusPosY += _direction;
+
+                if (this.focusPosY >= 0 && this.focusPosY < this.itemsPerLine.length) {
+
+                    if (this.focusPosX >= this.itemsPerLine[this.focusPosY]) {
+                        this.focusPosX = this.itemsPerLine[this.focusPosY] - 1;
+                    }
+
+                    this.focusOn();
+
+                } else if (this.focusPosY < 0) {        // 进入海报区
+
+                    this.focusPosY = 0;
+
+                    controller.focusArea = 1;
+                    postObj.focusPos = 1;
+                    postObj.focusOn();
+
+                } else {                                // 进入海报区
+
+                    this.focusPosY = this.itemsPerLine.length - 1;
+
+                    controller.focusArea = 1;
+                    postObj.focusPos = 1;
+                    postObj.focusOn();
+
+                }
+
+            }
+            ,
+
+            doSelect: function () {
+                var _num = 0;
+
+                for (var i = 0; i < this.focusPosY; i++) {
+                    _num += this.itemsPerLine[i];
+                }
+
+                _num += this.focusPosX;
+
+                if ("" !== this.menuPosArray[_num].resourceId) {
+                    window.location.href = "more.html?resourceId=" + this.menuPosArray[_num].resourceId + "&subject=service&backUrl=" + encodeURIComponent(window.location.href)
+                }
+            }
+
+        },
+
+        postObj = new PostObj(),
+
+        listObj = new ListObj(),
+
+        controller = new Controller();
+
+    function Controller() {
+
+        var that = this;
+
+        Assistant.call(this);
+
+        this.focusArea = 0;
+
+        this.init = function () {
+
+            console.info("controller ==> init");
+            transferStation.record();
+            postObj.init();
+            listObj.init();
+            $("self_ad_focus").style.visibility = "visible";
+            that.focusOn();
+        };
+
+        this.focusOn = function () {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.focusOn();
+                    break;
+                case 1:             // 海报
+                    postObj.focusOn();
+                    break;
+                case 2:             // 文字列表
+                    listObj.focusOn();
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.focusOut = function () {
+
+        };
+
+        this.moveX = function (_direction) {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveX(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveX(_direction);
+                    break;
+                case 2:             // 文字列表
+                    listObj.moveX(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.moveY = function (_direction) {
+
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.moveY(_direction);
+                    break;
+                case 1:             // 海报
+                    postObj.moveY(_direction);
+                    break;
+                case 2:             // 文字列表
+                    listObj.moveY(_direction);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.changePage = function (_direction) {
+
+        };
+
+        this.doSelect = function () {
+            switch (that.focusArea) {
+                case 0:             // 菜单
+                    menuObj.doSelect();
+                    break;
+                case 1:             // 海报
+                    postObj.doSelect();
+                    break;
+                case 2:             // 文字列表
+                    listObj.doSelect(listObj.focusPos,"service");
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.doBack = function () {
+            window.location.href = "index.html?focusArea=" + transferStation.idxFocusArea + "&focusPos=" + transferStation.idxFocusPos + "&focusItemName=" + transferStation.idxFocusName;
+        }
+    }
+
+    function PostObj() {
+        PostHelper.call(this);
+
+        this.postItemArray = [
+            {
+                left: 370,
+                top: 152,
+                width: 448,
+                height: 470,
+                resourceId: paramObj.serviceResourceIdArray[4].resourceId,
+                element: "post-item-0",
+                url: ""
+            },
+
+            {
+                left: 54,
+                top: 385,
+                width: 315,
+                height: 234,
+                resourceId: paramObj.serviceResourceIdArray[5].resourceId,
+                element: "post-item-1",
+                url: ""
+            }
+        ];
+
+        this.moveX = function (_direction) {
+
+            if (_direction < 0) {
+
+                if (this.focusPos === 0) {
+                    controller.focusArea = 0;       //  移到菜单区域
+                    menuObj.focusPosY = 0;          //  光标定位至首行
+                    menuObj.focusPosX = menuObj.itemsPerLine[menuObj.focusPosY] - 1;
+                    menuObj.focusOn();
+
+                } else {
+                    if (listObj.listItemTitleArray.length > 0) {
+                        controller.focusArea = 2;       // 移到文字列表区域
+                        listObj.focusOn();
+                    }
+                }
+
+            } else {
+                if (this.focusPos === 0) {
+                    if (listObj.listItemTitleArray.length > 0) {
+                        controller.focusArea = 2;           // 移到文字列表区域
+                        listObj.focusOn();
+                    }
+                } else {
+                    this.focusPos = 0;
+                    this.focusOn();
+                }
+            }
+        };
+
+        this.moveY = function (_direction) {
+
+            if (this.focusPos == 1) {
+
+                controller.focusArea = 0;          // 移到菜单区
+
+                if (_direction < 0) {
+
+                    menuObj.focusPosX = 0;
+                    menuObj.focusPosY = 1;
+
+                } else {
+
+                    menuObj.focusPosX = 0;
+                    menuObj.focusPosY = 0;
+
+                }
+
+                menuObj.focusOn();
+
+            }
+
+        };
+    }
+
+    function ListObj() {
+        // 复制ListHelper的实例属性
+        ListHelper.call(this);
+
+        // 属性
+        this.focusPos = 0;
+        this.listItemNum = 8;
+
+        this.itemLeft = 835;
+        this.itemTop = 200;
+        this.itemWidth = 350;
+        this.itemHeight = 30;
+
+        this.itemMoreLeft = 1025;
+        this.itemMoreTop = 575;
+        this.itemMoreWidth = 150;
+        this.itemMoreHeight = 30;
+
+        this.resourceId = paramObj.serviceResourceIdArray[6].resourceId;
+
+        // 方法
+        this.moveX = function (_direction) {
+            this.focusOut();
+            if (_direction < 0) {
+                controller.focusArea = 1;   // 移到海报区域
+                postObj.focusPos = 0;
+                postObj.focusOn();
+            } else {
+                controller.focusArea = 0;   // 移到菜单区域
+                menuObj.focusPosX = 0;
+                menuObj.focusPosY = 0;
+                menuObj.focusOn();
+            }
+        };
+
+        this.moveY = function (_direction) {
+            this.focusOut();
+            this.focusPos += _direction;
+            if (this.focusPos >= 0 && this.focusPos < this.listItemTitleArray.length) {
+            } else if (this.focusPos < 0) {
+                this.focusPos = this.listItemTitleArray.length - 1;
+            } else {
+                this.focusPos = 0;
+            }
+            this.focusOn();
+        };
+    }
+
+    function grabEvent(_event) {
+
+        var code = Event(_event);
+
+        switch (code) {
+//            case "KEY_NUMBER1":
+//                console.info("KEY_NUMBER1");
+//                controller.toggle();
+//                return false;
+            case "KEY_UP": //
+                controller.moveY(-1);
+                return false;
+            case "KEY_DOWN": //
+                controller.moveY(1);
+                return false;
+            case "KEY_LEFT": //
+                controller.moveX(-1);
+                return false;
+            case "KEY_RIGHT": //
+                controller.moveX(1);
+                return false;
+            case "KEY_PAGE_UP": //
+                controller.changePage(-1);
+                return false;
+            case "KEY_PAGE_DOWN": //
+                controller.changePage(1);
+                return false;
+            case "KEY_SELECT": //
+                controller.doSelect();
+                return false;
+            case "KEY_EXIT":
+            case "KEY_BACK":
+                controller.doBack();
+                return false;
+            default:
+                break;
+        }
+    }
+    document.onkeydown = grabEvent;
+    window.onload = controller.init();
+
+</script>
+</html>

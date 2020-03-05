@@ -1,0 +1,84 @@
+
+#politics_content {
+    /*position: relative;*/
+    position: absolute;
+    top: 152px;
+    left: 57px;
+    width: 1094px;
+    height: 100%;
+}
+
+#politics_left_panel {
+    float: left;
+    width: 768px;
+    text-align: center;
+}
+
+#politics_entry {
+    float: left;
+    width: 316px;
+    text-align: center;
+}
+
+/** -----  海报  -----  **/
+
+#politics_ad_0 {
+    position: absolute;
+    left: 316px;
+    top: 0;
+    width: 446px;
+    height: 346px;
+    margin: 3px;
+}
+
+#politics_ad_1 {
+    position: absolute;
+    left: 0;
+    top: 350px;
+    width: 764px;
+    height: 111px;
+    margin: 5px 3px 3px 3px;
+}
+
+/** -----  列表  -----  **/
+
+#politics_notices_board {
+    position: absolute;
+    left: 772px;
+    top: 0;
+    width: 370px;
+    height: 467px;
+    background: url(../images/notice-background.png) ;
+    margin: 3px 3px;
+}
+
+.politics_entry_item {
+    float: left;
+    width: 152px;
+    height: 111px;
+    margin: 3px 3px;
+}
+
+.politics_list_item {
+    position: absolute;
+    left: 10px;
+    width: 350px;
+    height: 30px;
+}
+
+.politics_list_item_text {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 340px;
+    height: 30px;
+    line-height: 30px;
+    font: 25px "Microsoft YaHei";
+    overflow: hidden;
+}
+
+#politics-notice-board-more{
+    position: absolute;
+    right: 35px;
+    bottom: 20px;
+}

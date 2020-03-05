@@ -1,0 +1,72 @@
+/* 智慧党建 */
+
+/* ----  背景  ---- */
+#building-bg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1280px;
+    height: 720px;
+    margin: 0;
+    background: url(../images/building/building_background.png) no-repeat;
+    background-size: 100%;
+}
+
+/* ----  标题LOGO  ---- */
+#building-logo{
+    margin: 69px 0 0 50px;
+    width: 225px;
+    height: 72px;
+}
+
+#building_menu_bar {
+    background: url(../images/building/building_menu_bar.png) center no-repeat;
+    position: absolute;
+    top: 160px;
+    left: 99px;
+    width: 1042px;
+    height: 87px;
+    margin: 0 auto;
+}
+
+.building_menu_item {
+    position: absolute;
+    top: 0px;
+    width: 192px;
+    height: 87px;
+}
+
+.building_menu_item_text {
+    font: 28px "Microsoft YaHei";
+    text-align: center;
+    line-height: 39px;
+    margin: 24px;
+}
+
+#building_content {
+    position: absolute;
+    top: 252px;
+    left: 99px;
+    width: 1048px;
+    /*margin: 0 auto;*/
+}
+
+#building_ad {
+    float: left;
+    width: 501px;
+    height: 390px;
+    margin-top: 8px;
+    margin-right: 24px;
+}
+
+#building_entry {
+    float: left;
+    width: 521px;
+}
+
+.building_entry_item {
+    float: left;
+    width: 248px;
+    height: 182px;
+    margin: 5px 5px 8px 5px;
+}
